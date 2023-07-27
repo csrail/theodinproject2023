@@ -1,0 +1,1 @@
+- 202307528, revisiting TOP after 6 years as a primer for web development and programming.  Particular focus: build websites with javascript and the React framework to supplement python and django backend projects.
