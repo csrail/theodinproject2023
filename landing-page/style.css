@@ -1,0 +1,138 @@
+@font-face {
+        font-family: 'IBM Plex Serif SemiBold';
+        src: url("./font-face/IBMPlexSans-SemiBold.otf") format('otf');
+    }
+
+html, body {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: "IBM Plex Serif SemiBold", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.header {
+    background-color: aliceblue;
+    border-bottom: 1px solid #cccccc;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header > ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: larger;
+}
+
+.header > ul > li {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+    border-right: 1px solid #FF1A25;
+
+}
+
+.active-page {
+    background-color: #FF1A25;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+}
+
+.active-page > a {
+    color: white;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /* VERY BAD.  Flex only at the level which it is required, otherwise parent flex rules will inhibit child flex rule expression*/
+
+}
+
+.main > .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2em;
+
+}
+
+.content > img {
+    border-radius: 10px;
+}
+
+h1 {
+    padding: 0.7em;
+    font-size: 3em;
+    text-align: center;
+}
+
+.promotion {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 1.7em 0 1.7em 0;
+}
+
+.promotion > .endorsement {
+    padding: 1em;
+}
+
+.promotion > .call-to-action {
+    padding: 1em;
+    border: 1px solid #cccccc;
+    font-weight: 600;
+}
+
+.endorsement {
+    font-weight: 400;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    background-color: aliceblue;
+    height: 20px;
+    align-items: center;
+}
+
+.header-links:hover {
+    background-color: #FF1A25;
+    transition: background-color 200ms ease-out;
+}
+
+.header-links:hover > a {
+    color: white;
+    transition: color 100ms ease-out;
+}
+
+.call-to-action:hover {
+    background-color: #FF1A25;
+    transition: background-color 200ms ease-out;
+}
+
+.call-to-action:hover > a {
+    color: white;
+    transition: color 100ms ease-out;
+}
