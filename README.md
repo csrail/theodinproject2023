@@ -1,1 +1,3 @@
 - 202307528, revisiting TOP after 6 years as a primer for web development and programming.  Particular focus: build websites with javascript and the React framework to supplement python and django backend projects.
+- Go to: https://csrail.github.io/theodinproject2023/ to see projects in action.
+- Browse the directory in the current page to see the source code.
