@@ -6,7 +6,7 @@ body {
     display: flex;
     flex-direction: column;
     /*align-items: center;*/
-    border: 1px solid black;
+    /*border: 1px solid black;*/
 }
 
 .row {
@@ -14,9 +14,9 @@ body {
 }
 
 .cell {
-    height: 20px;
-    width: 20px;
-    border: 1px solid black;
+    /*height: 20px;*/
+    /*width: 20px;*/
+    background-color: #EEEEEE;
 }
 
 .color {
