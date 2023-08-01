@@ -35,6 +35,15 @@
             <h1>NOTES</h1>
             <div class="post">
                 <p>#DOM</p>
+                <p>DOM capture and bubbling; controls</p>
+                <p><pre>capture</pre> traverse down from the outermost html tag to the innermost html tag where an event is called.</p>
+                <p><pre>bubbling</pre> traverse up from the innermost html tag to the outermost html tag where an event is called.</p>
+                <p><pre>event.stopPropagation()</pre> a control to prevent bubbling from occurring beyond where the event is initially called.</p>
+                <p><pre>capture: true</pre> option within an .addEventListener to initialise the event call in the capture direction rather than the bubbling direction where the node presides.</p>
+                <p><pre>once: true</pre> option within an .addEventListener to remove the event listener from the node object.</p>
+            </div>
+            <div class="post">
+                <p>#DOM</p>
                 <p>Lookup methods for document: .querySelector(), .querySelectorAll(), .getElementById()</p>
                 <p><pre>.querySelector()</pre> returns a node object.</p>
                 <p><pre>.querySelectorAll()</pre> returns a node list object.</p>
