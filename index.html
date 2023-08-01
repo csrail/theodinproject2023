@@ -7,32 +7,82 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="header">
-        <div>
+    <div class="side">
+        <div class="contact">
             <div>
-                <img src="./email-icon.svg" alt="email: " width="10px">
+                <div>
+                    <img src="./email-icon.svg" alt="email: " width="30px">
+                </div>
+                <div>cornelius.soon@gmail.com</div>
             </div>
-            <div>cornelius.soon@gmail.com</div>
-        </div>
-        <div>
             <div>
-                <img src="./discord-black-icon.svg" alt="discord: " width="10px">
+                <div>
+                    <img src="./discord-black-icon.svg" alt="discord: " width="30px">
+                </div>
+                <div>cornelius_efficacy</div>
             </div>
-            <div>cornelius_efficacy</div>
         </div>
-
-    </div>
-    <div class="center">
-        <div class="side">
+        <div class="exercises">
             <h2>EXERCISES</h2>
             <ul>
                 <li><a href="./landing-page/index.html">landing page</a></li>
                 <li><a href="./rock-paper-scissors/index.html">rock paper scissors</a></li>
             </ul>
         </div>
-        <div class="main">
+    </div>
+    <div class="main">
+        <div>
             <h1>NOTES</h1>
-            <p>Test</p>
+            <div class="post">
+                <p>#DOM</p>
+                <p>Lookup methods for document: .querySelector(), .querySelectorAll(), .getElementById()</p>
+                <p><pre>.querySelector()</pre> returns a node object.</p>
+                <p><pre>.querySelectorAll()</pre> returns a node list object.</p>
+                <p><pre>.getElementById()</pre>returns a node object.</p>
+            </div>
+            <div class="post">
+                <p>#DOM</p>
+                <p>Node properties: .innerText, .textContent and .innerHTML</p>
+                <p>for a div element containing two child elements kbd and span:</p>
+                <p><pre>.innerText</pre> returns the visible text, "A\nCLAP"</p>
+                <p><pre>.textContent</pre> returns the full text, "\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clap\n&nbsp;&nbsp;&nbsp;&nbsp;"</p>
+                <p><pre>.innerHTML</pre> returns "\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;kbd&gt;A&lt;/kbd&gt;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span class=\"sound\"&gt;clap&lt;/span&gt;\n&nbsp;&nbsp;&nbsp;&nbsp;"</p>
+                <p>.innerText has performance issues, use textContent where possible.</p>
+                <p>if textContent cannot be used easily, consider changing the HTML structure to suit the call better</p>
+            </div>
+            <div class="post">
+                <p>#DOM</p>
+                <p>Objects in event handling</p>
+                <p><pre>btn.addEventListener('click', function (event) { return event; }</pre>the argument passed into the function represents the event object; the associated properties of the event object can then be accessed.</p>
+                <p><pre>btn.addEventListener('click', function (event) { return event.target; }</pre>event.target looks at the event object's 'target' property; i.e. it returns the object listening for the event; i.e. the html element.</p>
+            </div>
+            <div class="post">
+                <p>#DOM</p>
+                <p>Difference between DOM and HTML</p>
+                <p>HTML is a markup language; the .html extension are for files written in HTML; these files are read by the web browser and rendered as elements.</p>
+                <p>DOM is an interpretation of the html file as an object to be interacted with; nodes within the DOM can be manipulated which then reflect in HTML elements on the web page.</p>
+                <p>The DOM is an interface between javascript and html + css; it enables javascript to change the html and css during run time.</p>
+            </div>
+            <div class="post">
+                <p>#script</p>
+                <p>Using async and defer in the script tag when loading javascript file</p>
+                <p><pre>no option</pre> the html loads; html loading pauses while js script is fetched; when the js file is fetched it's executed, then the html file unpauses and continues loading.</p>
+                <p><pre>defer</pre> the html loads; the js script is fetched at the same time; the js file executes only after the html fully loads.</p>
+                <p><pre>async</pre> the html loads; the js script is fetched at the same time; when the js file fetch finishes, the js file is executed immediately.</p>
+                <p><a href="https://html.spec.whatwg.org/images/asyncdefer.svg">https://html.spec.whatwg.org/images/asyncdefer.svg</a></p>
+            </div>
+	        <div class="post">
+                <p>#DOM</p>
+                <p>Relationships in the Document Object Model: ancestor, parent, child, sibling.</p>
+                <ul>
+                    <li><pre>div.class</pre></li>
+                    <li><pre>.class div</pre></li>
+                    <li><pre>.class > div</pre></li>
+                </ul>
+                <p><pre>div.class</pre> selects a div with the mentioned class.</p>
+                <p><pre>.class div</pre> selects a div whose ancestor element belongs to the mentioned class.</p>
+                <p><pre>.class > div</pre> looks for elements that have the mentioned class and selects div elements that are children to it </p>
+            </div>
         </div>
     </div>
 <!--    <div class="footer">-->
