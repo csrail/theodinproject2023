@@ -3,10 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Rock, Paper, Scissors</title>
-    <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <!--<script src="console_script.js" defer></script>-->
+    <script src="ui_script.js" defer></script>
 </head>
 <body>
-    <p>To play this game, open the browser's developer tools and go to the Console.</p>
-    <p>Information reflecting the game state will show there.</p>
+    <div class="messages">
+
+    </div>
+    <div class="options">
+        <div>
+            <button data-choice="rock" class="option">Rock</button>
+        </div>
+        <div>
+            <button data-choice="paper" class="option">Paper</button>
+        </div>
+        <div>
+            <button data-choice="scissors" class="option">Scissors</button>
+        </div>
+    </div>
+    <div class="scoreboard">
+        <div class="round">
+            Round 1
+        </div>
+        <div class="human_score">
+            Human Score: 0
+        </div>
+        <div class="computer_score">
+            Computer Score: 0
+        </div>
+    </div>
+    <div class="information">
+
+    </div>
 </body>
 </html>
