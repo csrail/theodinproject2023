@@ -119,6 +119,8 @@ randomColorModeButton.addEventListener('click', () => {
     })
 })
 
+// TODO FIX PROPAGATION.  Need to access event so bubbling can be fixed to improve performance.
+
 gradientModeButton.addEventListener('click', () => {
     console.log('gradient');
     selectCells();
