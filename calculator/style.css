@@ -1,0 +1,45 @@
+.display {
+    height: 100px;
+    width: 200px;
+}
+
+.working-display {
+    height: 60px;
+    border: 1px solid black;
+}
+
+.hint-display {
+    height: 40px;
+    border: 1px solid black;
+}
+
+body {
+    display: flex;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+.operations {
+    display: flex;
+    width: 200px;
+}
+
+.operands {
+    display: flex;
+    flex-direction: column;
+}
+
+.operators {
+    display: flex;
+    flex-direction: column;
+}
+
+.operators .row {
+    display: flex;
+    flex: 1;
+}
+
