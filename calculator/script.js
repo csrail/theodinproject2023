@@ -36,8 +36,8 @@
 // clear working memory and reset calculator
 // bonus: backspace button
 // bonus: handling for order of operations * and divide?
-// bonus: handle decimals
-// bonus: handling for brackets
+// TODO bonus: handle decimals
+// TODO bonus: handling for brackets
 // TODO equal sign needs to repeat the action previous
 // TODO equal sign with one operandUnit needs to show operandUnit and then clear it
 
@@ -114,6 +114,10 @@ operators.forEach(node => {
         // pressing = again should return 5, since the previous result was 3 and you add 2.
 
         if (workingMemory.length === 3) {
+            // if (workingMemory.some(hasDecimalPoint)) {
+            //     console.log("TRUE");
+            // }
+
             let result = calculate(workingMemory);
             workingMemory = []; // reset working memory;
             workingMemory.push(result);
@@ -123,31 +127,39 @@ operators.forEach(node => {
 
         clearOperandUnit();
         clearWorkingDisplay();
-        switch(input) {
-            case('add'):
-                checkOperatorDuplicateExists();
-                workingMemory.push('add');
-                break
-            case('subtract'):
-                checkOperatorDuplicateExists();
-                workingMemory.push('subtract');
-                break
-            case('multiply'):
-                checkOperatorDuplicateExists();
-                workingMemory.push('multiply');
-                break
-            case('divide'):
-                checkOperatorDuplicateExists();
-                workingMemory.push('divide');
-                break
-            default:
-                console.log("ERROR: No operators found.")
-                break
-        }
+        storeOperator(input);
         console.log("workingMemory:")
         console.log(workingMemory);
     })
 })
+
+function catchNothingToDo() {
+
+}
+
+function storeOperator(input) {
+    switch(input) {
+        case('add'):
+            checkOperatorDuplicateExists();
+            workingMemory.push('add');
+            break
+        case('subtract'):
+            checkOperatorDuplicateExists();
+            workingMemory.push('subtract');
+            break
+        case('multiply'):
+            checkOperatorDuplicateExists();
+            workingMemory.push('multiply');
+            break
+        case('divide'):
+            checkOperatorDuplicateExists();
+            workingMemory.push('divide');
+            break
+        default:
+            console.log("ERROR: No operators found.")
+            break
+    }
+}
 
 function checkOperatorDuplicateExists() {
     if (workingMemory.some((element) => operatorInstructions.includes(element))) {
@@ -206,6 +218,35 @@ function calculate(array) {
     return 1;
 }
 
+// decimal point feature
+// find position of decimal point
+// compare dp position to number length
+// the difference is constant
+// do this for both numbers
+// take the highest
+// multiply this constant by 10
+// this is the correction factor
+// apply correction factor to both numbers
+// run the equation to get result
+// divide result by the correction factor ^ 2 (the count of numbers)
+
+function hasDecimalPoint(number) {
+    if (number.includes('.')) return true;
+}
+
+function getDecimalPlaces(number) {
+    let decimalPointIndex = number.findIndex('.');
+    let decimalPlaces = number.length - decimalPointIndex - 1;
+    return decimalPlaces;
+}
+
+function getHighestDecimalPlace(num1, num2) {
+    return num1 > num2 ? num1 : num2;
+}
+
+function getCorrectionFactor(num) {
+    return num * 10;
+}
 
 function startApp() {
 
