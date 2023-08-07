@@ -91,12 +91,13 @@ main {
     overflow: scroll;
     /*border: green 2px solid;*/
     background-color: var(--background-color);
+    width: 180%;
 }
 
 main .verbiage {
     display: flex;
     flex-direction: column;
-    margin-top: 10vh;
+    margin-top: 10%;
     padding: 2rem;
     gap: 1rem;
     /*border: rebeccapurple 2px solid;*/
