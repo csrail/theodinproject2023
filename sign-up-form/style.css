@@ -11,7 +11,6 @@
     --remainder-width: calc(100vw - var(--hero-width));
     /*--image-base: 640px;*/
     /*--image-width-minimum: min(var(--hero-width), calc(--image-base * 2));*/
-    overflow: scroll;
     --background-color: #f7faf9;
 }
 
@@ -88,7 +87,7 @@ body {
 main {
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow-y: scroll;
     /*border: green 2px solid;*/
     background-color: var(--background-color);
     width: 180%;
