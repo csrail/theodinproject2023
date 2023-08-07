@@ -1,0 +1,161 @@
+/*
+.overlay text for hero
+.credit attribution for hero
+.validate fields at front end
+
+*/
+
+:root {
+    --viewport-height: 100vh;
+    --hero-width: 30vw;
+    --remainder-width: calc(100vw - var(--hero-width));
+    /*--image-base: 640px;*/
+    /*--image-width-minimum: min(var(--hero-width), calc(--image-base * 2));*/
+    overflow: scroll;
+    --background-color: #f7faf9;
+}
+
+html, body {
+    font-family: sans-serif;
+    height: 100vh;
+}
+
+body {
+    display: flex;
+    background-color: var(--background-color);
+    width: 100%;
+}
+
+.hero {
+    /*overflow: hidden; !* somehow there is an overflow of ~3px here which creates a scrollbar?!  *!*/
+    display: flex;
+    justify-content: center;
+
+    position: sticky;
+    /*border: #44c1d1 2px solid;*/
+    background-image: url("taylor-smith-6i0s6cl8SeM-unsplash.jpg");
+    background-repeat: no-repeat;
+    background-position: 70% 20%;
+    background-color: var(--background-color);
+    width: 100%;
+    height: var(--viewport-height);
+    background-size: cover;
+    /*border-top-right-radius: 21%;*/
+}
+
+.overlay {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.brand {
+    margin-top: 4vh;
+    padding: 0.7rem;
+    background: rgba(206,132,129,0.51);
+    flex-wrap: wrap;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.7rem;
+
+}
+
+.credit {
+    display: flex;
+    background: rgba(50,132,255,0.21);
+    text-align: center;
+    padding: 0.7rem;
+}
+
+.overlay > div {
+    /*top: calc(var(--viewport-height) * 0.33);*/
+    /*left: calc(var(--hero-width) * 0.2);*/
+    /*border: #FF1A25 2px solid;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #EEEEEE;
+    gap: 1rem;
+}
+
+.credit {
+    /*position: absolute;*/
+    /*left: 10px;*/
+    /*bottom: 10px;*/
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    /*border: green 2px solid;*/
+    background-color: var(--background-color);
+}
+
+main .verbiage {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10vh;
+    padding: 2rem;
+    gap: 1rem;
+    /*border: rebeccapurple 2px solid;*/
+
+}
+
+main .fields {
+    padding: 1rem;
+    background-color: white;
+    box-shadow: 5px 10px 20px #cccccc;
+}
+
+main .fields form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+main .fields form > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    /*border: blue 2px solid;*/
+    justify-content: center;
+}
+
+main .fields form > div > div {
+    display: flex;
+    flex-direction: column;
+    /*border: red 2px solid;*/
+}
+
+main .call-to-action {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 2rem;
+}
+
+.create-action > button {
+    padding: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.login-suggestion {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+label {
+
+}
+
+/*input {*/
+/*    margin-top: 0.2rem;*/
+/*    width: clamp(20ch, 40ch, calc(var(--remainder-width) * 0.33));*/
+/*    font-size: 2ch;*/
+/*}*/
