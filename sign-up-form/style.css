@@ -29,17 +29,12 @@ body {
     /*overflow: hidden; !* somehow there is an overflow of ~3px here which creates a scrollbar?!  *!*/
     display: flex;
     justify-content: center;
-
-    position: sticky;
-    /*border: #44c1d1 2px solid;*/
     background-image: url("taylor-smith-6i0s6cl8SeM-unsplash.jpg");
     background-repeat: no-repeat;
     background-position: 70% 20%;
-    background-color: var(--background-color);
     width: 100%;
     height: var(--viewport-height);
     background-size: cover;
-    /*border-top-right-radius: 21%;*/
 }
 
 .overlay {
@@ -90,6 +85,7 @@ main {
     overflow-y: scroll;
     /*border: green 2px solid;*/
     background-color: var(--background-color);
+    /*width: 100%;*/
     width: 180%;
 }
 
