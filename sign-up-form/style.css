@@ -100,7 +100,6 @@ main .verbiage {
 }
 
 main .fields {
-    padding: 1rem;
     background-color: white;
     box-shadow: 5px 10px 20px #cccccc;
 }
@@ -108,15 +107,15 @@ main .fields {
 main .fields form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1rem;
+    padding: 2rem 1rem 2rem 1rem;
 }
 
 main .fields form > div {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
-    /*border: blue 2px solid;*/
+    gap: 1rem;
+    /*border: blue 2px dotted;*/
     justify-content: center;
 }
 
@@ -125,6 +124,7 @@ main .fields form > div > fieldset {
     flex-direction: column;
     border: none;
     /*border: red 2px solid;*/
+    min-height: 62px;
 }
 
 main .call-to-action {
@@ -177,5 +177,16 @@ input {
 }
 
 input:invalid {
-    outline: #FF1A25 2px solid;
+    box-shadow: 0 0 0 1px #d52552;
+    /* mimics outline for which there is no `outline-radius` property */
+}
+
+.error {
+    color: #d52552;
+    margin-top: 4px;
+    font-size: 1ch;
+}
+
+.hidden {
+    display: none;
 }
