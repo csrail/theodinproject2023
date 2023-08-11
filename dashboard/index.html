@@ -10,55 +10,87 @@
 </head>
 <body>
     <nav>
-        <div class="current">
-            <div>Dashboard</div>
+        <div class="current-page">
+            <div>
+                <div><a href="#"><img src="./assets/icons/view-dashboard.svg" height="48" width="48" alt="dashboard-icon"></a></div>
+                <div><a href="#">Dashboard</a></div>
+            </div>
         </div>
         <div class="common-links">
-            <div>Home</div>
-            <div>Profile</div>
-            <div>Messages</div>
-            <div>History</div>
-            <div>Tasks</div>
-            <div>Communities</div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/home.svg" height="24" width="24" alt="home-icon"></a></div>
+                <div><a href="#">Home</a></div>
+            </div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/card-account-details.svg" height="24" width="24" alt="profile-icon"></a></div>
+                <div><a href="#">Profile</a></div>
+            </div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/message.svg" height="24" width="24" alt="messages-icon"></a></div>
+                <div><a href="#">Messages</a></div>
+            </div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/clock-time-five.svg" height="24" width="24" alt="history-icon"></a></div>
+                <div><a href="#">History</a></div>
+            </div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/note-multiple.svg" height="24" width="24"  alt="tasks-icon"></a></div>
+                <div><a href="#">Tasks</a></div>
+            </div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/account-group.svg" height="24" width="24" alt="communities-icon"></a></div>
+                <div><a href="#">Communities</a></div>
+            </div>
         </div>
         <div class="help-links">
-            <div>Settings</div>
-            <div>Support</div>
-            <div>Privacy</div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/cog.svg" height="24" width="24" alt="settings-icon"></a></div>
+                <div><a href="#">Settings</a></div>
+            </div>
+            <div>
+                <div><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/"><img src="./assets/icons/help-box.svg" height="24" width="24" alt="support-icon"></a></div>
+                <div><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">Flex Support</a></div>
+            </div>
+            <div>
+                <div><a href="https://css-tricks.com/snippets/css/complete-guide-grid/"><img src="./assets/icons/help-box.svg" height="24" width="24" alt="support-icon"></a></div>
+                <div><a href="https://css-tricks.com/snippets/css/complete-guide-grid/">Grid Support</a></div>
+            </div>
+            <div>
+                <div><a href="#"><img src="./assets/icons/shield-check.svg" height="24" width="24" alt="privacy-icon"></a></div>
+                <div><a href="#">Privacy</a></div>
+            </div>
         </div>
     </nav>
     <header>
-        <div class="search">
-            <div class="search-button">
-
+        <div class="row1">
+            <div class="search">
+                <img class="search-button" src="./assets/icons/crown-circle.svg" height="24" width="24" alt="search-icon">
+                <input class="search-bar" type="text">
             </div>
-            <div class="search-bar">
-
-            </div>
-        </div>
-        <div class="character">
-            <div class="notifications">
-
-            </div>
-            <div class="account">
-
-            </div>
-            <div>
-                Morgan Oakley
+            <div class="character">
+                <img class="notifications" src="./assets/icons/crown-circle.svg" height="24" width="24" alt="notification-icon">
+                <img class="account" src="./assets/icons/crown-circle.svg" height="24" width="24" alt="account-icon">
+                <div>Morgan Oakley</div>
             </div>
         </div>
-        <div class="greeting">
+        <div class="row2">
             <div>
-                Hi there,
+                <img class="profile-picture" src="./assets/icons/crown-circle.svg" height="48px" width="48px" alt="profile-picture">
+                <div class="greeting">
+                    <div>
+                        Hi there,
+                    </div>
+                    <div>
+                        Morgan Oakley (@morgan)
+                    </div>
+                </div>
             </div>
-            <div>
-                Morgan Oakley (@morgan)
+
+            <div class="actions">
+                <button type="button">New</button>
+                <button type="button">Upload</button>
+                <button type="button">Share</button>
             </div>
-        </div>
-        <div class="actions">
-            <button type="button">New</button>
-            <button type="button">Upload</button>
-            <button type="button">Share</button>
         </div>
     </header>
     <main>
@@ -80,8 +112,6 @@
                 </div>
             </div>
         </div>
-    </main>
-    <aside>
         <div class="announcements">
             <div class="title">Announcements</div>
             <div>
@@ -97,7 +127,19 @@
                 <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad amet beatae corporis cupiditate dicta et magnam nam, nesciunt nihil optio, quod sunt totam vitae! Dolorem minima provident qui rem sit!</div>
             </div>
         </div>
-        div
-    </aside>
+        <div class="trending">
+            <div class="title">Trending</div>
+            <div>
+                <div class="profile-picture">
+                    <span class="dot"></span>
+                </div>
+                <div class="character">
+                    <div class="username"></div>
+                    <div class="description"></div>
+                </div>
+
+            </div>
+        </div>
+    </main>
 </body>
 </html>
