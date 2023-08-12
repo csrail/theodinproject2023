@@ -15,7 +15,7 @@
 body {
     display: grid;
     grid-template-columns: 1fr 6fr;
-    grid-template-rows: 1fr 4fr;
+    grid-template-rows: 150px 4fr;
     height: 100vh;
 }
 
@@ -43,6 +43,7 @@ nav > div > div {
 
 header {
     background-color: var(--orange-50);
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -50,7 +51,7 @@ header {
 
 header > div {
     display: flex;
-    /*border: #3c4faf 2px solid;*/
+    border: #3c4faf 2px solid;
     justify-content: space-between;
 }
 
@@ -100,4 +101,58 @@ header > div > div {
 
 main {
     background-color: var(--zinc-200);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.projects {
+    grid-row-start: 1;
+    grid-row-end: -1;
+    background-color: cadetblue;
+}
+
+.project-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    background-color: palevioletred;
+    gap: 2rem;
+}
+
+.card {
+    background-color: var(--orange-50);
+    padding: 1rem;
+    height: 200px;
+    border-left: var(--emerald-300) 8px solid;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: grey 2px 4px 4px;
+}
+
+.card-title {
+    font-size: 1.5ch;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1.3ch;
+    padding: 0.3rem 0 0 0;
+    color: #111111;
+}
+
+.card-interactions {
+    display: flex;
+    /*background: #3c4faf;*/
+    margin-top: auto;
+    align-self: flex-end;
+    gap: 1rem;
+}
+
+/*https://stackoverflow.com/questions/31000885/align-an-element-to-bottom-with-flexbox*/
+
+.announcement-card {
+    background-color: coral;
 }
