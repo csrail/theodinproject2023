@@ -1,0 +1,38 @@
+.shelf {
+    height: 350px;
+    width: 1000px;
+    background-color: cornflowerblue;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.book {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    background-color: #27272a;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.attribution {
+    background-color: #52525b;
+    color: goldenrod;
+    writing-mode: sideways-lr;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*align-items: center;*/
+    padding: 1rem;
+}
+
+.metadata {
+    display: flex;
+    color: lightblue;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
