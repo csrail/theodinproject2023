@@ -7,21 +7,50 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="minimum.css">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <title>Library</title>
 </head>
 <body>
     <div class="shelf">
-        <div class="book">
-            <div class="attribution">
-                <div>The Age of Extremes</div>
-                <div>By Eric Hobsbawn</div>
-            </div>
-            <div class="metadata">
-                <div>627 pages</div>
-                <div>Unread</div>
-            </div>
-        </div>
+<!--        <div class="book">-->
+<!--            <div class="attribution">-->
+<!--                <div>The Age of Extremes</div>-->
+<!--                <div>By Eric Hobsbawn</div>-->
+<!--            </div>-->
+<!--            <div class="metadata">-->
+<!--                <div>627 pages</div>-->
+<!--                <div>Unread</div>-->
+<!--            </div>-->
+<!--            <div data-index="0">-->
+<!--                0-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
+    <form action="#" method="post" id="form-add-book" >
+        <fieldset>
+            <div>
+                <label for="input-book-title">Title</label>
+                <input type="text" id="input-book-title">
+            </div>
+            <div>
+                <label for="input-book-authors">Author(s)</label>
+                <input type="text" id="input-book-authors">
+            </div>
+            <div>
+                <label for="input-book-pages">Pages</label>
+                <input type="number" id="input-book-pages">
+            </div>
+            <div>
+                <label for="input-book-read">Read?</label>
+                <input type="checkbox" id="input-book-read">
+            </div>
+            <button id="form-add-book-button" type="button">Add Book</button>
+        </fieldset>
+    </form>
+    <form action="#" method="post" id="form-remove-book">
+        <label for="input-remove-book">Book Index</label>
+        <input type="number" id="input-remove-book">
+        <button type="button" id="form-remove-book-button">Remove Book</button>
+    </form>
 </body>
 </html>

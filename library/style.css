@@ -1,5 +1,5 @@
 .shelf {
-    height: 350px;
+    height: 400px;
     width: 1000px;
     background-color: cornflowerblue;
     display: flex;
@@ -11,14 +11,20 @@
 .book {
     display: flex;
     flex-direction: column;
-    height: 300px;
+    height: 350px;
     background-color: #27272a;
     padding: 1rem;
     gap: 1rem;
 }
 
+.book > [data-index] {
+    text-align: center;
+    color: red;
+}
+
 .attribution {
     background-color: #52525b;
+    height: 205px;
     color: goldenrod;
     writing-mode: sideways-lr;
     text-align: center;
