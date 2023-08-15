@@ -1,3 +1,8 @@
+// javascript pattern uses constructors to create new objects
+// if the 'new' keyword is missed during instancing, then you make the properties of the function available
+// in the global scope;  this can create security vulnerabilities;
+// there are also strange pointer relations when using the Object.setPrototypeOf(source, target) relationship
+
 let shelf = document.querySelector('.shelf')
 
 let bookCounter = 0;
