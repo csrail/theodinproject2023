@@ -17,18 +17,19 @@ function addBookToLibrary(book) {
 }
 
 function drawBook(book) {
-    const bookObject = document.createElement('div');
+    const bookElement = document.createElement('div');
     const bookAttribution = document.createElement('div');
     const bookMetaData = document.createElement('div');
     const bookTitle = document.createElement('div');
     const bookAuthor = document.createElement('div');
     const bookPages = document.createElement('div');
-    const bookIsRead = document.createElement('div');
+    const bookIsRead = document.createElement('button');
     const bookDataIndex = document.createElement('div');
 
-    bookObject.classList.add('book');
+    bookElement.classList.add('book');
     bookAttribution.classList.add('attribution');
     bookMetaData.classList.add('metadata');
+    bookIsRead.classList.add('read-state');
 
     bookDataIndex.setAttribute('data-index', book.bookIndex);
 
@@ -43,11 +44,11 @@ function drawBook(book) {
     bookAttribution.appendChild(bookAuthor);
     bookMetaData.appendChild(bookPages);
     bookMetaData.appendChild(bookIsRead);
-    bookObject.appendChild(bookAttribution);
-    bookObject.appendChild(bookMetaData);
-    bookObject.appendChild(bookDataIndex);
+    bookElement.appendChild(bookAttribution);
+    bookElement.appendChild(bookMetaData);
+    bookElement.appendChild(bookDataIndex);
 
-    shelf.appendChild(bookObject);
+    shelf.appendChild(bookElement);
 }
 
 function drawLibrary() {
@@ -93,4 +94,27 @@ formRemoveBookButton.addEventListener('click', () => {
     let book = document.querySelector(`[data-index='${bookIndex}']`).parentNode;
     myLibrary.splice(bookArrayIndex, 1);
     book.remove();
+})
+
+let readStateButtons;
+function selectReadStateButtons() {
+    readStateButtons = document.querySelectorAll('.read-state')
+}
+
+selectReadStateButtons();
+
+readStateButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let node = button.parentNode.parentNode;
+        node = node.querySelector('[data-index]');
+        let bookIndex = +node.getAttribute('data-index');
+        let bookObject = myLibrary.find((obj) => obj.bookIndex === bookIndex);
+        if (bookObject.isRead === true) {
+            bookObject.isRead = false;
+            button.textContent = 'Unread';
+        } else {
+            bookObject.isRead = true;
+            button.textContent = 'Read';
+        }
+    })
 })
