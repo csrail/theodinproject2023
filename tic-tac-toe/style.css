@@ -1,0 +1,33 @@
+body {
+    display: flex;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+}
+
+.board > div {
+    display: flex;
+}
+
+.board > div > div {
+    padding: 1rem;
+    font-size: 3ch;
+}
+
+.row[data-row='0'] {
+    background-color: #3c4faf;
+}
+
+.row[data-row='1'] {
+    background-color: #6ee7b7;
+}
+
+.row[data-row='2'] {
+    background-color: #f87171;
+}
+
+.row {
+    background-color: coral;
+}
