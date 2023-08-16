@@ -36,6 +36,10 @@
 //         drawBoardView,
 //     }
 // }
+const Game = () => {
+
+    return Object.assign({}, Board())
+}
 
 const Board = () => {
 
@@ -64,6 +68,9 @@ const Board = () => {
         }
         _mainView.append(_boardView);
 
+    }
+
+    const setBoard = () => {
         _boardView.childNodes.forEach((row) => {
             row.childNodes.forEach((cell) => {
                 cell.addEventListener('click', (event) => {
@@ -76,7 +83,6 @@ const Board = () => {
             })
         })
     }
-
     const initialiseBoard = () => {
         console.log("Board Initialised");
         _board = [
@@ -89,6 +95,7 @@ const Board = () => {
     return {
         initialiseBoard,
         drawBoardView,
+        setBoard,
     }
 
 }
@@ -97,11 +104,7 @@ const Player = (count) => {
     return {}
 }
 
-// const game = Game();
-// game.initialiseBoard();
-// game.drawBoardView();
-//
-
-const game = Board();
+const game = Game();
 game.initialiseBoard();
 game.drawBoardView();
+game.setBoard();
