@@ -1,3 +1,4 @@
+"use strict";
 // Items:
 // Game object
 // Board object
@@ -38,17 +39,23 @@
 // }
 const Game = () => {
 
-    const player1 = Player("X")
-    const player2 = Player("O");
+    const _player1 = Player("X");
+    const _player2 = Player("O");
 
-    let playerTurn = 1;
-    let gameToken = player1.playerToken;
+    let gameWinner;
+    let _playerTurn = 1;
+    let _player1Token = _player1.playerToken;
+    let _player2Token = _player2.playerToken;
 
-    const _board = Board();
+    const _board = Board(_player1, _player2);
 
+    // _board.clearBoard();
+    // _board.clearBoardView();
     _board.initialiseBoard();
     _board.drawBoardView();
     _board.setBoard();
+    _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
+    _playerTurn = 2;
 
     // Board.initialiseBoard();
     // Board.drawBoardView();
@@ -102,13 +109,26 @@ const Game = () => {
 // From my findings, it seems that modules should only be used as helper functions that result in an output, and avoid
 // trying to remember state.
 
-const Board = () => {
+const Board = (player1, player2) => {
 
-    let _board = []
+    let _board = [];
+    let _cell;
     const _mainView = document.querySelector('main');
     const _boardView = document.createElement('div');
     _boardView.classList.add('board');
 
+    const _player1 = player1
+    const _player2 = player2
+    let _playerTurn = 1;
+
+    const initialiseBoard = () => {
+        console.log("Board Initialised");
+        _board = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ];
+    }
     const drawBoardView = () => {
         const count = 3;
 
@@ -121,14 +141,13 @@ const Board = () => {
             for (let j = 0; j<count; j++) {
                 const cellView = document.createElement('div');
                 cellView.classList.add('cell');
-                cellView.setAttribute('data-cell', j.toString());
+                cellView.setAttribute('data-column', j.toString());
                 cellView.textContent = j.toString();
                 rowView.appendChild(cellView);
             }
             _boardView.appendChild(rowView);
         }
         _mainView.append(_boardView);
-
     }
 
     const setBoard = () => {
@@ -136,21 +155,26 @@ const Board = () => {
             row.childNodes.forEach((cell) => {
                 cell.addEventListener('click', (event) => {
                     let dataRowIndex = event.target.parentNode.getAttribute('data-row');
-                    let dataCellIndex = event.target.getAttribute('data-cell');
-                    _board[dataRowIndex][dataCellIndex] = 'X';
-                    console.log(_board)
-                    event.target.textContent='X';
+                    let dataColumnIndex = event.target.getAttribute('data-column');
+                    _cell = _board[dataRowIndex][dataColumnIndex]
+                    if (_playerTurn === 1) {
+                        _cell = player1.playerToken;
+                        console.log(_board)
+                        event.target.textContent= player1.playerToken;
+                        _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
+                    } else if (_playerTurn === 2) {
+                        _cell = player2.playerToken;
+                        console.log(_board)
+                        event.target.textContent= player2.playerToken;
+                        _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
+                    }
                 })
             })
         })
     }
-    const initialiseBoard = () => {
-        console.log("Board Initialised");
-        _board = [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0],
-        ];
+    
+    const checkValidMove = () => {
+        
     }
 
     return {
