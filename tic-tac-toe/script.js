@@ -38,8 +38,69 @@
 // }
 const Game = () => {
 
-    return Object.assign({}, Board())
+    const player1 = Player("X")
+    const player2 = Player("O");
+
+    let playerTurn = 1;
+    let gameToken = player1.playerToken;
+
+    const _board = Board();
+
+    _board.initialiseBoard();
+    _board.drawBoardView();
+    _board.setBoard();
+
+    // Board.initialiseBoard();
+    // Board.drawBoardView();
+    // Board.setBoard();
+
+    // return Object.assign(
+    //     {player1, player2,},
+    //     Board(),
+    //     Player())
 }
+
+// seems to be three ways I can interact with the Board factory function, I'm not sure which is right so I'll have to
+// pick one and go with it and see what kind of mess I get into
+
+// #1
+// Board is a factory function and the Game factory function is assigned Board properties:
+// return Object.assign(
+//      {},
+//      Board(),
+//      Player())
+// then interact with the Board view via:
+// const game = Game();
+// game.initialiseBoard();
+// game.drawBoardView();
+// game.setBoard();
+//
+// But why am I running all of this in the global scope?  Is that correct?
+
+// #2
+// Board is still a factory function, but I don't assign the properties to the Game factory function.
+// Instead, I declare a variable as Board within Game:
+// const _board = Board();
+// _board.initialiseBoard();
+// _board.drawBoardView();
+// _board.setBoard();
+//
+// One issue I can see here is that whenever Game is initialised, the entire sequence gets run.
+// You can run Game(); within the console and a second board appears.
+
+// #3
+// Board becomes a Module now with the following pattern:
+// const Board = (() => { ...logic... })();
+// The Board module is accessed within the Game factory function:
+// Board.initialiseBoard();
+// Board.drawBoardView();
+// Board.setBoard();
+//
+// This doesn't seem to be the correct way of doing it.  Although there is only one Board that is required per Game,
+// If multiple games were being created, they would all share the same Module variable _board state, therefore it's not
+// I'm leaning away from Board being used as a module.
+// From my findings, it seems that modules should only be used as helper functions that result in an output, and avoid
+// trying to remember state.
 
 const Board = () => {
 
@@ -98,13 +159,22 @@ const Board = () => {
         setBoard,
     }
 
+};
+
+const Player = (token) => {
+
+    // write function to set up players
+    // set up player 1
+    // set up player 2
+    // pass player states from Player ff to Game ff
+    const playerToken = token;
+
+    return { playerToken }
 }
 
-const Player = (count) => {
-    return {}
-}
+// const game = Game();
+// game.initialiseBoard();
+// game.drawBoardView();
+// game.setBoard();
 
-const game = Game();
-game.initialiseBoard();
-game.drawBoardView();
-game.setBoard();
+Game();
