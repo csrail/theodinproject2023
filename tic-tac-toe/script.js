@@ -43,10 +43,6 @@ const Game = () => {
     const _player2 = Player("O");
 
     let gameWinner;
-    let _playerTurn = 1;
-    let _player1Token = _player1.playerToken;
-    let _player2Token = _player2.playerToken;
-
     const _board = Board(_player1, _player2);
 
     // _board.clearBoard();
@@ -101,14 +97,18 @@ const Game = () => {
 const Board = (player1, player2) => {
 
     let _board = [];
-    let _cell;
     const _mainView = document.querySelector('main');
     const _boardView = document.querySelector('.board');
     const _boardMessage = document.querySelector('.board-message');
 
-    const _player1 = player1
-    const _player2 = player2
+    const _player1 = player1;
+    const _player2 = player2;
     let _playerTurn = 1;
+    let _winner;
+
+    const _cellCount = 3;
+    const player1WinCondition = (value) => value === player1.playerToken;
+    const player2WinCondition = (value) => value === player2.playerToken;
 
     const initialiseBoard = () => {
         console.log("Board Initialised");
@@ -146,20 +146,32 @@ const Board = (player1, player2) => {
                     let dataRowIndex = event.target.parentNode.getAttribute('data-row');
                     let dataColumnIndex = event.target.getAttribute('data-column');
                     if (checkValidMove(dataRowIndex, dataColumnIndex)) {
-                        _boardMessage.textContent = "asd";
                         if (_playerTurn === 1) {
                             _board[dataRowIndex][dataColumnIndex] = _player1.playerToken;
-                            console.log(_board);
+                            // console.log(_board);
                             event.target.textContent= _player1.playerToken;
-                            _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
-                            _boardMessage.textContent = "X";
+                            // _boardMessage.textContent = "X";
                         } else if (_playerTurn === 2) {
                             _board[dataRowIndex][dataColumnIndex] = _player2.playerToken;
-                            console.log(_board);
+                            // console.log(_board);
                             event.target.textContent= _player2.playerToken;
-                            _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
                             _boardMessage.textContent = "O";
                         }
+
+                        if (_winner === void(0)) {
+                            checkHorizontalWin(dataRowIndex);
+                        }
+
+                        if (_winner === void(0)) {
+                            let activeColumn = (getColumn(dataColumnIndex));
+                            checkVerticalWin(activeColumn);
+                        }
+
+                        if (!(_winner === void(0))) {
+                            deactivateBoard();
+                        }
+
+                        _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
                     }
                 })
             })
@@ -172,7 +184,63 @@ const Board = (player1, player2) => {
        } else if (_board[row][column] === _player1.playerToken || _board[row][column] === _player2.playerToken) {
            _boardMessage.textContent = "Not a valid move";
            return false
+       } else {
+           return false
        }
+    }
+
+    const deactivateBoard = () => {_boardView.replaceWith(_boardView.cloneNode(true))};
+    const checkHorizontalWin = (row) => {
+
+        if (_playerTurn === 1) {
+            if (_board[row].every(player1WinCondition)) {
+                _boardMessage.textContent = "Player 1 Wins";
+                _winner = _player1;
+                return true
+            }
+        } else if (_playerTurn === 2) {
+            if (_board[row].every(player2WinCondition)) {
+                _boardMessage.textContent = "Player 2 Wins"
+                _winner = _player2;
+                return true
+            }
+        }
+    }
+
+    const getColumn = (columnIndex) => {
+        let column = []
+        _board.forEach((row) => {
+            column.push(row[columnIndex])
+        })
+        return column;
+    }
+
+    const checkVerticalWin = (column) => {
+        if (_playerTurn === 1) {
+            if (column.every(player1WinCondition)) {
+                _boardMessage.textContent = "Player 1 Wins";
+                _winner = _player1;
+                return true
+            }
+        } else if (_playerTurn === 2) {
+            if (column.every(player2WinCondition)) {
+                _boardMessage.textContent = "Player 2 Wins"
+                _winner = _player2;
+                return true
+            }
+        }
+    }
+
+    const getDiagonal = () => {
+        // take
+    }
+
+    const checkDiagonalWin = () => {
+
+    }
+
+    const checkWinner = () => {
+
     }
 
     return {
