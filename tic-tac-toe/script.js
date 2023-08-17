@@ -106,7 +106,7 @@ const Board = (player1, player2) => {
     let _playerTurn = 1;
     let _winner;
 
-    const _cellCount = 3;
+    const _gridSize = 3;
     const player1WinCondition = (value) => value === player1.playerToken;
     const player2WinCondition = (value) => value === player2.playerToken;
 
@@ -158,6 +158,8 @@ const Board = (player1, player2) => {
                             _boardMessage.textContent = "O";
                         }
 
+
+
                         if (_winner === void(0)) {
                             checkHorizontalWin(dataRowIndex);
                         }
@@ -165,6 +167,16 @@ const Board = (player1, player2) => {
                         if (_winner === void(0)) {
                             let activeColumn = (getColumn(dataColumnIndex));
                             checkVerticalWin(activeColumn);
+                        }
+
+                        if (_winner === void(0)) {
+                            let diagonalOneResults = getDiagonalResults(getDiagonalOneMap);
+                            checkDiagonalWin(diagonalOneResults);
+                        }
+
+                        if (_winner === void(0)) {
+                            let diagonalTwoResults = getDiagonalResults(getDiagonalTwoMap);
+                            checkDiagonalWin(diagonalTwoResults);
                         }
 
                         if (!(_winner === void(0))) {
@@ -231,12 +243,56 @@ const Board = (player1, player2) => {
         }
     }
 
-    const getDiagonal = () => {
-        // take
+    const getDiagonalOneMap = (() => {
+        // [[0,0], [1,1], [2,2]
+        // +1, +1
+        // two streams going in the same direction so 1 counter
+        let mapping = []
+        for (let i = 0; i < _gridSize; i++) {
+            mapping.push([i, i])
+        }
+        // console.log(mapping);
+        return mapping;
+    })();
+
+    const getDiagonalResults = (diagonalMap) => {
+        let diagonal = [];
+        diagonalMap.forEach((cell) => {
+            const row = cell[0]
+            const column = cell[1]
+            diagonal.push(_board[row][column])
+        })
+        // console.log(diagonal);
+        return diagonal;
     }
+    const getDiagonalTwoMap = (() => {
+        // [[2,0], [1,1], [2,2]
+        // -1, +1
+        // two streams going in different directions so 2 counters
+        let mapping = []
+        let j = 0;
+        for (let i = _gridSize -1 ; i > -1; i--) {
+            mapping.push([i, j]);
+            j++;
+        }
+        // console.log(mapping);
+        return mapping;
+    })();
 
-    const checkDiagonalWin = () => {
-
+    const checkDiagonalWin = (diagonal) => {
+        if (_playerTurn === 1) {
+            if (diagonal.every(player1WinCondition)) {
+                _winner = _player1;
+                _boardMessage.textContent = "Player 1 Wins";
+                return true
+            }
+        } else if (_playerTurn === 2) {
+            if (diagonal.every(player2WinCondition)) {
+                _winner = _player2;
+                _boardMessage.textContent = "Player 2 Wins";
+                return true
+            }
+        }
     }
 
     const checkWinner = () => {
