@@ -54,17 +54,6 @@ const Game = () => {
     _board.initialiseBoard();
     _board.drawBoardView();
     _board.setBoard();
-    _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
-    _playerTurn = 2;
-
-    // Board.initialiseBoard();
-    // Board.drawBoardView();
-    // Board.setBoard();
-
-    // return Object.assign(
-    //     {player1, player2,},
-    //     Board(),
-    //     Player())
 }
 
 // seems to be three ways I can interact with the Board factory function, I'm not sure which is right so I'll have to
@@ -114,8 +103,8 @@ const Board = (player1, player2) => {
     let _board = [];
     let _cell;
     const _mainView = document.querySelector('main');
-    const _boardView = document.createElement('div');
-    _boardView.classList.add('board');
+    const _boardView = document.querySelector('.board');
+    const _boardMessage = document.querySelector('.board-message');
 
     const _player1 = player1
     const _player2 = player2
@@ -156,25 +145,34 @@ const Board = (player1, player2) => {
                 cell.addEventListener('click', (event) => {
                     let dataRowIndex = event.target.parentNode.getAttribute('data-row');
                     let dataColumnIndex = event.target.getAttribute('data-column');
-                    _cell = _board[dataRowIndex][dataColumnIndex]
-                    if (_playerTurn === 1) {
-                        _cell = player1.playerToken;
-                        console.log(_board)
-                        event.target.textContent= player1.playerToken;
-                        _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
-                    } else if (_playerTurn === 2) {
-                        _cell = player2.playerToken;
-                        console.log(_board)
-                        event.target.textContent= player2.playerToken;
-                        _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
+                    if (checkValidMove(dataRowIndex, dataColumnIndex)) {
+                        _boardMessage.textContent = "asd";
+                        if (_playerTurn === 1) {
+                            _board[dataRowIndex][dataColumnIndex] = _player1.playerToken;
+                            console.log(_board);
+                            event.target.textContent= _player1.playerToken;
+                            _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
+                            _boardMessage.textContent = "X";
+                        } else if (_playerTurn === 2) {
+                            _board[dataRowIndex][dataColumnIndex] = _player2.playerToken;
+                            console.log(_board);
+                            event.target.textContent= _player2.playerToken;
+                            _playerTurn === 1 ? _playerTurn = 2 : _playerTurn = 1;
+                            _boardMessage.textContent = "O";
+                        }
                     }
                 })
             })
         })
     }
     
-    const checkValidMove = () => {
-        
+    const checkValidMove = (row, column) => {
+       if (_board[row][column] === 0) {
+           return true
+       } else if (_board[row][column] === _player1.playerToken || _board[row][column] === _player2.playerToken) {
+           _boardMessage.textContent = "Not a valid move";
+           return false
+       }
     }
 
     return {
