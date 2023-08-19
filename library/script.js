@@ -1,78 +1,81 @@
-// javascript pattern uses constructors to create new objects
-// if the 'new' keyword is missed during instancing, then you make the properties of the function available
-// in the global scope;  this can create security vulnerabilities;
-// there are also strange pointer relations when using the Object.setPrototypeOf(source, target) relationship
+// change from constructor design to class design
+// set up private and public items
+// set up Library class
+// set up Book class
+// set up Author class
 
-let shelf = document.querySelector('.shelf')
+class Library {
+    constructor() {
+        for (const book of this.#books) {
+            this.#addBookToLibrary(book);
+        }
+        this.#drawLibrary();
+    }
 
-let bookCounter = 0;
-let myLibrary = [];
+    #books = [
+        new Book("Don Quixote", "Miguel De Cervantes", "952", false),
+        new Book("Napoleon's buttons", "Penny Le Couteur & Jay Burreson", 375, false),
+        new Book("What is Mathematics?", "Richard Courant and Herbert Robbins", 566, false),
+        new Book("Age of Extremes", "Eric Hobsbawn", 627, false),
+    ]
+    #bookIndexCounter = 0;
+    #library = [];
+    #shelf = document.querySelector('.shelf')
 
-function Book(title, author, pages, isRead) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.isRead = Boolean(isRead)
-    this.bookIndex = bookCounter
-    bookCounter += 1;
-}
+    #addBookToLibrary(book) {
+        this.#library.push(book);
+        this.#bookIndexCounter += 1;
+    }
 
-function addBookToLibrary(book) {
-    myLibrary.push(book)
-}
+    #drawLibrary() {
+        for (const book of this.#library) {
+            this.#drawBook(book);
+        }
+    }
+    #drawBook(book) {
+        const bookElement = document.createElement('div');
+        const bookAttribution = document.createElement('div');
+        const bookMetaData = document.createElement('div');
+        const bookTitle = document.createElement('div');
+        const bookAuthor = document.createElement('div');
+        const bookPages = document.createElement('div');
+        const bookIsRead = document.createElement('button');
+        const bookDataIndex = document.createElement('div');
 
-function drawBook(book) {
-    const bookElement = document.createElement('div');
-    const bookAttribution = document.createElement('div');
-    const bookMetaData = document.createElement('div');
-    const bookTitle = document.createElement('div');
-    const bookAuthor = document.createElement('div');
-    const bookPages = document.createElement('div');
-    const bookIsRead = document.createElement('button');
-    const bookDataIndex = document.createElement('div');
+        bookElement.classList.add('book');
+        bookAttribution.classList.add('attribution');
+        bookMetaData.classList.add('metadata');
+        bookIsRead.classList.add('read-state');
 
-    bookElement.classList.add('book');
-    bookAttribution.classList.add('attribution');
-    bookMetaData.classList.add('metadata');
-    bookIsRead.classList.add('read-state');
+        bookDataIndex.setAttribute('data-index', book.bookIndex);
 
-    bookDataIndex.setAttribute('data-index', book.bookIndex);
+        bookTitle.textContent = book.title;
+        bookAuthor.textContent = book.author;
+        bookPages.textContent = `${book.pages} pages`;
+        bookDataIndex.textContent = book.bookIndex;
 
-    bookTitle.textContent = book.title;
-    bookAuthor.textContent = book.author;
-    bookPages.textContent = `${book.pages} pages`;
-    bookDataIndex.textContent = book.bookIndex;
+        book.isRead === true ? bookIsRead.textContent = "Read" : bookIsRead.textContent = "Unread"
 
-    book.isRead === true ? bookIsRead.textContent = "Read" : bookIsRead.textContent = "Unread"
+        bookAttribution.appendChild(bookTitle);
+        bookAttribution.appendChild(bookAuthor);
+        bookMetaData.appendChild(bookPages);
+        bookMetaData.appendChild(bookIsRead);
+        bookElement.appendChild(bookAttribution);
+        bookElement.appendChild(bookMetaData);
+        bookElement.appendChild(bookDataIndex);
 
-    bookAttribution.appendChild(bookTitle);
-    bookAttribution.appendChild(bookAuthor);
-    bookMetaData.appendChild(bookPages);
-    bookMetaData.appendChild(bookIsRead);
-    bookElement.appendChild(bookAttribution);
-    bookElement.appendChild(bookMetaData);
-    bookElement.appendChild(bookDataIndex);
-
-    shelf.appendChild(bookElement);
-}
-
-function drawLibrary() {
-    for (const book of myLibrary) {
-        drawBook(book);
+        this.#shelf.appendChild(bookElement);
     }
 }
 
-let book1 = new Book("Don Quixote", "Miguel De Cervantes", "952", false);
-let book2 = new Book("Napoleon's buttons", "Penny Le Couteur & Jay Burreson", 375, false);
-let book3 = new Book("What is Mathematics?", "Richard Courant and Herbert Robbins", 566, false);
-let book4 = new Book("Age of Extremes", "Eric Hobsbawn", 627, false);
-
-addBookToLibrary(book1)
-addBookToLibrary(book2)
-addBookToLibrary(book3)
-addBookToLibrary(book4)
-
-drawLibrary();
+class Book {
+    constructor(title, author, pages, isRead) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.isRead = Boolean(isRead);
+    }
+}
 
 const formAddBookButton = document.querySelector('#form-add-book-button');
 const formInputBookTitle = document.querySelector('#input-book-title');
@@ -88,7 +91,6 @@ formAddBookButton.addEventListener('click', (event) => {
         formInputBookIsRead.value)
     drawBook(bookObject);
 })
-// formInputBookTitle.value
 const formRemoveBookButton = document.querySelector('#form-remove-book-button');
 const formInputBookIndex = document.querySelector('#input-remove-book');
 
@@ -123,3 +125,5 @@ readStateButtons.forEach((button) => {
         }
     })
 })
+
+new Library();
