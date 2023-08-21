@@ -143,53 +143,10 @@ const webFormAddBook = {
     formInputBookIsRead() { return document.querySelector('#input-book-read')},
 }
 
-// const formAddBookButton = document.querySelector('#form-add-book-button');
-// const formInputBookTitle = document.querySelector('#input-book-title');
-// const formInputBookAuthors = document.querySelector('#input-book-authors');
-// const formInputBookPages = document.querySelector('#input-book-title');
-// const formInputBookIsRead = document.querySelector('#input-book-read');
-
-// formAddBookButton.addEventListener('click', (event) => {
-//     const bookObject = new Book(
-//         formInputBookTitle.value,
-//         formInputBookAuthors.value,
-//         formInputBookPages.value,
-//         formInputBookIsRead.value)
-//     drawBook(bookObject);
-// })
-
 const webFormRemoveBook = {
     formRemoveBookButton() { return document.querySelector('#form-remove-book-button')},
     formInputBookIndex() { return document.querySelector('#input-remove-book')},
 }
-// const formRemoveBookButton = document.querySelector('#form-remove-book-button');
-// const formInputBookIndex = document.querySelector('#input-remove-book');
-
-// formRemoveBookButton.addEventListener('click', () => {
-//     let bookIndex = +formInputBookIndex.value;
-//     let bookObject = myLibrary.find((obj) => obj.bookIndex === bookIndex);
-//     let bookArrayIndex = myLibrary.findIndex((obj) => obj === bookObject);
-//     let book = document.querySelector(`[data-index='${bookIndex}']`).parentNode;
-//     myLibrary.splice(bookArrayIndex, 1);
-//     book.remove();
-// })
-
-
-// readStateButtons.forEach((button) => {
-//     button.addEventListener('click', () => {
-//         let node = button.parentNode.parentNode;
-//         node = node.querySelector('[data-index]');
-//         let bookIndex = +node.getAttribute('data-index');
-//         let bookObject = myLibrary.find((obj) => obj.bookIndex === bookIndex);
-//         if (bookObject.isRead === true) {
-//             bookObject.isRead = false;
-//             button.textContent = 'Unread';
-//         } else {
-//             bookObject.isRead = true;
-//             button.textContent = 'Read';
-//         }
-//     })
-// })
 
 const main = (() => {
     const lib = new Library();
