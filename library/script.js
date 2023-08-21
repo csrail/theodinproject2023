@@ -28,18 +28,18 @@ class Library {
         // but for some reason I feel like this has better composition and readability?
         // for smaller applications, this seems fine to invoke a mixin like this
         // for larger applications, this could be a bad practise as the mixin could change name: you'd have dependencies
-        webFormAddBook.formAddBookButton().addEventListener('click', () => {
+        this.formAddBookButton().addEventListener('click', () => {
             const bookObject = new Book(
-                webFormAddBook.formInputBookTitle().value,
-                webFormAddBook.formInputBookAuthors().value,
-                webFormAddBook.formInputBookPages().value,
-                webFormAddBook.formInputBookIsRead().value)
+                this.formInputBookTitle().value,
+                this.formInputBookAuthors().value,
+                this.formInputBookPages().value,
+                this.formInputBookIsRead().value)
             this.#addBookToLibrary(bookObject);
             return this.#drawBook(bookObject);
         })
 
-        webFormRemoveBook.formRemoveBookButton().addEventListener('click', () => {
-            let bookIndex = +webFormRemoveBook.formInputBookIndex().value;
+        this.formRemoveBookButton().addEventListener('click', () => {
+            let bookIndex = +this.formInputBookIndex().value;
             let bookObject = this.#library.find((obj) => obj.bookCount === bookIndex);
             if (bookObject === void(0)) { return }
             let bookArrayIndex = this.#library.findIndex((obj) => obj === bookObject);
