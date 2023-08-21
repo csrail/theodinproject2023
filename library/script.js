@@ -8,6 +8,13 @@ class Library {
     #library = [];
     #shelf = document.querySelector('.shelf')
 
+
+    #books = [
+        new Book("Don Quixote", "Miguel De Cervantes", "952", false),
+        new Book("Napoleon's buttons", "Penny Le Couteur & Jay Burreson", 375, false),
+        new Book("What is Mathematics?", "Richard Courant and Herbert Robbins", 566, false),
+        new Book("Age of Extremes", "Eric Hobsbawn", 627, false),
+    ]
     constructor() {
         Object.assign(Library.prototype, webFormAddBook);
         Object.assign(Library.prototype, webFormRemoveBook);
@@ -40,19 +47,34 @@ class Library {
             this.#library.splice(bookArrayIndex, 1);
             bookDisplay.remove();
         })
+
+        let readStateButtons = document.querySelectorAll('.read-state');
+        readStateButtons.forEach((button) => {
+            this.#toggleBookReadState(button);
+        })
     }
 
     get library() {
         return this.#library
     }
 
+    #toggleBookReadState(button) {
+        button.addEventListener('click', () => {
+                 let node = button.parentNode.parentNode;
+                node = node.querySelector('[data-index]');
+                let bookIndex = +node.getAttribute('data-index');
+                let bookObject = this.#library.find((obj) => obj.bookCount === bookIndex);
+                if (bookObject.isRead === true) {
+                    bookObject.isRead = false;
+                    button.textContent = 'Unread';
+                } else {
+                    bookObject.isRead = true;
+                    button.textContent = 'Read';
+                }
+        })
+    }
 
-    #books = [
-        new Book("Don Quixote", "Miguel De Cervantes", "952", false),
-        new Book("Napoleon's buttons", "Penny Le Couteur & Jay Burreson", 375, false),
-        new Book("What is Mathematics?", "Richard Courant and Herbert Robbins", 566, false),
-        new Book("Age of Extremes", "Eric Hobsbawn", 627, false),
-    ]
+
 
     #addBookToLibrary(book) {
         this.#library.push(book);
@@ -94,6 +116,7 @@ class Library {
         bookElement.appendChild(bookAttribution);
         bookElement.appendChild(bookMetaData);
         bookElement.appendChild(bookDataIndex);
+        this.#toggleBookReadState(bookIsRead);
 
         this.#shelf.appendChild(bookElement);
     }
@@ -151,28 +174,22 @@ const webFormRemoveBook = {
 //     book.remove();
 // })
 
-let readStateButtons;
-function selectReadStateButtons() {
-    readStateButtons = document.querySelectorAll('.read-state')
-}
 
-selectReadStateButtons();
-
-readStateButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        let node = button.parentNode.parentNode;
-        node = node.querySelector('[data-index]');
-        let bookIndex = +node.getAttribute('data-index');
-        let bookObject = myLibrary.find((obj) => obj.bookIndex === bookIndex);
-        if (bookObject.isRead === true) {
-            bookObject.isRead = false;
-            button.textContent = 'Unread';
-        } else {
-            bookObject.isRead = true;
-            button.textContent = 'Read';
-        }
-    })
-})
+// readStateButtons.forEach((button) => {
+//     button.addEventListener('click', () => {
+//         let node = button.parentNode.parentNode;
+//         node = node.querySelector('[data-index]');
+//         let bookIndex = +node.getAttribute('data-index');
+//         let bookObject = myLibrary.find((obj) => obj.bookIndex === bookIndex);
+//         if (bookObject.isRead === true) {
+//             bookObject.isRead = false;
+//             button.textContent = 'Unread';
+//         } else {
+//             bookObject.isRead = true;
+//             button.textContent = 'Read';
+//         }
+//     })
+// })
 
 const main = (() => {
     const lib = new Library();
