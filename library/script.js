@@ -78,7 +78,7 @@ class Library {
         bookMetaData.classList.add('metadata');
         bookIsRead.classList.add('read-state');
 
-        bookDataIndex.setAttribute('data-index', book.bookCounter.toString());
+        bookDataIndex.setAttribute('data-index', book.bookCount.toString());
 
         bookTitle.textContent = book.title;
         bookAuthor.textContent = book.author;
