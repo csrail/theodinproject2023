@@ -8,7 +8,6 @@ class Library {
     #library = [];
     #shelf = document.querySelector('.shelf')
 
-
     #books = [
         new Book("Don Quixote", "Miguel De Cervantes", "952", false),
         new Book("Napoleon's buttons", "Penny Le Couteur & Jay Burreson", 375, false),
@@ -24,38 +23,38 @@ class Library {
         }
         this.#drawLibrary();
 
-        // can substitute the below 'webFormAddBook' with 'this' now that the mixin has been assigned
-        // but for some reason I feel like this has better composition and readability?
-        // for smaller applications, this seems fine to invoke a mixin like this
-        // for larger applications, this could be a bad practise as the mixin could change name: you'd have dependencies
-        this.formAddBookButton().addEventListener('click', () => {
-            const bookObject = new Book(
-                this.formInputBookTitle().value,
-                this.formInputBookAuthors().value,
-                this.formInputBookPages().value,
-                this.formInputBookIsRead().value)
-            this.#addBookToLibrary(bookObject);
-            return this.#drawBook(bookObject);
-        })
+        this.formAddBookButton().addEventListener('click', this.#addBook.bind(this));
 
-        this.formRemoveBookButton().addEventListener('click', () => {
-            let bookIndex = +this.formInputBookIndex().value;
-            let bookObject = this.#library.find((obj) => obj.bookCount === bookIndex);
-            if (bookObject === void(0)) { return }
-            let bookArrayIndex = this.#library.findIndex((obj) => obj === bookObject);
-            let bookDisplay = document.querySelector(`[data-index='${bookIndex}']`).parentNode;
-            this.#library.splice(bookArrayIndex, 1);
-            bookDisplay.remove();
-        })
+        this.formRemoveBookButton().addEventListener('click', this.#removeBook.bind(this));
 
         let readStateButtons = document.querySelectorAll('.read-state');
-        readStateButtons.forEach((button) => {
+        readStateButtons.forEach(button => {
             this.#toggleBookReadState(button);
         })
     }
 
     get library() {
         return this.#library
+    }
+
+    #addBook() {
+        const bookObject = new Book(
+            this.formInputBookTitle().value,
+            this.formInputBookAuthors().value,
+            this.formInputBookPages().value,
+            this.formInputBookIsRead().value)
+        this.#addBookToLibrary(bookObject);
+        return this.#drawBook(bookObject);
+    }
+
+    #removeBook() {
+        const bookIndex = +webFormRemoveBook.formInputBookIndex().value;
+        const bookObject = this.#library.find((obj) => obj.bookCount === bookIndex);
+        if (bookObject === void(0)) { return }
+        const bookArrayIndex = this.#library.findIndex((obj) => obj === bookObject);
+        const bookDisplay = document.querySelector(`[data-index='${bookIndex}']`).parentNode;
+        this.#library.splice(bookArrayIndex, 1);
+        bookDisplay.remove();
     }
 
     #toggleBookReadState(button) {
@@ -73,8 +72,6 @@ class Library {
                 }
         })
     }
-
-
 
     #addBookToLibrary(book) {
         this.#library.push(book);
