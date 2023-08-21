@@ -83,7 +83,7 @@ class Library {
         bookTitle.textContent = book.title;
         bookAuthor.textContent = book.author;
         bookPages.textContent = `${book.pages} pages`;
-        bookDataIndex.textContent = book.bookCounter.toString()
+        bookDataIndex.textContent = book.bookCount.toString()
 
         book.isRead === true ? bookIsRead.textContent = "Read" : bookIsRead.textContent = "Unread"
 
