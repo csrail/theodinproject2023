@@ -1,1 +1,1 @@
-console.log("Init");
+(()=>{const e=e=>console.log(e);e((e=>{const o=e.name,t=e.description,r=e.price,{getCourse:i}={getCourse:e.course},{getStyle:s}={getStyle:e.style};let n;return(e=>{if(void 0!==i&&void 0===s)return n="Food";if(void 0!==s&&void 0===i)return n="Beverage";throw TypeError("Consumable is not a Food or Beverage.")})(),{getType:n,getName:o,getDescription:t,getPrice:r,getCourse:i,getStyle:s}})({name:"Laksa Soup",description:"Coconut-based spicy soup",price:"20.80",course:"Main"}))})();
