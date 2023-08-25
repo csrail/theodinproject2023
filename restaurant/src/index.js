@@ -8,19 +8,49 @@
 // website object
 // displayController object
 
-const Menu = () => {
-    // take consumables
-    // sort into different collections
-    // food consumables collection
-    // beverage consumables collection
-    const takeConsumable = (consumable) => {
-        return console.log(consumable);
+const MenuController = () => {
+    const { collectConsumable, getFoodCollection } = Menu();
+    const { makeContainer } = MenuDisplay();
+
+    return { collectConsumable, getFoodCollection, makeContainer }
+}
+
+const MenuDisplay = () => {
+    const makeContainer = () => {
+        const div = document.createElement('div');
+        div.classList.add('consumable');
+        div.textContent = 'FOOD HERE';
+
+        document.body.appendChild(div);
     }
 
-    return { takeConsumable }
+    return { makeContainer }
+}
+
+const Menu = () => {
+    const foodCollection = [];
+    const beverageCollection = [];
+    const { getType } = Consumable();
+
+    const collectConsumable = (consumable) => {
+        if (consumable.getType === "Food") {
+            foodCollection.push(consumable)
+            console.log("Added consumable to foodCollection")
+        } else if (consumable.getType === "Beverage") {
+            beverageCollection.push(consumable)
+            console.log("Added consumable to beverageCollection")
+        } else {
+            console.warn('Consumable is not a Food or Beverage.')
+        }
+    }
+
+    const getFoodCollection = () => { return foodCollection }
+    const getBeverageCollection = () => { return beverageCollection }
+
+    return { collectConsumable, getFoodCollection, getBeverageCollection }
 };
 
-const Consumable = (obj) => {
+const Consumable = (obj = {}) => {
     const getName = obj['name'];
     const getDescription = obj['description'];
     const getPrice = obj['price'];
@@ -29,7 +59,9 @@ const Consumable = (obj) => {
     let type;
 
     const _setType = (consumable) => {
-        if ( getCourse !== void(0) && getStyle === void(0)) {
+        if ( getCourse === void (0) && getStyle === void(0)) {
+            return
+        } else if ( getCourse !== void(0) && getStyle === void(0)) {
             return type = "Food";
         } else if ( getStyle !== void(0) && getCourse === void(0)) {
             return type = "Beverage";
@@ -62,12 +94,17 @@ const DisplayController = () => {
 
 const main = (() => {
     const consumable = Consumable({ name: "Laksa Soup", description: "Coconut-based spicy soup", price: "20.80", course: "Main"});
-    const menu = Menu()
-    menu.takeConsumable(consumable);
-    // console.log(consumable.getName);
-    // console.log(consumable.getDescription);
-    // console.log(consumable.getPrice);
-    // console.log(consumable.getCourse);
-    // console.log(consumable.getStyle);
+    const consumable0 = Consumable({name: "Chicken Wing", description: "Deep fried specially made chicken wing", price: "9.80", course: "Starter"});
+    const consumable1 = Consumable({name: "Mini Spring Roll", description: "Deep fried mini spring rolls, served with sweet chilli sauce", price: "10.80", course: "Starter"})
+    const consumable2 = Consumable({name: "Malay Tofu", description: "Crispy yum nom tofu with cucumber, carrots, sesame, sweet chilli sauce. Crispy outside and soft inside", price: "12.80", course: "Starter"})
+    const dummy = {}
+    const menuController = MenuController();
+    menuController.collectConsumable(consumable);
+    menuController.collectConsumable(consumable0);
+    menuController.collectConsumable(consumable1);
+    menuController.collectConsumable(dummy);
+    menuController.collectConsumable(consumable2);
+    console.log(menuController.getFoodCollection());
+    menuController.makeContainer();
     return {}
 })();
