@@ -1,4 +1,5 @@
 .idea/
+scratch*
 scratch.html
 scratch.js
 node_modules/
