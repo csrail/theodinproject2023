@@ -71,16 +71,16 @@ const Consumable = (obj = {}) => {
     const description = obj['description'];
     const price = obj['price'];
     const { getCourse } = Food(obj);
-    const { getStyle } = Beverage(obj['style']);
+    const { getStyle } = Beverage(obj);
     let type;
 
     const getName = () => { return name }
     const getDescription = () => { return description }
     const getPrice = () => { return price}
     const _setType = (consumable) => {
-        if ( getCourse !== void(0) && getStyle === void(0)) {
+        if ( getCourse() !== void(0) && getStyle() === void(0)) {
             return type = "Food";
-        } else if ( getStyle !== void(0) && getCourse === void(0)) {
+        } else if ( getStyle() !== void(0) && getCourse() === void(0)) {
             return type = "Beverage";
         } else {
             throw TypeError("Consumable is not a Food or Beverage.");
