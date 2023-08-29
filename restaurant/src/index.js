@@ -7,21 +7,38 @@
 
 // website object
 // displayController object
+// TODO make Order factory function shopping cart
 
 const MenuController = () => {
     const { collectConsumable, getFoodCollection } = Menu();
     const { makeContainer } = MenuDisplay();
 
-    return { collectConsumable, getFoodCollection, makeContainer }
+    return { collectConsumable, getFoodCollection, makeContainer, }
 }
 
 const MenuDisplay = () => {
-    const makeContainer = () => {
-        const div = document.createElement('div');
-        div.classList.add('consumable');
-        div.textContent = 'FOOD HERE';
+    const makeContainer = (arg) => {
+        const containerElement = document.createElement('div');
+        containerElement.classList.add('consumable');
+        // const courseStarterElement =  document.createElement('div');
+        // courseStarterElement.classList.add('course');
 
-        document.body.appendChild(div);
+        const consumableNameElement = document.createElement('div');
+        const consumableDescriptionElement = document.createElement('div');
+        const consumablePriceElement = document.createElement('div');
+        // create a closure here?
+        // what functions go on the outside, what ones on the inside??
+        console.log(arg)
+        const obj = arg[0]
+        consumableNameElement.textContent = obj.getName()
+        consumableDescriptionElement.textContent = obj.getDescription();
+        consumablePriceElement.textContent = obj.getPrice();
+
+        document.body.appendChild(consumableNameElement);
+        document.body.appendChild(consumableDescriptionElement);
+        document.body.appendChild(consumablePriceElement);
+
+        console.log(obj.getCourse());
     }
 
     return { makeContainer }
@@ -30,7 +47,6 @@ const MenuDisplay = () => {
 const Menu = () => {
     const foodCollection = [];
     const beverageCollection = [];
-    const { getType } = Consumable();
 
     const collectConsumable = (consumable) => {
         if (consumable.getType === "Food") {
@@ -51,17 +67,18 @@ const Menu = () => {
 };
 
 const Consumable = (obj = {}) => {
-    const getName = obj['name'];
-    const getDescription = obj['description'];
-    const getPrice = obj['price'];
-    const { getCourse } = Food(obj['course']);
+    const name = obj['name'];
+    const description = obj['description'];
+    const price = obj['price'];
+    const { getCourse } = Food(obj);
     const { getStyle } = Beverage(obj['style']);
     let type;
 
+    const getName = () => { return name }
+    const getDescription = () => { return description }
+    const getPrice = () => { return price}
     const _setType = (consumable) => {
-        if ( getCourse === void (0) && getStyle === void(0)) {
-            return
-        } else if ( getCourse !== void(0) && getStyle === void(0)) {
+        if ( getCourse !== void(0) && getStyle === void(0)) {
             return type = "Food";
         } else if ( getStyle !== void(0) && getCourse === void(0)) {
             return type = "Beverage";
@@ -76,14 +93,19 @@ const Consumable = (obj = {}) => {
     return { getType, getName, getDescription, getPrice, getCourse, getStyle };
 }
 
-const Food = (course) => {
-    const getCourse = course;
+const Food = (obj = {}) => {
+    const course = obj['course']
+
+    const getCourse = () => { return course }
+    // TODO get pieces e.g. for spring rolls
 
     return { getCourse };
 }
 
-const Beverage = (style) => {
-    const getStyle = style;
+const Beverage = (obj = {}) => {
+    const style = obj['style'];
+
+    const getStyle = () => { return style }
 
     return { getStyle };
 }
@@ -95,16 +117,21 @@ const DisplayController = () => {
 const main = (() => {
     const consumable = Consumable({ name: "Laksa Soup", description: "Coconut-based spicy soup", price: "20.80", course: "Main"});
     const consumable0 = Consumable({name: "Chicken Wing", description: "Deep fried specially made chicken wing", price: "9.80", course: "Starter"});
-    const consumable1 = Consumable({name: "Mini Spring Roll", description: "Deep fried mini spring rolls, served with sweet chilli sauce", price: "10.80", course: "Starter"})
-    const consumable2 = Consumable({name: "Malay Tofu", description: "Crispy yum nom tofu with cucumber, carrots, sesame, sweet chilli sauce. Crispy outside and soft inside", price: "12.80", course: "Starter"})
-    const dummy = {}
+    const consumable1 = Consumable({name: "Mini Spring Roll", description: "Deep fried mini spring rolls, served with sweet chilli sauce", price: "10.80", course: "Starter"});
+    const consumable2 = Consumable({name: "Malay Tofu", description: "Crispy yum nom tofu with cucumber, carrots, sesame, sweet chilli sauce. Crispy outside and soft inside", price: "12.80", course: "Starter"});
+    // const dummy = Consumable({});
+    // menuController.collectConsumable(dummy);
     const menuController = MenuController();
     menuController.collectConsumable(consumable);
     menuController.collectConsumable(consumable0);
     menuController.collectConsumable(consumable1);
-    menuController.collectConsumable(dummy);
     menuController.collectConsumable(consumable2);
     console.log(menuController.getFoodCollection());
-    menuController.makeContainer();
+    menuController.makeContainer(menuController.getFoodCollection());
     return {}
 })();
+
+// a menuController object can run the collectConsumable function belonging to the Menu object
+// how does the resolution work here?
+// inside the menuController function expression, Menu is invoked and assigned to const collectConsumable
+// so if I run menuController.collectConsumable, I return Menu()
