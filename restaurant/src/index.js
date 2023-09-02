@@ -11,68 +11,62 @@
 
 const Content = () => {
     let contentElement = document.querySelector('#content');
-
     const menuContent = document.createElement('div');
-
     const aboutContent = document.createElement('div');
-    aboutContent.textContent = "about"
-
     const contactContent = document.createElement('div');
+    aboutContent.textContent = "about"
     contactContent.textContent = "contact"
 
+    const getContentElement = () => {
+        return contentElement
+    }
     const createNewContentElement = () => {
         contentElement = document.createElement('div');
         contentElement.id = 'content';
-        return contentElement
+        return contentElement;
     }
 
+    const getMenuContent = () => {
+        return menuContent
+    }
 
-    return { contentElement, createNewContentElement, menuContent, aboutContent, contactContent }
+    return { getContentElement, createNewContentElement, getMenuContent, aboutContent, contactContent }
 }
 
 const Navigation = (obj = {}) => {
-    let { contentElement} = Content();
     const {
+        getContentElement,
         createNewContentElement,
-        menuContent,
+        getMenuContent,
         aboutContent,
         contactContent,
     } = Content();
     const menuController = obj
-    console.log(menuController.getFoodCollection())
-
 
     const navElement = document.querySelector('nav')
     const navItems = navElement.querySelectorAll('div')
     navItems.forEach(item => {
         item.addEventListener('click', () => {
-            contentElement.remove();
-            contentElement = createNewContentElement();
+            getContentElement().remove();
+            createNewContentElement();
 
             if (item.getAttribute('data-navigation') === 'menu') {
-                contentElement.appendChild(menuContent);
                 menuController.getFoodCollection()
                     .forEach((obj) => {
-                        contentElement.appendChild(menuController.makeContainer(obj));
+                        menuController.makeContainer(obj);
+                        getContentElement().appendChild(menuController.getContainer());
                     })
-                document.body.append(contentElement);
-                // menuController is doing lots of things internally and not returning anything
-                // you must use the return otherwise it gets discarded
-                // the return is a containerElement
-                // which you then append to contentElement that is known within Navigation
-                // issue here is that contentElement exists in both Navigation and menuController
-                // In menuController, contentElement exists as a side effect to generate the menu on first page load
-                // whereas contentElement exists in Navigation solely for creating new content
+                document.body.append(getContentElement());
             }
 
             if (item.getAttribute('data-navigation') === 'about') {
-                contentElement.appendChild(aboutContent);
-                document.body.append(contentElement);
+                getContentElement().appendChild(aboutContent);
+                document.body.append(getContentElement());
             }
 
             if (item.getAttribute('data-navigation') === 'contact') {
-                contentElement.appendChild(contactContent);
-                document.body.append(contentElement)
+                getContentElement().appendChild(contactContent);
+                document.body.append(getContentElement())
             }
 
         })
@@ -81,24 +75,32 @@ const Navigation = (obj = {}) => {
 
 const MenuController = () => {
     const { collectConsumable, getFoodCollection } = Menu();
-    const { makeContainer } = MenuDisplay();
+    const { getContainer, makeContainer } = MenuDisplay();
 
-    return { collectConsumable, getFoodCollection, makeContainer, }
+    const displayMenu = () => {
+        getFoodCollection().forEach(item => {
+            makeContainer(item);
+        })
+    }
+
+    return { collectConsumable, getFoodCollection, makeContainer, getContainer, displayMenu }
 }
 
 const MenuDisplay = () => {
-    const { contentElement } = Content();
+    const { getContentElement } = Content();
+    let containerElement;
+
+    const getContainer = () => {
+        return containerElement;
+    }
     const makeContainer = (obj) => {
-        const containerElement = document.createElement('div');
+        containerElement = document.createElement('div');
         containerElement.classList.add('consumable');
-        // const courseStarterElement =  document.createElement('div');
-        // courseStarterElement.classList.add('course');
 
         const consumableNameElement = document.createElement('div');
         const consumableDescriptionElement = document.createElement('div');
         const consumablePriceElement = document.createElement('div');
-        // create a closure here?
-        // what functions go on the outside, what ones on the inside??
+
         consumableNameElement.classList.add('name')
         consumableDescriptionElement.classList.add('description')
         consumablePriceElement.classList.add('price')
@@ -111,23 +113,20 @@ const MenuDisplay = () => {
         containerElement.appendChild(consumablePriceElement);
         containerElement.appendChild(consumableDescriptionElement);
 
-        contentElement.appendChild(containerElement);
-
-        return containerElement;
-
-        // const contentPrime = containerElement.cloneNode(true)
-
-        // const contentClassElement = document.querySelector('.content');
-        // contentClassElement.appendChild(contentPrime);
+        getContentElement().appendChild(containerElement);
     }
 
-    return { makeContainer }
+    return { getContainer, makeContainer }
 }
 
 const Menu = () => {
     const foodCollection = [];
     const beverageCollection = [];
 
+    const consumable = Consumable({ name: "Laksa Soup", description: "Coconut-based spicy soup", price: "20.80", course: "Main"});
+    const consumable0 = Consumable({name: "Chicken Wing", description: "Deep fried specially made chicken wing", price: "9.80", course: "Starter"});
+    const consumable1 = Consumable({name: "Mini Spring Roll", description: "Deep fried mini spring rolls, served with sweet chilli sauce", price: "10.80", course: "Starter"});
+    const consumable2 = Consumable({name: "Malay Tofu", description: "Crispy yum nom tofu with cucumber, carrots, sesame, sweet chilli sauce. Crispy outside and soft inside", price: "12.80", course: "Starter"});
     const collectConsumable = (consumable) => {
         if (consumable.getType === "Food") {
             foodCollection.push(consumable)
@@ -139,6 +138,11 @@ const Menu = () => {
             console.warn('Consumable is not a Food or Beverage.')
         }
     }
+
+    collectConsumable(consumable);
+    collectConsumable(consumable0);
+    collectConsumable(consumable1);
+    collectConsumable(consumable2);
 
     const getFoodCollection = () => { return foodCollection }
     const getBeverageCollection = () => { return beverageCollection }
@@ -195,22 +199,10 @@ const DisplayController = () => {
 }
 
 const main = (() => {
-    const consumable = Consumable({ name: "Laksa Soup", description: "Coconut-based spicy soup", price: "20.80", course: "Main"});
-    const consumable0 = Consumable({name: "Chicken Wing", description: "Deep fried specially made chicken wing", price: "9.80", course: "Starter"});
-    const consumable1 = Consumable({name: "Mini Spring Roll", description: "Deep fried mini spring rolls, served with sweet chilli sauce", price: "10.80", course: "Starter"});
-    const consumable2 = Consumable({name: "Malay Tofu", description: "Crispy yum nom tofu with cucumber, carrots, sesame, sweet chilli sauce. Crispy outside and soft inside", price: "12.80", course: "Starter"});
     // const dummy = Consumable({});
     // menuController.collectConsumable(dummy);
     const menuController = MenuController();
-    menuController.collectConsumable(consumable);
-    menuController.collectConsumable(consumable0);
-    menuController.collectConsumable(consumable1);
-    menuController.collectConsumable(consumable2);
-
-    menuController.getFoodCollection()
-        .forEach((obj) => {
-            menuController.makeContainer(obj);
-        })
+    menuController.displayMenu();
 
     Navigation(menuController);
 
