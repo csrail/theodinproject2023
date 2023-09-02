@@ -1,0 +1,56 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+nav {
+    display: flex;
+    column-gap: 1em;
+    margin: 1em 0 0 0;
+}
+
+nav > div {
+    padding: 0.6em 1em 0.6em 1em;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+#content {
+    display: flex;
+    width: 500px;
+    background-color: #f87171;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+}
+
+.consumable {
+    display: block;
+    width: 200px;
+    /*height: 300px;*/
+    border: seagreen 2px solid;
+    /*flex-grow: 1;*/
+    /*flex-shrink: 1;*/
+    /*flex-basis: content;*/
+}
+
+/*.consumable > div {*/
+/*    display: block;*/
+/*}*/
+
+.name {
+    background-color: navajowhite;
+}
+
+.price {
+    background-color: #ddffdd;
+    float: right;
+}
+
+.description {
+    background-color: aliceblue;
+    float: left;
+}
+
