@@ -9,6 +9,76 @@
 // displayController object
 // TODO make Order factory function shopping cart
 
+const Content = () => {
+    let contentElement = document.querySelector('#content');
+
+    const menuContent = document.createElement('div');
+
+    const aboutContent = document.createElement('div');
+    aboutContent.textContent = "about"
+
+    const contactContent = document.createElement('div');
+    contactContent.textContent = "contact"
+
+    const createNewContentElement = () => {
+        contentElement = document.createElement('div');
+        contentElement.id = 'content';
+        return contentElement
+    }
+
+
+    return { contentElement, createNewContentElement, menuContent, aboutContent, contactContent }
+}
+
+const Navigation = (obj = {}) => {
+    let { contentElement} = Content();
+    const {
+        createNewContentElement,
+        menuContent,
+        aboutContent,
+        contactContent,
+    } = Content();
+    const menuController = obj
+    console.log(menuController.getFoodCollection())
+
+
+    const navElement = document.querySelector('nav')
+    const navItems = navElement.querySelectorAll('div')
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            contentElement.remove();
+            contentElement = createNewContentElement();
+
+            if (item.getAttribute('data-navigation') === 'menu') {
+                contentElement.appendChild(menuContent);
+                menuController.getFoodCollection()
+                    .forEach((obj) => {
+                        contentElement.appendChild(menuController.makeContainer(obj));
+                    })
+                document.body.append(contentElement);
+                // menuController is doing lots of things internally and not returning anything
+                // you must use the return otherwise it gets discarded
+                // the return is a containerElement
+                // which you then append to contentElement that is known within Navigation
+                // issue here is that contentElement exists in both Navigation and menuController
+                // In menuController, contentElement exists as a side effect to generate the menu on first page load
+                // whereas contentElement exists in Navigation solely for creating new content
+            }
+
+            if (item.getAttribute('data-navigation') === 'about') {
+                contentElement.appendChild(aboutContent);
+                document.body.append(contentElement);
+            }
+
+            if (item.getAttribute('data-navigation') === 'contact') {
+                contentElement.appendChild(contactContent);
+                document.body.append(contentElement)
+            }
+
+        })
+    })
+}
+
 const MenuController = () => {
     const { collectConsumable, getFoodCollection } = Menu();
     const { makeContainer } = MenuDisplay();
@@ -17,7 +87,8 @@ const MenuController = () => {
 }
 
 const MenuDisplay = () => {
-    const makeContainer = (arg) => {
+    const { contentElement } = Content();
+    const makeContainer = (obj) => {
         const containerElement = document.createElement('div');
         containerElement.classList.add('consumable');
         // const courseStarterElement =  document.createElement('div');
@@ -28,17 +99,26 @@ const MenuDisplay = () => {
         const consumablePriceElement = document.createElement('div');
         // create a closure here?
         // what functions go on the outside, what ones on the inside??
-        console.log(arg)
-        const obj = arg[0]
+        consumableNameElement.classList.add('name')
+        consumableDescriptionElement.classList.add('description')
+        consumablePriceElement.classList.add('price')
+
         consumableNameElement.textContent = obj.getName()
         consumableDescriptionElement.textContent = obj.getDescription();
         consumablePriceElement.textContent = obj.getPrice();
 
-        document.body.appendChild(consumableNameElement);
-        document.body.appendChild(consumableDescriptionElement);
-        document.body.appendChild(consumablePriceElement);
+        containerElement.appendChild(consumableNameElement);
+        containerElement.appendChild(consumablePriceElement);
+        containerElement.appendChild(consumableDescriptionElement);
 
-        console.log(obj.getCourse());
+        contentElement.appendChild(containerElement);
+
+        return containerElement;
+
+        // const contentPrime = containerElement.cloneNode(true)
+
+        // const contentClassElement = document.querySelector('.content');
+        // contentClassElement.appendChild(contentPrime);
     }
 
     return { makeContainer }
@@ -126,8 +206,14 @@ const main = (() => {
     menuController.collectConsumable(consumable0);
     menuController.collectConsumable(consumable1);
     menuController.collectConsumable(consumable2);
-    console.log(menuController.getFoodCollection());
-    menuController.makeContainer(menuController.getFoodCollection());
+
+    menuController.getFoodCollection()
+        .forEach((obj) => {
+            menuController.makeContainer(obj);
+        })
+
+    Navigation(menuController);
+
     return {}
 })();
 
