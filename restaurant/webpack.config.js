@@ -8,7 +8,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         // clean: true,
     },
-    devtool: 'eval',
+    devtool: 'eval-cheap-module-source-map',
     devServer: {
         static: './dist'
     },
