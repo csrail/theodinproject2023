@@ -1,15 +1,23 @@
+// who: self
+// what: creating a webpage with three tabs which switches contents, does this all through javascript
+// when: now
+// where:  ./src/index.js and ./dist/index.html
+// why: handle data sent between objects, manage scope, develop project with webpack running in background,
+// how:
 // home page with about blurb
 // menu page with menu object + food + beverage
 // json data file to generate food and beverage objects
 // food objects have: type, course, name, description, price
 // beverage objects have: type, style, name, description, price
-// contact page with fields and addresses
+// contact page with form object, fields and addresses
 
 // website object
 // displayController object
 // TODO make Order factory function shopping cart
 
 const Content = () => {
+    const { buildMenu, getContainer } = MenuController();
+
     let contentElement = document.querySelector('#content');
     const menuContent = document.createElement('div');
     const aboutContent = document.createElement('div');
@@ -30,72 +38,85 @@ const Content = () => {
         return menuContent
     }
 
-    return { getContentElement, createNewContentElement, getMenuContent, aboutContent, contactContent }
+    const setMenuContent = () => {
+        return buildMenu();
+    }
+
+    return { getContentElement, createNewContentElement, getMenuContent, setMenuContent, aboutContent, contactContent,
+        getContainer,
+        buildMenu, }
 }
 
-const Navigation = (obj = {}) => {
+const Navigation = () => {
     const {
         getContentElement,
         createNewContentElement,
         getMenuContent,
+        setMenuContent,
+        buildMenu,
+        getContainer,
         aboutContent,
         contactContent,
     } = Content();
-    const menuController = obj
 
-    const navElement = document.querySelector('nav')
-    const navItems = navElement.querySelectorAll('div')
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            getContentElement().remove();
-            createNewContentElement();
+    const initialiseLandingPage = () => {
+        buildMenu();
+        getContentElement().appendChild(getContainer());
+    }
+    const initialiseNavigation = () => {
+        const navElement = document.querySelector('nav')
+        const navItems = navElement.querySelectorAll('div')
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                getContentElement().remove();
+                createNewContentElement();
 
-            if (item.getAttribute('data-navigation') === 'menu') {
-                menuController.getFoodCollection()
-                    .forEach((obj) => {
-                        menuController.makeContainer(obj);
-                        getContentElement().appendChild(menuController.getContainer());
-                    })
-                document.body.append(getContentElement());
-            }
+                if (item.getAttribute('data-navigation') === 'menu') {
+                    buildMenu();
+                    getContentElement().appendChild(getContainer())
+                    document.body.append(getContentElement());
+                }
 
-            if (item.getAttribute('data-navigation') === 'about') {
-                getContentElement().appendChild(aboutContent);
-                document.body.append(getContentElement());
-            }
+                if (item.getAttribute('data-navigation') === 'about') {
+                    getContentElement().appendChild(aboutContent);
+                    document.body.append(getContentElement());
+                }
 
-            if (item.getAttribute('data-navigation') === 'contact') {
-                getContentElement().appendChild(contactContent);
-                document.body.append(getContentElement())
-            }
+                if (item.getAttribute('data-navigation') === 'contact') {
+                    getContentElement().appendChild(contactContent);
+                    document.body.append(getContentElement())
+                }
 
+            })
         })
-    })
+    }
+
+    return { initialiseLandingPage, initialiseNavigation }
+
 }
 
 const MenuController = () => {
-    const { collectConsumable, getFoodCollection } = Menu();
-    const { getContainer, makeContainer } = MenuDisplay();
+    const { getFoodCollection } = Menu();
+    const { getContainer, makeContainer } = MenuView();
 
-    const displayMenu = () => {
+    const buildMenu = () => {
         getFoodCollection().forEach(item => {
             makeContainer(item);
         })
     }
 
-    return { collectConsumable, getFoodCollection, makeContainer, getContainer, displayMenu }
+    return { getFoodCollection, makeContainer, getContainer, buildMenu }
 }
 
-const MenuDisplay = () => {
-    const { getContentElement } = Content();
-    let containerElement;
+const MenuView = () => {
+    const containerElement = document.createDocumentFragment();
 
     const getContainer = () => {
         return containerElement;
     }
     const makeContainer = (obj) => {
-        containerElement = document.createElement('div');
-        containerElement.classList.add('consumable');
+        const content = document.createElement('div');
+        content.classList.add('consumable');
 
         const consumableNameElement = document.createElement('div');
         const consumableDescriptionElement = document.createElement('div');
@@ -109,11 +130,11 @@ const MenuDisplay = () => {
         consumableDescriptionElement.textContent = obj.getDescription();
         consumablePriceElement.textContent = obj.getPrice();
 
-        containerElement.appendChild(consumableNameElement);
-        containerElement.appendChild(consumablePriceElement);
-        containerElement.appendChild(consumableDescriptionElement);
+        content.appendChild(consumableNameElement);
+        content.appendChild(consumablePriceElement);
+        content.appendChild(consumableDescriptionElement);
 
-        getContentElement().appendChild(containerElement);
+        return containerElement.appendChild(content);
     }
 
     return { getContainer, makeContainer }
@@ -147,7 +168,7 @@ const Menu = () => {
     const getFoodCollection = () => { return foodCollection }
     const getBeverageCollection = () => { return beverageCollection }
 
-    return { collectConsumable, getFoodCollection, getBeverageCollection }
+    return { getFoodCollection, getBeverageCollection }
 };
 
 const Consumable = (obj = {}) => {
@@ -199,12 +220,9 @@ const DisplayController = () => {
 }
 
 const main = (() => {
-    // const dummy = Consumable({});
-    // menuController.collectConsumable(dummy);
-    const menuController = MenuController();
-    menuController.displayMenu();
-
-    Navigation(menuController);
+    const nav = Navigation();
+    nav.initialiseLandingPage();
+    nav.initialiseNavigation();
 
     return {}
 })();
