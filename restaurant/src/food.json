@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Laksa Soup",
+    "description": "Coconut-based spicy soup",
+    "price": "20.80",
+    "course": "Main"
+  },
+
+  {
+    "name": "Chicken Wing",
+    "description": "Deep fried specially made chicken wing",
+    "price": "9.80",
+    "course": "Starter"
+  },
+
+  {
+    "name": "Mini Spring Roll",
+    "description": "Deep fried mini spring rolls, served with sweet chilli sauce",
+    "price": "10.80",
+    "course": "Starter"
+  },
+
+  {
+    "name": "Malay Tofu",
+    "description": "Crispy yum nom tofu with cucumber, carrots, sesame, sweet chilli sauce. Crispy outside and soft inside",
+    "price": "12.80",
+    "course": "Starter"
+  }
+]
