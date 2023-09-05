@@ -25,5 +25,19 @@
     "description": "Crispy yum nom tofu with cucumber, carrots, sesame, sweet chilli sauce. Crispy outside and soft inside",
     "price": "12.80",
     "course": "Starter"
+  },
+
+  {
+    "name": "Hand-made Wonton",
+    "description": "Crunchy golden brown chicken prawn wonton",
+    "price": "10.80",
+    "course": "Starter"
+  },
+
+  {
+    "name": "Satay Chicken",
+    "description": "Flavor-marinated chicken skewers with peanut sauce",
+    "price": "13.80",
+    "course": "Starter"
   }
 ]

@@ -15,12 +15,127 @@
 // displayController object
 // TODO make Order factory function shopping cart
 
-// Content should be responsible for building the content
-// Navigation should be responsible for getting the content
-// Therefore move build logic from Navigation and place into Content
-// Therefore add get logic into Content so Navigation can request it
-// Need to write display methods
 const consumableFood = require ('./food.json');
+
+const Food = (obj = {}) => {
+    const course = obj['course']
+
+    const getCourse = () => { return course }
+    // TODO get pieces e.g. for spring rolls
+
+    return { getCourse };
+}
+
+const Beverage = (obj = {}) => {
+    const style = obj['style'];
+
+    const getStyle = () => { return style }
+
+    return { getStyle };
+}
+const Consumable = (obj = {}) => {
+    const name = obj['name'];
+    const description = obj['description'];
+    const price = obj['price'];
+    const { getCourse } = Food(obj);
+    const { getStyle } = Beverage(obj);
+    let type;
+
+    const getName = () => { return name }
+    const getDescription = () => { return description }
+    const getPrice = () => { return price}
+    const _setType = (consumable) => {
+        if ( getCourse() !== void(0) && getStyle() === void(0)) {
+            return type = "Food";
+        } else if ( getStyle() !== void(0) && getCourse() === void(0)) {
+            return type = "Beverage";
+        } else {
+            throw TypeError("Consumable is not a Food or Beverage.");
+        }
+    }
+
+    _setType(obj);
+    const getType = () => { return type }
+
+    return { getType, getName, getDescription, getPrice, getCourse, getStyle };
+}
+
+const Menu = () => {
+    const foodCollection = [];
+    const beverageCollection = [];
+
+    const collectConsumable = (consumable) => {
+        if (consumable.getType() === "Food") {
+            foodCollection.push(consumable)
+            console.log("Added consumable to foodCollection")
+        } else if (consumable.getType() === "Beverage") {
+            beverageCollection.push(consumable)
+            console.log("Added consumable to beverageCollection")
+        } else {
+            console.warn('Consumable is not a Food or Beverage.')
+        }
+    }
+
+    consumableFood.forEach(food => {
+        collectConsumable(Consumable(food))
+    })
+
+    const getFoodCollection = () => { return foodCollection }
+    const getBeverageCollection = () => { return beverageCollection }
+
+    return { getFoodCollection, getBeverageCollection }
+}
+
+const MenuView = () => {
+    const containerElement = document.createDocumentFragment();
+
+    const getMenuElements = () => {
+        return containerElement;
+    }
+    const buildMenuElements = (obj) => {
+        const content = document.createElement('div');
+        content.classList.add('consumable');
+
+        const topContainer = document.createElement('div');
+        const bottomContainer = document.createElement('div');
+
+        const consumableNameElement = document.createElement('div');
+        const consumableDescriptionElement = document.createElement('div');
+        const consumablePriceElement = document.createElement('div');
+
+        consumableNameElement.classList.add('name')
+        consumableDescriptionElement.classList.add('description')
+        consumablePriceElement.classList.add('price')
+
+        consumableNameElement.textContent = obj.getName()
+        consumableDescriptionElement.textContent = obj.getDescription();
+        consumablePriceElement.textContent = obj.getPrice();
+
+        topContainer.appendChild(consumableNameElement);
+        topContainer.appendChild(consumablePriceElement);
+        bottomContainer.appendChild(consumableDescriptionElement);
+
+        content.appendChild(topContainer);
+        content.appendChild(bottomContainer);
+
+        return containerElement.appendChild(content);
+    }
+
+    return { getMenuElements, buildMenuElements }
+}
+
+const MenuController = () => {
+    const { getFoodCollection } = Menu();
+    const { getMenuElements, buildMenuElements } = MenuView();
+
+    const buildMenu = () => {
+        getFoodCollection().forEach(item => {
+            buildMenuElements(item);
+        })
+    }
+
+    return { getFoodCollection, buildMenuElements, getMenuElements, buildMenu }
+}
 
 const Content = () => {
     const { buildMenu, getMenuElements } = MenuController();
@@ -100,125 +215,6 @@ const Navigation = () => {
     }
 
     return { initialiseLandingPage, initialiseNavigation }
-}
-
-const MenuController = () => {
-    const { getFoodCollection } = Menu();
-    const { getMenuElements, buildMenuElements } = MenuView();
-
-    const buildMenu = () => {
-        getFoodCollection().forEach(item => {
-            buildMenuElements(item);
-        })
-    }
-
-    return { getFoodCollection, buildMenuElements, getMenuElements, buildMenu }
-}
-
-const MenuView = () => {
-    const containerElement = document.createDocumentFragment();
-
-    const getMenuElements = () => {
-        return containerElement;
-    }
-    const buildMenuElements = (obj) => {
-        const content = document.createElement('div');
-        content.classList.add('consumable');
-
-        const consumableNameElement = document.createElement('div');
-        const consumableDescriptionElement = document.createElement('div');
-        const consumablePriceElement = document.createElement('div');
-
-        consumableNameElement.classList.add('name')
-        consumableDescriptionElement.classList.add('description')
-        consumablePriceElement.classList.add('price')
-
-        consumableNameElement.textContent = obj.getName()
-        consumableDescriptionElement.textContent = obj.getDescription();
-        consumablePriceElement.textContent = obj.getPrice();
-
-        content.appendChild(consumableNameElement);
-        content.appendChild(consumablePriceElement);
-        content.appendChild(consumableDescriptionElement);
-
-        return containerElement.appendChild(content);
-    }
-
-    return { getMenuElements, buildMenuElements }
-}
-
-const Menu = () => {
-    const foodCollection = [];
-    const beverageCollection = [];
-
-    const collectConsumable = (consumable) => {
-        if (consumable.getType() === "Food") {
-            foodCollection.push(consumable)
-            console.log("Added consumable to foodCollection")
-        } else if (consumable.getType() === "Beverage") {
-            beverageCollection.push(consumable)
-            console.log("Added consumable to beverageCollection")
-        } else {
-            console.warn('Consumable is not a Food or Beverage.')
-        }
-    }
-
-    consumableFood.forEach(food => {
-        collectConsumable(Consumable(food))
-    })
-
-    const getFoodCollection = () => { return foodCollection }
-    const getBeverageCollection = () => { return beverageCollection }
-
-    return { getFoodCollection, getBeverageCollection }
-};
-
-const Consumable = (obj = {}) => {
-    const name = obj['name'];
-    const description = obj['description'];
-    const price = obj['price'];
-    const { getCourse } = Food(obj);
-    const { getStyle } = Beverage(obj);
-    let type;
-
-    const getName = () => { return name }
-    const getDescription = () => { return description }
-    const getPrice = () => { return price}
-    const _setType = (consumable) => {
-        if ( getCourse() !== void(0) && getStyle() === void(0)) {
-            return type = "Food";
-        } else if ( getStyle() !== void(0) && getCourse() === void(0)) {
-            return type = "Beverage";
-        } else {
-            throw TypeError("Consumable is not a Food or Beverage.");
-        }
-    }
-
-    _setType(obj);
-    const getType = () => { return type }
-
-    return { getType, getName, getDescription, getPrice, getCourse, getStyle };
-}
-
-const Food = (obj = {}) => {
-    const course = obj['course']
-
-    const getCourse = () => { return course }
-    // TODO get pieces e.g. for spring rolls
-
-    return { getCourse };
-}
-
-const Beverage = (obj = {}) => {
-    const style = obj['style'];
-
-    const getStyle = () => { return style }
-
-    return { getStyle };
-}
-
-const DisplayController = () => {
-
 }
 
 const main = (() => {

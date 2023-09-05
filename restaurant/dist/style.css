@@ -27,18 +27,16 @@ nav > div {
 }
 
 .consumable {
-    display: block;
-    width: 200px;
-    /*height: 300px;*/
+    display: flex;
+    flex-direction: column;
+    width: 230px;
     border: seagreen 2px solid;
-    /*flex-grow: 1;*/
-    /*flex-shrink: 1;*/
-    /*flex-basis: content;*/
 }
 
-/*.consumable > div {*/
-/*    display: block;*/
-/*}*/
+.consumable > div {
+    display: flex;
+    justify-content: space-between;
+}
 
 .name {
     background-color: navajowhite;
