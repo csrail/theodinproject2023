@@ -88,18 +88,33 @@ const Menu = () => {
     return { getFoodCollection, getBeverageCollection }
 }
 
+const htmlMixin = () => {
+
+    const makeElement = (obj = {}) => {
+        const element = document.createElement('div');
+        element.id = obj['id'];
+        element.classList = obj['class'];
+        element.textContent = obj['text'];
+        return element
+    }
+
+    return { makeElement }
+}
+
 const MenuView = () => {
+    const { makeElement } = htmlMixin();
+
     const containerElement = document.createDocumentFragment();
 
     const getMenu = () => {
         return containerElement;
     }
-    const buildConsumableElement = (obj) => {
-        const content = document.createElement('div');
-        content.classList.add('consumable');
 
-        const topContainer = document.createElement('div');
-        const bottomContainer = document.createElement('div');
+    const buildConsumableElement = consumable => {
+
+        const content = makeElement({class: 'consumable'});
+        const topContainer = makeElement();
+        const bottomContainer = makeElement();
 
         // initialise consumableNameElement as one line
         // create a function definition...
@@ -113,16 +128,10 @@ const MenuView = () => {
         // using makeElement without arguments is fragile, but vanilla js allows for it
 
         // visualise similar patterns, try to abstract it to increase readability
-        const makeElement = (className, text) => {
-           const element = document.createElement('div');
-           element.classList.add(className);
-           element.textContent = text;
-           return element;
-        }
 
-        const consumableNameElement = makeElement('name', obj.getName());
-        const consumableDescriptionElement = makeElement('description', obj.getDescription());
-        const consumablePriceElement = makeElement('price', obj.getPrice());
+        const consumableNameElement = makeElement({class: 'name', text: consumable.getName()});
+        const consumableDescriptionElement = makeElement({class: 'description', text: consumable.getDescription()});
+        const consumablePriceElement = makeElement({class: 'price', text: consumable.getPrice()});
 
         topContainer.appendChild(consumableNameElement);
         topContainer.appendChild(consumablePriceElement);
@@ -135,19 +144,13 @@ const MenuView = () => {
     }
 
     const makeHeading = (title) => {
-       return () => {
-           const heading = document.createElement('h1');
-           heading.textContent = title
-           console.log(heading);
-           return heading
-       }
+        const heading = document.createElement('h1');
+        heading.textContent = title
+        return heading
     }
 
-    const buildHeadingStarterElement = makeHeading('Starter');
-    const buildHeadingMainElement = makeHeading('Main');
-
-    buildHeadingStarterElement();
-    buildHeadingMainElement();
+    const HeadingStarterElement = makeHeading('Starter');
+    const HeadingMainElement = makeHeading('Main');
 
     return { getMenu, buildConsumableElement }
 }
@@ -167,21 +170,17 @@ const MenuController = () => {
 
 const Content = () => {
     const { buildMenu, getMenu } = MenuController();
+    const { makeElement } = htmlMixin();
 
-    let contentElement = document.createElement('div');
-    const aboutContent = document.createElement('div');
-    const contactContent = document.createElement('div');
-    contentElement.id = 'content'
-    aboutContent.textContent = "about"
-    contactContent.textContent = "contact"
+    let contentElement = makeElement({id: 'content'});
+    const aboutContent = makeElement({text: 'about'});
+    const contactContent = makeElement({text: 'contact'});
 
     const getContentElement = () => {
         return contentElement
     }
     const createNewContentElement = () => {
-        contentElement = document.createElement('div');
-        contentElement.id = 'content';
-        return contentElement;
+        return contentElement = makeElement({id: 'content'});
     }
 
     const displayMenuContent = () => {
