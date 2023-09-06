@@ -15,6 +15,8 @@
 // displayController object
 // TODO make Order factory function shopping cart
 
+"use strict"
+
 const consumableFood = require ('./food.json');
 
 const Food = (obj = {}) => {
@@ -89,27 +91,38 @@ const Menu = () => {
 const MenuView = () => {
     const containerElement = document.createDocumentFragment();
 
-    const getMenuElements = () => {
+    const getMenu = () => {
         return containerElement;
     }
-    const buildMenuElements = (obj) => {
+    const buildConsumableElement = (obj) => {
         const content = document.createElement('div');
         content.classList.add('consumable');
 
         const topContainer = document.createElement('div');
         const bottomContainer = document.createElement('div');
 
-        const consumableNameElement = document.createElement('div');
-        const consumableDescriptionElement = document.createElement('div');
-        const consumablePriceElement = document.createElement('div');
+        // initialise consumableNameElement as one line
+        // create a function definition...
+        // why return a function definition as a value
+        // when you can return a simple value instead
+        // returning a function definition allows state to be further changed when the function is invoked
+        // if the function doesn't change the state when invoked, then you should return a simple value instead
 
-        consumableNameElement.classList.add('name')
-        consumableDescriptionElement.classList.add('description')
-        consumablePriceElement.classList.add('price')
+        // apply becomes relevant because it enables rest parameters to be declared
+        // decoupling the function from always needing positional arguments
+        // using makeElement without arguments is fragile, but vanilla js allows for it
 
-        consumableNameElement.textContent = obj.getName()
-        consumableDescriptionElement.textContent = obj.getDescription();
-        consumablePriceElement.textContent = obj.getPrice();
+        // visualise similar patterns, try to abstract it to increase readability
+        const makeElement = (className, text) => {
+           const element = document.createElement('div');
+           element.classList.add(className);
+           element.textContent = text;
+           return element;
+        }
+
+        const consumableNameElement = makeElement('name', obj.getName());
+        const consumableDescriptionElement = makeElement('description', obj.getDescription());
+        const consumablePriceElement = makeElement('price', obj.getPrice());
 
         topContainer.appendChild(consumableNameElement);
         topContainer.appendChild(consumablePriceElement);
@@ -121,24 +134,39 @@ const MenuView = () => {
         return containerElement.appendChild(content);
     }
 
-    return { getMenuElements, buildMenuElements }
+    const makeHeading = (title) => {
+       return () => {
+           const heading = document.createElement('h1');
+           heading.textContent = title
+           console.log(heading);
+           return heading
+       }
+    }
+
+    const buildHeadingStarterElement = makeHeading('Starter');
+    const buildHeadingMainElement = makeHeading('Main');
+
+    buildHeadingStarterElement();
+    buildHeadingMainElement();
+
+    return { getMenu, buildConsumableElement }
 }
 
 const MenuController = () => {
     const { getFoodCollection } = Menu();
-    const { getMenuElements, buildMenuElements } = MenuView();
+    const { getMenu, buildConsumableElement } = MenuView();
 
     const buildMenu = () => {
         getFoodCollection().forEach(item => {
-            buildMenuElements(item);
+            buildConsumableElement(item);
         })
     }
 
-    return { getFoodCollection, buildMenuElements, getMenuElements, buildMenu }
+    return { getFoodCollection, buildConsumableElement, getMenu, buildMenu }
 }
 
 const Content = () => {
-    const { buildMenu, getMenuElements } = MenuController();
+    const { buildMenu, getMenu } = MenuController();
 
     let contentElement = document.createElement('div');
     const aboutContent = document.createElement('div');
@@ -157,7 +185,7 @@ const Content = () => {
     }
 
     const displayMenuContent = () => {
-        getContentElement().appendChild(getMenuElements());
+        getContentElement().appendChild(getMenu());
         document.body.append(getContentElement());
     }
 
