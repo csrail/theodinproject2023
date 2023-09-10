@@ -19,11 +19,30 @@ nav > div {
 
 #content {
     display: flex;
+    flex-direction: column;
     width: 500px;
     background-color: #f87171;
-    flex-wrap: wrap;
-    justify-content: center;
+    /*flex-wrap: wrap;*/
+    /*justify-content: center;*/
     gap: 1em;
+}
+
+#course {
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#consumables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    justify-items: center;
 }
 
 .consumable {

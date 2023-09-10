@@ -17,7 +17,7 @@
 
 "use strict"
 
-const consumableFood = require ('./food.json');
+const jsonConsumables = require ('./food.json');
 
 const Food = (obj = {}) => {
     const course = obj['course']
@@ -46,7 +46,7 @@ const Consumable = (obj = {}) => {
     const getName = () => { return name }
     const getDescription = () => { return description }
     const getPrice = () => { return price}
-    const _setType = (consumable) => {
+    const _setType = () => {
         if ( getCourse() !== void(0) && getStyle() === void(0)) {
             return type = "Food";
         } else if ( getStyle() !== void(0) && getCourse() === void(0)) {
@@ -62,7 +62,7 @@ const Consumable = (obj = {}) => {
     return { getType, getName, getDescription, getPrice, getCourse, getStyle };
 }
 
-const Menu = () => {
+const Menu = (consumables) => {
     const foodCollection = [];
     const beverageCollection = [];
 
@@ -78,56 +78,42 @@ const Menu = () => {
         }
     }
 
-    consumableFood.forEach(food => {
-        collectConsumable(Consumable(food))
-    })
+    const collectConsumables = () => {
+        consumables.forEach(food => {
+            collectConsumable(Consumable(food));
+        })
+    }
 
-    const getFoodCollection = () => { return foodCollection }
+    const getFoodCollection = () => {
+        foodCollection.length === 0 ? collectConsumables(consumables) : foodCollection
+        return foodCollection
+    }
     const getBeverageCollection = () => { return beverageCollection }
 
     return { getFoodCollection, getBeverageCollection }
 }
 
-const htmlMixin = () => {
+const MenuView = () => {
+    const { makeElement, makeHeading } = htmlMixin();
+    const { getFoodCollection } = Menu(jsonConsumables);
 
-    const makeElement = (obj = {}) => {
-        const element = document.createElement('div');
-        element.id = obj['id'];
-        element.classList = obj['class'];
-        element.textContent = obj['text'];
-        return element
+    const courseElement = makeElement({id: 'course'})
+    const consumablesElement = makeElement({id: 'consumables'})
+    const HeadingStarterElement = makeHeading('Starter');
+    const HeadingMainElement = makeHeading('Main');
+
+    const getCourseElement = () => {
+        return courseElement
     }
 
-    return { makeElement }
-}
-
-const MenuView = () => {
-    const { makeElement } = htmlMixin();
-
-    const containerElement = document.createDocumentFragment();
-
-    const getMenu = () => {
-        return containerElement;
+    const getConsumablesElement = () => {
+        return consumablesElement
     }
 
     const buildConsumableElement = consumable => {
-
-        const content = makeElement({class: 'consumable'});
+        const consumableElement = makeElement({class: 'consumable'});
         const topContainer = makeElement();
         const bottomContainer = makeElement();
-
-        // initialise consumableNameElement as one line
-        // create a function definition...
-        // why return a function definition as a value
-        // when you can return a simple value instead
-        // returning a function definition allows state to be further changed when the function is invoked
-        // if the function doesn't change the state when invoked, then you should return a simple value instead
-
-        // apply becomes relevant because it enables rest parameters to be declared
-        // decoupling the function from always needing positional arguments
-        // using makeElement without arguments is fragile, but vanilla js allows for it
-
-        // visualise similar patterns, try to abstract it to increase readability
 
         const consumableNameElement = makeElement({class: 'name', text: consumable.getName()});
         const consumableDescriptionElement = makeElement({class: 'description', text: consumable.getDescription()});
@@ -137,39 +123,61 @@ const MenuView = () => {
         topContainer.appendChild(consumablePriceElement);
         bottomContainer.appendChild(consumableDescriptionElement);
 
-        content.appendChild(topContainer);
-        content.appendChild(bottomContainer);
+        consumableElement.appendChild(topContainer);
+        consumableElement.appendChild(bottomContainer);
 
-        return containerElement.appendChild(content);
+        return consumableElement;
     }
 
-    const makeHeading = (title) => {
-        const heading = document.createElement('h1');
-        heading.textContent = title
-        return heading
-    }
-
-    const HeadingStarterElement = makeHeading('Starter');
-    const HeadingMainElement = makeHeading('Main');
-
-    return { getMenu, buildConsumableElement }
-}
-
-const MenuController = () => {
-    const { getFoodCollection } = Menu();
-    const { getMenu, buildConsumableElement } = MenuView();
-
-    const buildMenu = () => {
+    const buildConsumablesElement = () => {
         getFoodCollection().forEach(item => {
-            buildConsumableElement(item);
+            switch (item.getCourse()) {
+                case 'Starter':
+                    getConsumablesElement().appendChild(buildConsumableElement(item));
+                    break
+                case 'Main':
+                    HeadingMainElement.appendChild(buildConsumableElement(item));
+                    break
+            }
         })
     }
 
-    return { getFoodCollection, buildConsumableElement, getMenu, buildMenu }
+    return {
+        getConsumablesElement,
+        buildConsumablesElement,
+        HeadingStarterElement,
+        HeadingMainElement,
+        getCourseElement
+    }
+}
+
+const MenuController = () => {
+    const {
+        getConsumablesElement,
+        buildConsumablesElement,
+        HeadingStarterElement,
+        HeadingMainElement,
+        getCourseElement
+    } = MenuView();
+
+    const menuElement = document.createDocumentFragment();
+
+    const getMenuElement = () => {
+        return menuElement;
+    }
+    const buildMenuElement = () => {
+        menuElement.appendChild(getCourseElement());
+        getCourseElement().appendChild(HeadingStarterElement);
+        buildConsumablesElement();
+        getCourseElement().appendChild(getConsumablesElement())
+        menuElement.appendChild(HeadingMainElement);
+    }
+
+    return { buildConsumablesElement, getMenuElement, buildMenuElement }
 }
 
 const Content = () => {
-    const { buildMenu, getMenu } = MenuController();
+    const { buildMenuElement, getMenuElement } = MenuController();
     const { makeElement } = htmlMixin();
 
     let contentElement = makeElement({id: 'content'});
@@ -184,7 +192,7 @@ const Content = () => {
     }
 
     const displayMenuContent = () => {
-        getContentElement().appendChild(getMenu());
+        getContentElement().appendChild(getMenuElement());
         document.body.append(getContentElement());
     }
 
@@ -198,21 +206,21 @@ const Content = () => {
         document.body.append(getContentElement())
     }
 
-    return { getContentElement, createNewContentElement, displayAboutContent, displayContactContent, buildMenu, displayMenuContent }
+    return { getContentElement, createNewContentElement, displayAboutContent, displayContactContent, buildMenuElement, displayMenuContent }
 }
 
 const Navigation = () => {
     const {
         getContentElement,
         createNewContentElement,
-        buildMenu,
+        buildMenuElement,
         displayMenuContent,
         displayAboutContent,
         displayContactContent,
     } = Content();
 
     const initialiseLandingPage = () => {
-        buildMenu();
+        buildMenuElement();
         displayMenuContent();
     }
     const initialiseNavigation = () => {
@@ -225,7 +233,7 @@ const Navigation = () => {
 
                 switch (item.getAttribute('data-navigation')) {
                     case 'menu':
-                        buildMenu();
+                        buildMenuElement();
                         displayMenuContent();
                         break
                     case 'about':
@@ -242,6 +250,32 @@ const Navigation = () => {
     }
 
     return { initialiseLandingPage, initialiseNavigation }
+}
+const htmlMixin = () => {
+
+    // makeElement currently only makes a div, but what if we want it to be dynamic
+    // and for it to accept any html element type and create that dynamically?
+
+    // well that got ugly fast, have to add a condition otherwise empty id and classes get assigned undefined
+    // this pattern is okay for handling objects with properties as undefined properties are truly undefined
+    // whereas DOM objects take 'undefined' as a string
+    const makeElement = (obj = {}) => {
+        const element = document.createElement('div');
+        obj['id'] === void(0) ? element.id : element.id = obj['id'];
+        obj['class'] === void(0) ?  element.classList : element.classList = obj['class'];
+        obj['text'] === void(0) ? element.textContent : element.textContent = obj['text'];
+        return element
+    }
+
+    const makeHeading = (title) => {
+        const headingElement = makeElement({class: 'heading'});
+        const heading = document.createElement('h1');
+        heading.textContent = title
+        headingElement.appendChild(heading)
+        return headingElement
+    }
+
+    return { makeElement, makeHeading }
 }
 
 const main = (() => {
