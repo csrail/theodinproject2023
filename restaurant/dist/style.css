@@ -38,7 +38,7 @@ nav > div {
     text-align: center;
 }
 
-#consumables {
+.consumables {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;

@@ -66,7 +66,7 @@ const Menu = (consumables) => {
     const foodCollection = [];
     const beverageCollection = [];
 
-    const collectConsumable = (consumable) => {
+    const _collectConsumable = (consumable) => {
         if (consumable.getType() === "Food") {
             foodCollection.push(consumable)
             console.log("Added consumable to foodCollection")
@@ -78,14 +78,14 @@ const Menu = (consumables) => {
         }
     }
 
-    const collectConsumables = () => {
+    const _collectConsumables = () => {
         consumables.forEach(food => {
-            collectConsumable(Consumable(food));
+            _collectConsumable(Consumable(food));
         })
     }
 
     const getFoodCollection = () => {
-        foodCollection.length === 0 ? collectConsumables(consumables) : foodCollection
+        foodCollection.length === 0 ? _collectConsumables(consumables) : foodCollection
         return foodCollection
     }
     const getBeverageCollection = () => { return beverageCollection }
@@ -97,18 +97,23 @@ const MenuView = () => {
     const { makeElement, makeHeading } = htmlMixin();
     const { getFoodCollection } = Menu(jsonConsumables);
 
-    const courseElement = makeElement({id: 'course'})
-    const consumablesElement = makeElement({id: 'consumables'})
+    let courseElement
+    let consumablesElement
     const HeadingStarterElement = makeHeading('Starter');
     const HeadingMainElement = makeHeading('Main');
 
-    const getCourseElement = () => {
-        return courseElement
+    const initialiseConsumablesElement = () => {
+        return consumablesElement = makeElement({class: 'consumables'})
     }
 
-    const getConsumablesElement = () => {
-        return consumablesElement
+    const initialiseCourseElement = () => {
+        return courseElement = makeElement({class: 'course'})
     }
+
+    const getCourseElement = () => { return courseElement }
+
+    const getConsumablesElement = () => { return consumablesElement }
+
 
     const buildConsumableElement = consumable => {
         const consumableElement = makeElement({class: 'consumable'});
@@ -129,15 +134,13 @@ const MenuView = () => {
         return consumableElement;
     }
 
-    const buildConsumablesElement = () => {
-        getFoodCollection().forEach(item => {
-            switch (item.getCourse()) {
-                case 'Starter':
-                    getConsumablesElement().appendChild(buildConsumableElement(item));
-                    break
-                case 'Main':
-                    HeadingMainElement.appendChild(buildConsumableElement(item));
-                    break
+    const buildConsumablesElement = (course) => {
+        initialiseConsumablesElement();
+        getFoodCollection().forEach( item => {
+            if (course === 'Starter' && item.getCourse() === 'Starter') {
+                getConsumablesElement().appendChild(buildConsumableElement(item));
+            } else if (course === 'Main' && item.getCourse() === 'Main') {
+                getConsumablesElement().appendChild(buildConsumableElement(item));
             }
         })
     }
@@ -147,7 +150,8 @@ const MenuView = () => {
         buildConsumablesElement,
         HeadingStarterElement,
         HeadingMainElement,
-        getCourseElement
+        getCourseElement,
+        initialiseCourseElement
     }
 }
 
@@ -157,20 +161,26 @@ const MenuController = () => {
         buildConsumablesElement,
         HeadingStarterElement,
         HeadingMainElement,
-        getCourseElement
+        getCourseElement,
+        initialiseCourseElement,
     } = MenuView();
 
     const menuElement = document.createDocumentFragment();
 
-    const getMenuElement = () => {
-        return menuElement;
-    }
+    const getMenuElement = () => { return menuElement }
+
     const buildMenuElement = () => {
-        menuElement.appendChild(getCourseElement());
+        initialiseCourseElement();
+        getMenuElement().appendChild(getCourseElement());
         getCourseElement().appendChild(HeadingStarterElement);
-        buildConsumablesElement();
+        buildConsumablesElement('Starter');
+        getCourseElement().appendChild(getConsumablesElement());
+
+        initialiseCourseElement();
+        getMenuElement().appendChild(getCourseElement());
+        getCourseElement().appendChild(HeadingMainElement);
+        buildConsumablesElement('Main');
         getCourseElement().appendChild(getConsumablesElement())
-        menuElement.appendChild(HeadingMainElement);
     }
 
     return { buildConsumablesElement, getMenuElement, buildMenuElement }
