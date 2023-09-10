@@ -114,6 +114,9 @@ const MenuView = () => {
 
     const getConsumablesElement = () => { return consumablesElement }
 
+    const getHeadingStarterElement = () => { return HeadingStarterElement }
+
+    const getHeadingMainElement = () => { return HeadingMainElement }
 
     const buildConsumableElement = consumable => {
         const consumableElement = makeElement({class: 'consumable'});
@@ -148,8 +151,8 @@ const MenuView = () => {
     return {
         getConsumablesElement,
         buildConsumablesElement,
-        HeadingStarterElement,
-        HeadingMainElement,
+        getHeadingStarterElement,
+        getHeadingMainElement,
         getCourseElement,
         initialiseCourseElement
     }
@@ -159,8 +162,8 @@ const MenuController = () => {
     const {
         getConsumablesElement,
         buildConsumablesElement,
-        HeadingStarterElement,
-        HeadingMainElement,
+        getHeadingStarterElement,
+        getHeadingMainElement,
         getCourseElement,
         initialiseCourseElement,
     } = MenuView();
@@ -172,13 +175,13 @@ const MenuController = () => {
     const buildMenuElement = () => {
         initialiseCourseElement();
         getMenuElement().appendChild(getCourseElement());
-        getCourseElement().appendChild(HeadingStarterElement);
+        getCourseElement().appendChild(getHeadingStarterElement());
         buildConsumablesElement('Starter');
         getCourseElement().appendChild(getConsumablesElement());
 
         initialiseCourseElement();
         getMenuElement().appendChild(getCourseElement());
-        getCourseElement().appendChild(HeadingMainElement);
+        getCourseElement().appendChild(getHeadingMainElement());
         buildConsumablesElement('Main');
         getCourseElement().appendChild(getConsumablesElement())
     }
