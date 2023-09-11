@@ -56,8 +56,10 @@ const Consumable = (obj = {}) => {
         }
     }
 
-    _setType(obj);
-    const getType = () => { return type }
+    const getType = () => {
+        type === void(0) ? _setType() : type
+        return type
+    }
 
     return { getType, getName, getDescription, getPrice, getCourse, getStyle };
 }
@@ -206,58 +208,75 @@ const Content = () => {
 
     const displayMenuContent = () => {
         getContentElement().appendChild(getMenuElement());
-        document.body.append(getContentElement());
+        return document.body.append(getContentElement());
+    }
+
+    const getMenuContent = () => {
+        buildMenuElement();
+        displayMenuContent();
     }
 
     const displayAboutContent = () => {
         getContentElement().appendChild(aboutContent);
-        document.body.append(getContentElement());
+        return document.body.append(getContentElement());
+    }
+
+    const getAboutContent = () => {
+       return displayAboutContent();
     }
 
     const displayContactContent = () => {
         getContentElement().appendChild(contactContent);
-        document.body.append(getContentElement())
+        return document.body.append(getContentElement())
     }
 
-    return { getContentElement, createNewContentElement, displayAboutContent, displayContactContent, buildMenuElement, displayMenuContent }
+    const getContactContent = () => {
+        return displayContactContent();
+    }
+
+    const resetContentElement = () => {
+        getContentElement().remove();
+        createNewContentElement();
+    }
+
+    const getContent = (content) => {
+        if (content === 'menu') {
+            getMenuContent();
+        } else if (content === 'about') {
+            getAboutContent();
+        } else if (content === 'contact') {
+            getContactContent()
+        }
+    }
+
+    const initialiseContent = () => {
+        getMenuContent();
+    }
+
+    return {
+        resetContentElement,
+        getContent,
+        initialiseContent,
+    }
 }
 
 const Navigation = () => {
     const {
-        getContentElement,
-        createNewContentElement,
-        buildMenuElement,
-        displayMenuContent,
-        displayAboutContent,
-        displayContactContent,
+        resetContentElement,
+        getContent,
+        initialiseContent,
     } = Content();
 
     const initialiseLandingPage = () => {
-        buildMenuElement();
-        displayMenuContent();
+        initialiseContent();
     }
     const initialiseNavigation = () => {
         const navElement = document.querySelector('nav')
         const navItems = navElement.querySelectorAll('div')
         navItems.forEach(item => {
             item.addEventListener('click', () => {
-                getContentElement().remove();
-                createNewContentElement();
-
-                switch (item.getAttribute('data-navigation')) {
-                    case 'menu':
-                        buildMenuElement();
-                        displayMenuContent();
-                        break
-                    case 'about':
-                        displayAboutContent();
-                        break
-                    case 'contact':
-                        displayContactContent();
-                        break
-                    default:
-                        break
-                }
+                resetContentElement();
+                getContent(item.getAttribute('data-navigation'))
             })
         })
     }
