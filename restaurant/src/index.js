@@ -188,10 +188,19 @@ const MenuController = () => {
         getCourseElement().appendChild(getConsumablesElement())
     }
 
-    return { buildConsumablesElement, getMenuElement, buildMenuElement }
+    return { getMenuElement, buildMenuElement }
 }
 
-const Content = () => {
+const About = () => {
+
+    const getAbout = () => {
+        return ""
+    }
+
+    return { getAbout }
+}
+
+const ContentPreparer = () => {
     const { buildMenuElement, getMenuElement } = MenuController();
     const { makeElement } = htmlMixin();
 
@@ -202,41 +211,54 @@ const Content = () => {
     const getContentElement = () => {
         return contentElement
     }
-    const createNewContentElement = () => {
-        return contentElement = makeElement({id: 'content'});
-    }
 
-    const displayMenuContent = () => {
+    const prepareMenuContent = () => {
+        resetContentElement();
+        buildMenuElement();
         getContentElement().appendChild(getMenuElement());
         return document.body.append(getContentElement());
     }
 
-    const getMenuContent = () => {
-        buildMenuElement();
-        displayMenuContent();
-    }
-
-    const displayAboutContent = () => {
+    const prepareAboutContent = () => {
+        resetContentElement();
         getContentElement().appendChild(aboutContent);
         return document.body.append(getContentElement());
     }
 
-    const getAboutContent = () => {
-       return displayAboutContent();
-    }
-
-    const displayContactContent = () => {
+    const prepareContactContent = () => {
+        resetContentElement();
         getContentElement().appendChild(contactContent);
         return document.body.append(getContentElement())
     }
 
-    const getContactContent = () => {
-        return displayContactContent();
+    const createNewContentElement = () => {
+        return contentElement = makeElement({id: 'content'});
     }
-
     const resetContentElement = () => {
         getContentElement().remove();
         createNewContentElement();
+    }
+
+    return {
+        prepareMenuContent,
+        prepareAboutContent,
+        prepareContactContent
+    }
+}
+
+const Content = () => {
+    const { prepareMenuContent, prepareAboutContent, prepareContactContent } = ContentPreparer();
+
+    const getMenuContent = () => {
+        return prepareMenuContent();
+    }
+
+    const getAboutContent = () => {
+       return prepareAboutContent();
+    }
+
+    const getContactContent = () => {
+        return prepareContactContent();
     }
 
     const getContent = (content) => {
@@ -254,7 +276,6 @@ const Content = () => {
     }
 
     return {
-        resetContentElement,
         getContent,
         initialiseContent,
     }
@@ -262,7 +283,6 @@ const Content = () => {
 
 const Navigation = () => {
     const {
-        resetContentElement,
         getContent,
         initialiseContent,
     } = Content();
@@ -275,7 +295,6 @@ const Navigation = () => {
         const navItems = navElement.querySelectorAll('div')
         navItems.forEach(item => {
             item.addEventListener('click', () => {
-                resetContentElement();
                 getContent(item.getAttribute('data-navigation'))
             })
         })
