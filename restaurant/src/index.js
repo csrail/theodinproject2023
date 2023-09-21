@@ -295,6 +295,7 @@ const Navigation = () => {
         const navItems = navElement.querySelectorAll('div')
         navItems.forEach(item => {
             item.addEventListener('click', () => {
+                console.log(this)
                 getContent(item.getAttribute('data-navigation'))
             })
         })
