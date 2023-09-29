@@ -32,49 +32,135 @@
 import jsonTasks from './tasks.json'
 
 const TaskCreator = () => {
-    let taskCount = 0
+    let taskCount = 1
 
     return (obj = {}) => {
+        const taskId = taskCount
         taskCount++
-        const getTaskCount = () => { return taskCount }
 
         const _createDate = new Date();
         let _title = obj['title'];
         let _description = obj['description'];
 
-        const _getTitle = () => { return _title }
-        const _getDescription = () => { return _description }
-        const _setTitle = (title) => { return _title = title }
-        const _setDescription = (description) => { return _description = description }
+        const getTaskId = () => { return taskId }
+        const getTitle = () => { return _title }
+        const getDescription = () => { return _description }
+        const setTitle = (title) => { return _title = title }
+        const setDescription = (description) => { return _description = description }
         const _getCreateDate = () => { return _createDate }
         const _formatDate = (date) => { return date.toDateString() }
         const getFormattedCreateDate = () => { return _formatDate(_getCreateDate())}
 
-        const getTask = () => {
-            return { title: _getTitle() }
-        }
-
         return {
-            getTask,
+            getTaskId,
+            getTitle,
+            getDescription,
             getFormattedCreateDate,
-            getTaskCount,
+            setTitle,
+            setDescription,
         }
     }
 }
 
 const TaskViewer = (task = {}) => {
     const {
-        selectElement,
         getActiveNavigationElement,
+        getCenterpieceElement,
+        getPropertiesElement,
+        resetCenterpieceElement,
+        resetPropertiesElement,
     } = htmlMixin
 
-    const displayTask = () => {
-        const taskReference= document.createElement('div')
-        taskReference.textContent = 'Task ' + task.getTaskCount().toString()
-        getActiveNavigationElement().appendChild(taskReference);
+    const container = document.createElement('div');
+    const header = document.createElement('div');
+    const body = document.createElement('div');
+    const id = document.createElement('div');
+    const titleInput = document.createElement('input');
+    const descriptionLabel = document.createElement('label');
+    const descriptionInput = document.createElement('input');
+
+    const getTitleInput = () => { return titleInput }
+    const getDescriptionInput = () => { return descriptionInput }
+
+    const buildTaskDetail = () => {
+        id.textContent = 'Task ' + task.getTaskId().toString() + ':';
+        titleInput.value  = task.getTitle();
+        descriptionLabel.textContent = 'Description:';
+        descriptionInput.value = task.getDescription();
+
+        header.appendChild(id);
+        header.appendChild(titleInput);
+
+        body.appendChild(descriptionLabel);
+        body.appendChild(descriptionInput);
+
+        container.appendChild(header);
+        container.appendChild(body);
+
+        return container
     }
 
-    return { displayTask }
+    const buildTaskProperties = () => {
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+
+        saveButton.addEventListener('click', saveTask);
+        return saveButton
+    }
+
+    const saveTask = () => {
+        task.setTitle(getTitleInput().value);
+        task.setDescription(getDescriptionInput().value);
+    }
+
+    const displayTaskProperties = () => {
+        getPropertiesElement().appendChild(buildTaskProperties());
+    }
+
+    const displayTaskDetail = () => {
+        getCenterpieceElement().appendChild(buildTaskDetail())
+    }
+
+    const displayTaskView = () => {
+        resetCenterpieceElement();
+        resetPropertiesElement();
+        displayTaskDetail();
+        displayTaskProperties();
+    }
+
+    const displayTaskSign = () => {
+        let taskSign = document.createElement('div');
+
+        const buildTaskSign = (sign) => {
+            sign.classList.add('task-sign')
+        }
+
+        const buildTaskSignLabel = (sign) => {
+            sign.textContent = 'Task ' + task.getTaskId().toString() + ': ' + task.getTitle();
+        }
+
+        const appendTaskSign = (sign) => {
+            getActiveNavigationElement().appendChild(sign);
+        }
+
+        buildTaskSign(taskSign);
+        buildTaskSignLabel(taskSign);
+        appendTaskSign(taskSign);
+
+        taskSign.addEventListener('click', displayTaskView);
+    }
+
+    return { displayTaskSign }
+}
+
+const activeNavigationPane = (panel = {}) => {
+
+
+    return {}
+}
+
+const taskPanel = () => {
+    return {}
 }
 
 // const ContentAssembler = () => {
@@ -85,15 +171,32 @@ const TaskViewer = (task = {}) => {
 // }
 
 const htmlMixin = (() => {
-    const activeNavigationElement = document.querySelector('#active-navigation')
-    const selectElement = (element) => { return document.querySelector(element)}
-    const getActiveNavigationElement = () => {
-        return activeNavigationElement
+    const activeNavigationElement = document.querySelector('#active-navigation');
+    const centerpieceElement = document.querySelector('#centerpiece');
+    const propertiesElement = document.querySelector('#properties');
+
+    const getActiveNavigationElement = () => { return activeNavigationElement }
+    const getCenterpieceElement = () => { return centerpieceElement }
+    const getPropertiesElement = () => { return propertiesElement }
+
+    const resetCenterpieceElement = () => {
+        if (getCenterpieceElement().firstElementChild) {
+            getCenterpieceElement().removeChild(getCenterpieceElement().firstElementChild)
+        }
+    }
+
+    const resetPropertiesElement = () => {
+        if (getPropertiesElement().firstElementChild) {
+            getPropertiesElement().removeChild(getPropertiesElement().firstElementChild)
+        }
     }
 
     return {
-        selectElement,
         getActiveNavigationElement,
+        getCenterpieceElement,
+        getPropertiesElement,
+        resetCenterpieceElement,
+        resetPropertiesElement,
     }
 })();
 
@@ -101,7 +204,8 @@ const main = (() => {
     const Task = TaskCreator()
     jsonTasks.forEach((item) => {
         const task = Task(item);
-        TaskViewer(task).displayTask();
+        const taskView = TaskViewer(task)
+        taskView.displayTaskSign();
     })
 
     return { }

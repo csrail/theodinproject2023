@@ -1,0 +1,46 @@
+:root {
+    --primary-sign-color: #fee2e2;
+    --secondary-sign-color: #99f6e4;
+}
+
+body {
+    display: grid;
+    grid-auto-flow: row;
+}
+
+header {
+    background-color: #0086B3;
+}
+
+#passive-navigation {
+}
+
+main {
+    display: grid;
+    grid-template-columns: 2fr 8fr 3fr;
+    grid-template-rows: repeat(10, 100px);
+    grid-template-areas:
+        "active-navigation centerpiece properties";
+}
+
+#active-navigation {
+    background-color: #ffff99;
+    grid-area: active-navigation;
+}
+
+#centerpiece {
+    grid-area: centerpiece;
+}
+
+#properties {
+    grid-area: properties;
+}
+
+.task-sign {
+    display: flex;
+    height: 50px;
+    width: 200px;
+    background-color: var(--secondary-sign-color);
+    justify-content: center;
+    align-items: center;
+}
