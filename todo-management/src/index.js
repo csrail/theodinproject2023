@@ -32,20 +32,20 @@
 import jsonTasks from './tasks.json'
 
 const TaskCreator = () => {
-    let taskCount = 1
+    let taskCount = 1;
 
-    return (obj = {}) => {
+    return (task = {}) => {
         const taskId = taskCount
         taskCount++
 
         const _createDate = new Date();
-        let _title = obj['title'];
-        let _description = obj['description'];
+        let _title = task['title'];
+        let _description = task['description'];
 
         const getTaskId = () => { return taskId }
         const getTitle = () => { return _title }
-        const getDescription = () => { return _description }
         const setTitle = (title) => { return _title = title }
+        const getDescription = () => { return _description }
         const setDescription = (description) => { return _description = description }
         const _getCreateDate = () => { return _createDate }
         const _formatDate = (date) => { return date.toDateString() }
@@ -62,14 +62,21 @@ const TaskCreator = () => {
     }
 }
 
-const TaskViewer = (task = {}) => {
+const TaskViewer = (...taskViews) => {
+    const displayTaskViews = () => {
+        taskViews.forEach((view) => {
+            view.displayView();
+        })
+    }
+
+    return { displayTaskViews }
+}
+
+const TaskContent = (task = {}) => {
     const {
-        getActiveNavigationElement,
         getCenterpieceElement,
-        getPropertiesElement,
         resetCenterpieceElement,
-        resetPropertiesElement,
-    } = htmlMixin
+    } = htmlMixin;
 
     const container = document.createElement('div');
     const header = document.createElement('div');
@@ -79,10 +86,10 @@ const TaskViewer = (task = {}) => {
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
 
-    const getTitleInput = () => { return titleInput }
-    const getDescriptionInput = () => { return descriptionInput }
+    titleInput.id = 'task-title';
+    descriptionInput.id ='task-description';
 
-    const buildTaskDetail = () => {
+    const _buildTaskContent = () => {
         id.textContent = 'Task ' + task.getTaskId().toString() + ':';
         titleInput.value  = task.getTitle();
         descriptionLabel.textContent = 'Description:';
@@ -100,6 +107,57 @@ const TaskViewer = (task = {}) => {
         return container
     }
 
+    const displayView = () => {
+        resetCenterpieceElement();
+        getCenterpieceElement().appendChild(_buildTaskContent());
+    }
+
+    return { displayView }
+}
+
+const TaskPanel = (task = {}, ) => {
+    const { getActiveNavigationElement } = htmlMixin
+
+    const displayView = () => {
+        let taskSign = document.createElement('div');
+
+        const buildTaskSign = (sign) => {
+            sign.classList.add('task-sign')
+        }
+        const buildTaskSignLabel = (sign) => {
+            sign.textContent = 'Task ' + task.getTaskId().toString() + ': ' + task.getTitle();
+        }
+        const appendTaskSign = (sign) => {
+            getActiveNavigationElement().appendChild(sign);
+        }
+
+        const displayTask = () => {
+            const taskView = TaskViewer(TaskContent(task), TaskProperties(task));
+            taskView.displayTaskViews();
+        }
+
+        buildTaskSign(taskSign);
+        buildTaskSignLabel(taskSign);
+        appendTaskSign(taskSign);
+
+        taskSign.addEventListener('click', displayTask);
+        return getActiveNavigationElement().appendChild(taskSign);
+        }
+
+    return { displayView }
+}
+
+const TaskProperties = (task = {}) => {
+    const {
+        getPropertiesElement,
+        resetPropertiesElement,
+    } = htmlMixin
+
+    // const titleInput = () => { document.querySelector() }
+
+    const getTitleInput = () => { return document.querySelector('#task-title') }
+    const getDescriptionInput = () => { return document.querySelector('#task-description')}
+
     const buildTaskProperties = () => {
         const saveButton = document.createElement('button');
         saveButton.textContent = 'Save';
@@ -112,63 +170,13 @@ const TaskViewer = (task = {}) => {
         task.setTitle(getTitleInput().value);
         task.setDescription(getDescriptionInput().value);
     }
-
-    const displayTaskProperties = () => {
-        getPropertiesElement().appendChild(buildTaskProperties());
-    }
-
-    const displayTaskDetail = () => {
-        getCenterpieceElement().appendChild(buildTaskDetail())
-    }
-
-    const displayTaskView = () => {
-        resetCenterpieceElement();
+    const displayView = () => {
         resetPropertiesElement();
-        displayTaskDetail();
-        displayTaskProperties();
+        return getPropertiesElement().appendChild(buildTaskProperties());
     }
 
-    const displayTaskSign = () => {
-        let taskSign = document.createElement('div');
-
-        const buildTaskSign = (sign) => {
-            sign.classList.add('task-sign')
-        }
-
-        const buildTaskSignLabel = (sign) => {
-            sign.textContent = 'Task ' + task.getTaskId().toString() + ': ' + task.getTitle();
-        }
-
-        const appendTaskSign = (sign) => {
-            getActiveNavigationElement().appendChild(sign);
-        }
-
-        buildTaskSign(taskSign);
-        buildTaskSignLabel(taskSign);
-        appendTaskSign(taskSign);
-
-        taskSign.addEventListener('click', displayTaskView);
-    }
-
-    return { displayTaskSign }
+    return { displayView }
 }
-
-const activeNavigationPane = (panel = {}) => {
-
-
-    return {}
-}
-
-const taskPanel = () => {
-    return {}
-}
-
-// const ContentAssembler = () => {
-//     const activeNavigation = htmlMixin.selectElement('#active-navigation')
-//     activeNavigation.textContent = "text"
-//
-//     return { }
-// }
 
 const htmlMixin = (() => {
     const activeNavigationElement = document.querySelector('#active-navigation');
@@ -204,8 +212,8 @@ const main = (() => {
     const Task = TaskCreator()
     jsonTasks.forEach((item) => {
         const task = Task(item);
-        const taskView = TaskViewer(task)
-        taskView.displayTaskSign();
+        const taskViewer = TaskViewer(TaskPanel(task))
+        taskViewer.displayTaskViews();
     })
 
     return { }
