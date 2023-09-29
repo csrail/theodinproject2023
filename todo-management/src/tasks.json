@@ -1,7 +1,9 @@
 [
   {
     "title": "Fundamentals in Mathematics",
-    "description": "A foundation level mathematics course to prepare students for high school mathematics"
+    "description": "A foundation level mathematics course to prepare students for high school mathematics",
+    "dueDate": "2023-10-20",
+    "isCompleted": true
   },
   {
     "title": "Algebra I",

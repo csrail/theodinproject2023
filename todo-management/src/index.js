@@ -41,23 +41,36 @@ const TaskCreator = () => {
         const _createDate = new Date();
         let _title = task['title'];
         let _description = task['description'];
+        let _dueDate = task['dueDate'];
+        let _isCompleted = task['isCompleted']
+
+        const _getCreateDate = () => { return _createDate }
 
         const getTaskId = () => { return taskId }
         const getTitle = () => { return _title }
-        const setTitle = (title) => { return _title = title }
         const getDescription = () => { return _description }
-        const setDescription = (description) => { return _description = description }
-        const _getCreateDate = () => { return _createDate }
-        const _formatDate = (date) => { return date.toDateString() }
         const getFormattedCreateDate = () => { return _formatDate(_getCreateDate())}
+        const getDueDate = () => { return _dueDate }
+        const getIsCompleted = () => { return _isCompleted }
+
+        const setTitle = (title) => { return _title = title }
+        const setDescription = (description) => { return _description = description }
+        const setDueDate = (date) => { return _dueDate = date }
+        const setIsCompleted = (boolean) => { return _isCompleted = boolean }
+
+        const _formatDate = (date) => { return date.toDateString() }
 
         return {
             getTaskId,
             getTitle,
             getDescription,
             getFormattedCreateDate,
+            getDueDate,
+            getIsCompleted,
             setTitle,
             setDescription,
+            setDueDate,
+            setIsCompleted,
         }
     }
 }
@@ -85,21 +98,43 @@ const TaskContent = (task = {}) => {
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
+    const dueDateLabel = document.createElement('label');
+    const dueDateInput = document.createElement('input');
+    const isCompletedLabel = document.createElement('label');
+    const isCompletedInput = document.createElement('input');
 
     titleInput.id = 'task-title';
     descriptionInput.id ='task-description';
+    dueDateInput.id = 'task-due-date';
+    isCompletedInput.id = 'task-is-completed';
 
     const _buildTaskContent = () => {
         id.textContent = 'Task ' + task.getTaskId().toString() + ':';
+
         titleInput.value  = task.getTitle();
+
         descriptionLabel.textContent = 'Description:';
         descriptionInput.value = task.getDescription();
+
+        dueDateLabel.textContent = 'Due Date:';
+        dueDateInput.setAttribute('type', 'date');
+        dueDateInput.value = task.getDueDate();
+
+        isCompletedLabel.textContent = 'Completed?';
+        isCompletedInput.setAttribute('type', 'checkbox');
+        isCompletedInput.checked = task.getIsCompleted();
 
         header.appendChild(id);
         header.appendChild(titleInput);
 
         body.appendChild(descriptionLabel);
         body.appendChild(descriptionInput);
+
+        body.appendChild(dueDateLabel);
+        body.appendChild(dueDateInput);
+
+        body.appendChild(isCompletedLabel);
+        body.appendChild(isCompletedInput);
 
         container.appendChild(header);
         container.appendChild(body);
@@ -153,10 +188,10 @@ const TaskProperties = (task = {}) => {
         resetPropertiesElement,
     } = htmlMixin
 
-    // const titleInput = () => { document.querySelector() }
-
-    const getTitleInput = () => { return document.querySelector('#task-title') }
-    const getDescriptionInput = () => { return document.querySelector('#task-description')}
+    const getTitleInput = () => { return document.querySelector('#task-title') };
+    const getDescriptionInput = () => { return document.querySelector('#task-description') };
+    const getDueDateInput = () => { return document.querySelector('#task-due-date') };
+    const getIsCompleted = () => { return document.querySelector('#task-is-completed') };
 
     const buildTaskProperties = () => {
         const saveButton = document.createElement('button');
@@ -169,6 +204,8 @@ const TaskProperties = (task = {}) => {
     const saveTask = () => {
         task.setTitle(getTitleInput().value);
         task.setDescription(getDescriptionInput().value);
+        task.setDueDate(getDueDateInput().value);
+        task.setIsCompleted(getIsCompleted().checked);
     }
     const displayView = () => {
         resetPropertiesElement();
