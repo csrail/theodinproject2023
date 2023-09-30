@@ -4,29 +4,10 @@
 // where: at my workstation, orderly
 // why: to handle local storage and deploy object-oriented principles: SOLID and practical object-oriented design
 // how:
-// package.json and webpack setup
-// create dashboard
-// create todos
-// create projects
-// todos belong to projects
-// show all projects
-// show project count
-// show all todos of a project
-// show all todos count
-// dashboard design like Overwatch
-// dashboard has projects
-// dashboard has starred project
-// dashboard has today's todos shown
-// todos have types
-// todos have an exploration type
-// todos have an expedition type
-// todos have an expression type
 
 //needs a loader:
 //import './style.css'
 
-//works natively:
-//import Data from './data.json'
 "use strict"
 
 import jsonTasks from './tasks.json'
@@ -88,7 +69,6 @@ const TaskViewer = (...taskViews) => {
 const TaskContent = (task = {}) => {
     const {
         getCenterpieceElement,
-        resetCenterpieceElement,
     } = htmlMixin;
 
     const container = document.createElement('div');
@@ -143,14 +123,14 @@ const TaskContent = (task = {}) => {
     }
 
     const displayView = () => {
-        resetCenterpieceElement();
+        getCenterpieceElement().replaceChildren();
         getCenterpieceElement().appendChild(_buildTaskContent());
     }
 
     return { displayView }
 }
 
-const TaskPanel = (task = {}, ) => {
+const TaskSign = (task = {}, ) => {
     const { getActiveNavigationElement } = htmlMixin
 
     const displayView = () => {
@@ -177,7 +157,7 @@ const TaskPanel = (task = {}, ) => {
 
         taskSign.addEventListener('click', displayTask);
         return getActiveNavigationElement().appendChild(taskSign);
-        }
+    }
 
     return { displayView }
 }
@@ -185,7 +165,6 @@ const TaskPanel = (task = {}, ) => {
 const TaskProperties = (task = {}) => {
     const {
         getPropertiesElement,
-        resetPropertiesElement,
     } = htmlMixin
 
     const getTitleInput = () => { return document.querySelector('#task-title') };
@@ -193,7 +172,14 @@ const TaskProperties = (task = {}) => {
     const getDueDateInput = () => { return document.querySelector('#task-due-date') };
     const getIsCompleted = () => { return document.querySelector('#task-is-completed') };
 
-    const buildTaskProperties = () => {
+    const buildDeleteButton = () => {
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+
+        deleteButton.addEventListener('click', deleteTask);
+        return deleteButton;
+    }
+    const buildSaveButton = () => {
         const saveButton = document.createElement('button');
         saveButton.textContent = 'Save';
 
@@ -207,9 +193,15 @@ const TaskProperties = (task = {}) => {
         task.setDueDate(getDueDateInput().value);
         task.setIsCompleted(getIsCompleted().checked);
     }
+
+    const deleteTask = () => {
+        console.log('delete');
+
+    }
     const displayView = () => {
-        resetPropertiesElement();
-        return getPropertiesElement().appendChild(buildTaskProperties());
+        getPropertiesElement().replaceChildren();
+        getPropertiesElement().appendChild(buildSaveButton());
+        getPropertiesElement().appendChild(buildDeleteButton());
     }
 
     return { displayView }
@@ -220,28 +212,14 @@ const htmlMixin = (() => {
     const centerpieceElement = document.querySelector('#centerpiece');
     const propertiesElement = document.querySelector('#properties');
 
-    const getActiveNavigationElement = () => { return activeNavigationElement }
+    const getActiveNavigationElement = () => { return activeNavigationElement } // keyword: Panel
     const getCenterpieceElement = () => { return centerpieceElement }
     const getPropertiesElement = () => { return propertiesElement }
-
-    const resetCenterpieceElement = () => {
-        if (getCenterpieceElement().firstElementChild) {
-            getCenterpieceElement().removeChild(getCenterpieceElement().firstElementChild)
-        }
-    }
-
-    const resetPropertiesElement = () => {
-        if (getPropertiesElement().firstElementChild) {
-            getPropertiesElement().removeChild(getPropertiesElement().firstElementChild)
-        }
-    }
 
     return {
         getActiveNavigationElement,
         getCenterpieceElement,
         getPropertiesElement,
-        resetCenterpieceElement,
-        resetPropertiesElement,
     }
 })();
 
@@ -249,7 +227,7 @@ const main = (() => {
     const Task = TaskCreator()
     jsonTasks.forEach((item) => {
         const task = Task(item);
-        const taskViewer = TaskViewer(TaskPanel(task))
+        const taskViewer = TaskViewer(TaskSign(task))
         taskViewer.displayTaskViews();
     })
 
