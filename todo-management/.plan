@@ -1,0 +1,9 @@
+.separate application logic from dom logic into separate modules, use export/import
+.create priority feature for tasks
+.create option to delete tasks
+.create projects feature, projects collect tasks
+.tasks can be assigned to a project
+.list all projects
+.when project is clicked, show all assigned tasks
+.set up TaskCollection to collect tasks?
+.manage delete button
