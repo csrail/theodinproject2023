@@ -238,11 +238,12 @@ const TaskProperties = (task = {}) => {
     return { displayView }
 }
 
-const Dashboard = (projects) => {
+const Dashboard = (projectList) => {
     const {
         getPassiveNavigationElement,
-        getProjectButtonElement,
         getHomeButtonElement,
+        getProjectButtonElement,
+        getTaskButtonElement,
         getActiveNavigationElement,
         getCenterpieceElement,
         getPropertiesElement,
@@ -250,7 +251,13 @@ const Dashboard = (projects) => {
 
     const displayDefaultView = () => {
         getActiveNavigationElement().replaceChildren();
-        _displayProjects();
+        _displayDefaultProjects(projectList);
+    }
+
+    const _displayDefaultProjects = (projects) => {
+       projects.forEach((project) => {
+           getActiveNavigationElement().appendChild(_buildProjectSign(project));
+       })
     }
 
     const displayView = () => {
@@ -260,27 +267,55 @@ const Dashboard = (projects) => {
             getActiveNavigationElement().replaceChildren();
             getCenterpieceElement().replaceChildren();
             getPropertiesElement().replaceChildren();
-            _displayProjects();
+            displayDefaultView(projectList);
         })
     }
 
-    const _displayProjects = () => {
+    const _displayProjects = (projects) => {
         projects.forEach((project) => {
-            const projectSign = document.createElement('div');
-            projectSign.textContent = project.getProjectTitle()
+            getActiveNavigationElement().appendChild(_buildProjectSign(project));
+            getCenterpieceElement().appendChild(_buildProjectContent(project));
+        })
+    }
 
-            projectSign.addEventListener('click', () => {
-                getPassiveNavigationElement().appendChild(getProjectButtonElement());
-                getActiveNavigationElement().replaceChildren();
-                project.getTasks()
-                    .forEach((task) => {
-                        const taskViewer = TaskViewer(TaskSign(task))
-                        taskViewer.displayTaskViews();
-                    })
+    const _buildProjectContent = (project) => {
+        const content = document.createElement('div');
+        content.textContent = project.getProjectDescription()
+        return content
+    }
+
+    const _buildProjectSign = (project) => {
+        const sign = document.createElement('div');
+        sign.textContent = project.getProjectTitle()
+        sign.addEventListener('click', () => {
+            _updatePassiveNavigation(project);
+            _updateActiveNavigation(project);
+            _displayProjectContent(project);
+        })
+
+        return sign
+    }
+
+    const _displayProjectContent = (project) => {
+        getCenterpieceElement().replaceChildren(_buildProjectContent(project));
+    }
+
+    const _updatePassiveNavigation = (project) => {
+        getPassiveNavigationElement().appendChild(getProjectButtonElement());
+        getProjectButtonElement().addEventListener('click', () => {
+            getTaskButtonElement().remove();
+            getCenterpieceElement().replaceChildren(_buildProjectContent(project));
+            getPropertiesElement().replaceChildren();
+        })
+    }
+    const _updateActiveNavigation = (project) => {
+        getActiveNavigationElement().replaceChildren();
+        project.getTasks()
+            .forEach((task) => {
+                const taskViewer = TaskViewer(TaskSign(task))
+                taskViewer.displayTaskViews();
             })
 
-            getActiveNavigationElement().appendChild(projectSign);
-        })
     }
 
     return {
@@ -300,17 +335,17 @@ const htmlMixin = (() => {
     let taskButtonElement
 
     const _buildProjectButtonElement = () => {
-        const projectButtonElement = document.createElement('button');
-        projectButtonElement.id = 'project';
-        projectButtonElement.textContent = 'PROJECT';
-        return projectButtonElement
+        const button = document.createElement('button');
+        button.id = 'project';
+        button.textContent = 'PROJECT';
+        return projectButtonElement = button
     }
 
     const _buildTaskButtonElement = () => {
-        const taskButtonElement = document.createElement('button');
-        taskButtonElement.id = 'task';
-        taskButtonElement.textContent = 'TASK';
-        return taskButtonElement
+        const button = document.createElement('button');
+        button.id = 'task';
+        button.textContent = 'TASK';
+        return taskButtonElement = button
     }
 
     const getProjectButtonElement = () => {
