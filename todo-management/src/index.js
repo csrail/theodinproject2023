@@ -152,7 +152,7 @@ const TaskSign = (task = {}, ) => {
     const {
         getActiveNavigationElement,
         getPassiveNavigationElement,
-        getTaskButtonElement,
+        getTaskPassiveNavigationElement,
     } = htmlMixin
 
     const displayView = () => {
@@ -169,7 +169,7 @@ const TaskSign = (task = {}, ) => {
         }
 
         const displayTask = () => {
-            getPassiveNavigationElement().appendChild(getTaskButtonElement())
+            getPassiveNavigationElement().appendChild(getTaskPassiveNavigationElement())
             const taskView = TaskViewer(TaskContent(task), TaskProperties(task));
             taskView.displayTaskViews();
         }
@@ -241,9 +241,9 @@ const TaskProperties = (task = {}) => {
 const Dashboard = (projectList) => {
     const {
         getPassiveNavigationElement,
-        getHomeButtonElement,
-        getProjectButtonElement,
-        getTaskButtonElement,
+        getHomePassiveNavigationElement,
+        getProjectPassiveNavigationElement,
+        getTaskPassiveNavigationElement,
         getActiveNavigationElement,
         getCenterpieceElement,
         getPropertiesElement,
@@ -261,9 +261,9 @@ const Dashboard = (projectList) => {
     }
 
     const displayView = () => {
-        getHomeButtonElement().addEventListener('click', () => {
+        getHomePassiveNavigationElement().addEventListener('click', () => {
             getPassiveNavigationElement().replaceChildren();
-            getPassiveNavigationElement().appendChild(getHomeButtonElement());
+            getPassiveNavigationElement().appendChild(getHomePassiveNavigationElement());
             getActiveNavigationElement().replaceChildren();
             getCenterpieceElement().replaceChildren();
             getPropertiesElement().replaceChildren();
@@ -301,9 +301,9 @@ const Dashboard = (projectList) => {
     }
 
     const _updatePassiveNavigation = (project) => {
-        getPassiveNavigationElement().appendChild(getProjectButtonElement());
-        getProjectButtonElement().addEventListener('click', () => {
-            getTaskButtonElement().remove();
+        getPassiveNavigationElement().appendChild(getProjectPassiveNavigationElement());
+        getProjectPassiveNavigationElement().addEventListener('click', () => {
+            getTaskPassiveNavigationElement().remove();
             getCenterpieceElement().replaceChildren(_buildProjectContent(project));
             getPropertiesElement().replaceChildren();
         })
@@ -325,39 +325,39 @@ const Dashboard = (projectList) => {
 }
 
 const htmlMixin = (() => {
-    const homeButtonElement = document.querySelector('#home');
+    const homePassiveNavigationElement = document.querySelector('#home');
     const passiveNavigationElement = document.querySelector('#passive-navigation');
     const activeNavigationElement = document.querySelector('#active-navigation');
     const centerpieceElement = document.querySelector('#centerpiece');
     const propertiesElement = document.querySelector('#properties');
 
-    let projectButtonElement
-    let taskButtonElement
+    let projectPassiveNavigationElement
+    let taskPassiveNavigationElement
 
     const _buildProjectButtonElement = () => {
         const button = document.createElement('button');
         button.id = 'project';
         button.textContent = 'PROJECT';
-        return projectButtonElement = button
+        return projectPassiveNavigationElement = button
     }
 
     const _buildTaskButtonElement = () => {
         const button = document.createElement('button');
         button.id = 'task';
         button.textContent = 'TASK';
-        return taskButtonElement = button
+        return taskPassiveNavigationElement = button
     }
 
-    const getProjectButtonElement = () => {
-        return projectButtonElement === void(0) ? _buildProjectButtonElement() : projectButtonElement
+    const getProjectPassiveNavigationElement = () => {
+        return projectPassiveNavigationElement === void(0) ? _buildProjectButtonElement() : projectPassiveNavigationElement
     }
 
-    const getTaskButtonElement = () => {
-        return taskButtonElement === void(0) ? _buildTaskButtonElement() : taskButtonElement
+    const getTaskPassiveNavigationElement = () => {
+        return taskPassiveNavigationElement === void(0) ? _buildTaskButtonElement() : taskPassiveNavigationElement
     }
 
     const getPassiveNavigationElement = () => { return passiveNavigationElement }
-    const getHomeButtonElement = () => { return homeButtonElement }
+    const getHomePassiveNavigationElement = () => { return homePassiveNavigationElement }
     const getActiveNavigationElement = () => { return activeNavigationElement } // keyword: Panel
     const getCenterpieceElement = () => { return centerpieceElement }
     const getPropertiesElement = () => { return propertiesElement }
@@ -367,9 +367,9 @@ const htmlMixin = (() => {
         getActiveNavigationElement,
         getCenterpieceElement,
         getPropertiesElement,
-        getHomeButtonElement,
-        getProjectButtonElement,
-        getTaskButtonElement,
+        getHomePassiveNavigationElement,
+        getProjectPassiveNavigationElement,
+        getTaskPassiveNavigationElement,
     }
 })();
 
