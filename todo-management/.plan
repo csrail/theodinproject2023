@@ -2,8 +2,13 @@
 .create priority feature for tasks
 .create option to delete tasks
 .create projects feature, projects collect tasks
-.tasks can be assigned to a project
-.list all projects
-.when project is clicked, show all assigned tasks
-.set up TaskCollection to collect tasks?
-.manage delete button
+.feature: create new project instance
+.feature: create new task instance
+.feature: tasks can be assigned to a project
++list all projects
++when project is clicked, show all assigned tasks
++set up TaskCollection to collect tasks?
++passive navigation: home>project>task, when project is clicked, show parent project
++active navigation: click on task, passive navigation task button only set up once
+
+?when to use dependency injection? currently I am collaborating by fetching elements directly instead of through arguments
