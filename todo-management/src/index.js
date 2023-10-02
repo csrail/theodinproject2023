@@ -12,6 +12,24 @@
 
 import jsonTasks from './tasks.json'
 
+const ProjectCreator = () => {
+    return (project = {}, tasks = []) => {
+        const projectTitle = project['title']
+        const projectDescription = project['description']
+        const taskCollection = tasks
+
+        const getProjectTitle = () => { return projectTitle }
+        const getProjectDescription = () => { return projectDescription }
+        const getTasks = () => { return taskCollection }
+
+        return {
+            getProjectTitle,
+            getProjectDescription,
+            getTasks,
+        }
+    }
+}
+
 const TaskCreator = () => {
     let taskCount = 1;
 
@@ -131,7 +149,11 @@ const TaskContent = (task = {}) => {
 }
 
 const TaskSign = (task = {}, ) => {
-    const { getActiveNavigationElement } = htmlMixin
+    const {
+        getActiveNavigationElement,
+        getPassiveNavigationElement,
+        getTaskButtonElement,
+    } = htmlMixin
 
     const displayView = () => {
         let taskSign = document.createElement('div');
@@ -147,6 +169,7 @@ const TaskSign = (task = {}, ) => {
         }
 
         const displayTask = () => {
+            getPassiveNavigationElement().appendChild(getTaskButtonElement())
             const taskView = TaskViewer(TaskContent(task), TaskProperties(task));
             taskView.displayTaskViews();
         }
@@ -196,7 +219,11 @@ const TaskProperties = (task = {}) => {
 
     const deleteTask = () => {
         console.log('delete');
-
+        // a collection keeps Tasks in memory
+        // reference a collection
+        // find object in collection
+        // delete object altogether
+        // delegate DOM to emptyView
     }
     const displayView = () => {
         getPropertiesElement().replaceChildren();
@@ -204,32 +231,138 @@ const TaskProperties = (task = {}) => {
         getPropertiesElement().appendChild(buildDeleteButton());
     }
 
+    const emptyView = () => {
+        getPropertiesElement().replaceChildren();
+    }
+
     return { displayView }
 }
 
+const Dashboard = (projects) => {
+    const {
+        getPassiveNavigationElement,
+        getProjectButtonElement,
+        getHomeButtonElement,
+        getActiveNavigationElement,
+        getCenterpieceElement,
+        getPropertiesElement,
+    } = htmlMixin
+
+    const displayDefaultView = () => {
+        getActiveNavigationElement().replaceChildren();
+        _displayProjects();
+    }
+
+    const displayView = () => {
+        getHomeButtonElement().addEventListener('click', () => {
+            getPassiveNavigationElement().replaceChildren();
+            getPassiveNavigationElement().appendChild(getHomeButtonElement());
+            getActiveNavigationElement().replaceChildren();
+            getCenterpieceElement().replaceChildren();
+            getPropertiesElement().replaceChildren();
+            _displayProjects();
+        })
+    }
+
+    const _displayProjects = () => {
+        projects.forEach((project) => {
+            const projectSign = document.createElement('div');
+            projectSign.textContent = project.getProjectTitle()
+
+            projectSign.addEventListener('click', () => {
+                getPassiveNavigationElement().appendChild(getProjectButtonElement());
+                getActiveNavigationElement().replaceChildren();
+                project.getTasks()
+                    .forEach((task) => {
+                        const taskViewer = TaskViewer(TaskSign(task))
+                        taskViewer.displayTaskViews();
+                    })
+            })
+
+            getActiveNavigationElement().appendChild(projectSign);
+        })
+    }
+
+    return {
+        displayDefaultView,
+        displayView,
+    }
+}
+
 const htmlMixin = (() => {
+    const homeButtonElement = document.querySelector('#home');
+    const passiveNavigationElement = document.querySelector('#passive-navigation');
     const activeNavigationElement = document.querySelector('#active-navigation');
     const centerpieceElement = document.querySelector('#centerpiece');
     const propertiesElement = document.querySelector('#properties');
 
+    let projectButtonElement
+    let taskButtonElement
+
+    const _buildProjectButtonElement = () => {
+        const projectButtonElement = document.createElement('button');
+        projectButtonElement.id = 'project';
+        projectButtonElement.textContent = 'PROJECT';
+        return projectButtonElement
+    }
+
+    const _buildTaskButtonElement = () => {
+        const taskButtonElement = document.createElement('button');
+        taskButtonElement.id = 'task';
+        taskButtonElement.textContent = 'TASK';
+        return taskButtonElement
+    }
+
+    const getProjectButtonElement = () => {
+        return projectButtonElement === void(0) ? _buildProjectButtonElement() : projectButtonElement
+    }
+
+    const getTaskButtonElement = () => {
+        return taskButtonElement === void(0) ? _buildTaskButtonElement() : taskButtonElement
+    }
+
+    const getPassiveNavigationElement = () => { return passiveNavigationElement }
+    const getHomeButtonElement = () => { return homeButtonElement }
     const getActiveNavigationElement = () => { return activeNavigationElement } // keyword: Panel
     const getCenterpieceElement = () => { return centerpieceElement }
     const getPropertiesElement = () => { return propertiesElement }
 
     return {
+        getPassiveNavigationElement,
         getActiveNavigationElement,
         getCenterpieceElement,
         getPropertiesElement,
+        getHomeButtonElement,
+        getProjectButtonElement,
+        getTaskButtonElement,
     }
 })();
 
 const main = (() => {
+
     const Task = TaskCreator()
+    const taskCollection = []
     jsonTasks.forEach((item) => {
         const task = Task(item);
+        taskCollection.push(task);
         const taskViewer = TaskViewer(TaskSign(task))
         taskViewer.displayTaskViews();
     })
+
+    const Project = ProjectCreator()
+    const projectCollection = []
+    const project1 = Project({title: 'Mathematics', description: 'Study mathematics from high school up to first year university level.'}, taskCollection);
+    const project2 = Project({title: 'Gardening', description: 'Pull out weeds.'});
+    projectCollection.push(project1);
+    projectCollection.push(project2);
+    projectCollection.forEach((project) => {
+        console.log(project.getProjectTitle())
+        console.log(project.getTasks())
+    })
+
+    const dashboard =  Dashboard(projectCollection)
+    dashboard.displayDefaultView()
+    dashboard.displayView();
 
     return { }
 })();
