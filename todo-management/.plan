@@ -1,10 +1,14 @@
+.REFACTOR algorithm: single responsibility
 .separate application logic from dom logic into separate modules, use export/import
 .create priority feature for tasks
 .create option to delete tasks
 .create projects feature, projects collect tasks
 .feature: create new project instance
-.feature: create new task instance
+.feature: create new task instance from within project
+.feature: create new ad hoc task independent to project
 .feature: tasks can be assigned to a project
+.make project description editable
+.make project saveable
 +list all projects
 +when project is clicked, show all assigned tasks
 +set up TaskCollection to collect tasks?

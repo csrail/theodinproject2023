@@ -92,7 +92,7 @@ const TaskContent = (task = {}) => {
     const container = document.createElement('div');
     const header = document.createElement('div');
     const body = document.createElement('div');
-    const id = document.createElement('div');
+    const id = document.createElement('label');
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
