@@ -11,24 +11,34 @@
 "use strict"
 
 import jsonTasks from './tasks.json'
+import jsonProjects from './projects.json'
 
 const ProjectCreator = () => {
-    return (project = {}, tasks = []) => {
+    return (project = {})=> {
         const projectId = project['id'];
         const projectTitle = project['title'];
         const projectDescription = project['description'];
-        const taskCollection = tasks;
+        const taskCollection = [];
 
         const getProjectId = () => { return projectId }
         const getProjectTitle = () => { return projectTitle }
         const getProjectDescription = () => { return projectDescription }
         const getTasks = () => { return taskCollection }
 
+        const collectProjectTask = (task) => { return taskCollection.push(task) }
+
+        const deleteProjectTask = (task) => {
+            const index = taskCollection.indexOf(task)
+            return taskCollection.splice(index, 1);
+        }
+
         return {
             getProjectId,
             getProjectTitle,
             getProjectDescription,
             getTasks,
+            collectProjectTask,
+            deleteProjectTask,
         }
     }
 }
@@ -334,20 +344,30 @@ const ProjectProperties = () => {
     return {}
 }
 
-const ProjectManager = (taskCollection) => {
+const ProjectManager = (projectCollection, taskCollection) => {
     const Project = ProjectCreator()
     const projects = []
+    let tasks = taskCollection
 
-    const initialiseProjects = ((tasks) => {
-        if (projects.length === 0 ) {
-            const project1 = Project({id: 1, title: 'Mathematics', description: 'Study mathematics from high school up to first year university level.'}, tasks);
-            const project2 = Project({id: 2, title: 'Gardening', description: 'Pull out weeds.'});
-            projects.push(project1);
-            projects.push(project2);
-        }
+    const _initialiseProjects = ((baseProjects) => {
+        baseProjects.forEach((project) => {
+            projects.push(Project(project));
+        })
 
-        return { projects }
-    })(taskCollection);
+        return {}
+    })(projectCollection);
+
+    const _initialiseProjectTasks = ((baseProjects, baseTasks) => {
+        baseProjects.forEach((project) => {
+            baseTasks.forEach((task) => {
+                if (task.getProjectForeignKey() === project.getProjectId()) {
+                    project.collectProjectTask(task);
+                }
+            })
+        })
+
+        return {}
+    })(projects, tasks);
 
     const getProjects = () => { return projects }
 
@@ -357,12 +377,23 @@ const ProjectManager = (taskCollection) => {
 const TaskManager = (taskCollection) => {
     const Task = TaskCreator()
     const tasks= []
-    taskCollection.forEach((item) => {
-        const task = Task(item);
-        tasks.push(task);
-        const taskViewer = TaskViewer(TaskSign(task))
-        taskViewer.displayTaskViews();
-    })
+
+    const initialiseTasks = ((collection) => {
+        collection.forEach((item) => {
+            tasks.push(Task(item));
+        })
+
+        return {}
+    })(taskCollection);
+
+    const displayTasks = (() => {
+        tasks.forEach((task) => {
+            TaskViewer(TaskSign(task))
+                .displayTaskViews();
+        })
+
+        return {}
+    })();
 
     const getTasks = () => { return tasks }
 
@@ -420,7 +451,7 @@ const htmlMixin = (() => {
 
 const main = (() => {
     const taskManager = TaskManager(jsonTasks);
-    const projectManager = ProjectManager(taskManager.getTasks())
+    const projectManager = ProjectManager(jsonProjects, taskManager.getTasks())
 
     const navigation =  Navigation(projectManager.getProjects())
     navigation.displayDefaultView(projectManager.getProjects())

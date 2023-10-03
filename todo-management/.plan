@@ -2,7 +2,7 @@
 .separate application logic from dom logic into separate modules, use export/import
 .create priority feature for tasks
 .create option to delete tasks
-.create projects feature, projects collect tasks
++create projects feature, projects collect tasks
 .feature: create new project instance
 .feature: create new task instance from within project
 .feature: create new ad hoc task independent to project
