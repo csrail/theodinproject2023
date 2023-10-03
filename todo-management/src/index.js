@@ -91,9 +91,9 @@ const TaskCreator = () => {
     }
 }
 
-const ApplicationViewer = (...taskViews) => {
+const ApplicationViewer = (...Views) => {
     const displayViews = () => {
-        taskViews.forEach((view) => {
+        Views.forEach((view) => {
             view.displayView();
         })
     }
