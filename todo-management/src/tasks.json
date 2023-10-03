@@ -1,11 +1,15 @@
 [
   {
+    "id": 1,
+    "projectId": 1,
     "title": "Fundamentals in Mathematics",
     "description": "A foundation level mathematics course to prepare students for high school mathematics",
     "dueDate": "2023-10-20",
     "isCompleted": true
   },
   {
+    "id": 2,
+    "projectId": 2,
     "title": "Algebra I",
     "description": "A high school level mathematics course for algebra, it is a primer for studying further mathematics including algebra II, precalculus, trigonometry, geometry and calculus."
   }

@@ -14,15 +14,18 @@ import jsonTasks from './tasks.json'
 
 const ProjectCreator = () => {
     return (project = {}, tasks = []) => {
-        const projectTitle = project['title']
-        const projectDescription = project['description']
-        const taskCollection = tasks
+        const projectId = project['id'];
+        const projectTitle = project['title'];
+        const projectDescription = project['description'];
+        const taskCollection = tasks;
 
+        const getProjectId = () => { return projectId }
         const getProjectTitle = () => { return projectTitle }
         const getProjectDescription = () => { return projectDescription }
         const getTasks = () => { return taskCollection }
 
         return {
+            getProjectId,
             getProjectTitle,
             getProjectDescription,
             getTasks,
@@ -38,6 +41,8 @@ const TaskCreator = () => {
         taskCount++
 
         const _createDate = new Date();
+        const _taskId = task['id'];
+        const _projectForeignKey = task['projectId']
         let _title = task['title'];
         let _description = task['description'];
         let _dueDate = task['dueDate'];
@@ -45,7 +50,8 @@ const TaskCreator = () => {
 
         const _getCreateDate = () => { return _createDate }
 
-        const getTaskId = () => { return taskId }
+        const getTaskId = () => { return _taskId }
+        const getProjectForeignKey = () => { return _projectForeignKey }
         const getTitle = () => { return _title }
         const getDescription = () => { return _description }
         const getFormattedCreateDate = () => { return _formatDate(_getCreateDate())}
@@ -61,6 +67,7 @@ const TaskCreator = () => {
 
         return {
             getTaskId,
+            getProjectForeignKey,
             getTitle,
             getDescription,
             getFormattedCreateDate,
@@ -331,16 +338,16 @@ const ProjectManager = (taskCollection) => {
     const Project = ProjectCreator()
     const projects = []
 
-    const initialiseProjects = (() => {
+    const initialiseProjects = ((tasks) => {
         if (projects.length === 0 ) {
-            const project1 = Project({id: 1, title: 'Mathematics', description: 'Study mathematics from high school up to first year university level.'}, taskCollection);
+            const project1 = Project({id: 1, title: 'Mathematics', description: 'Study mathematics from high school up to first year university level.'}, tasks);
             const project2 = Project({id: 2, title: 'Gardening', description: 'Pull out weeds.'});
             projects.push(project1);
             projects.push(project2);
         }
 
         return { projects }
-    })();
+    })(taskCollection);
 
     const getProjects = () => { return projects }
 
@@ -350,7 +357,7 @@ const ProjectManager = (taskCollection) => {
 const TaskManager = (taskCollection) => {
     const Task = TaskCreator()
     const tasks= []
-    jsonTasks.forEach((item) => {
+    taskCollection.forEach((item) => {
         const task = Task(item);
         tasks.push(task);
         const taskViewer = TaskViewer(TaskSign(task))
