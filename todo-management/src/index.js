@@ -185,7 +185,7 @@ const TaskSign = (task = {}, ) => {
     return { displayView }
 }
 
-const TaskProperties = (task = {}) => {
+const TaskProperties = (taskObject = {}) => {
     const {
         getPropertiesElement,
     } = htmlMixin
@@ -195,29 +195,26 @@ const TaskProperties = (task = {}) => {
     const getDueDateInput = () => { return document.querySelector('#task-due-date') };
     const getIsCompleted = () => { return document.querySelector('#task-is-completed') };
 
-    const buildDeleteButton = () => {
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-
-        deleteButton.addEventListener('click', deleteTask);
-        return deleteButton;
-    }
-    const buildSaveButton = () => {
-        const saveButton = document.createElement('button');
-        saveButton.textContent = 'Save';
-
-        saveButton.addEventListener('click', saveTask);
-        return saveButton
+    const _buildPropertyButton = (text, listener) => {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.addEventListener('click', listener);
+        return button;
     }
 
-    const saveTask = () => {
+    const buildSaveButton = () => { return _buildPropertyButton('Save', _saveButtonListener) }
+    const buildDeleteButton = () => { return _buildPropertyButton('Delete', _deleteTask) }
+
+    const _saveButtonListener = () => { return _saveTask(taskObject) }
+
+    const _saveTask = (task) => {
         task.setTitle(getTitleInput().value);
         task.setDescription(getDescriptionInput().value);
         task.setDueDate(getDueDateInput().value);
         task.setIsCompleted(getIsCompleted().checked);
     }
 
-    const deleteTask = () => {
+    const _deleteTask = (task) => {
         console.log('delete');
         // a collection keeps Tasks in memory
         // reference a collection
@@ -238,7 +235,7 @@ const TaskProperties = (task = {}) => {
     return { displayView }
 }
 
-const Dashboard = (projectList) => {
+const Navigation = (projectList) => {
     const {
         getPassiveNavigationElement,
         getHomePassiveNavigationElement,
@@ -260,22 +257,18 @@ const Dashboard = (projectList) => {
        })
     }
 
-    const displayView = () => {
-        getHomePassiveNavigationElement().addEventListener('click', () => {
-            getPassiveNavigationElement().replaceChildren();
-            getPassiveNavigationElement().appendChild(getHomePassiveNavigationElement());
-            getActiveNavigationElement().replaceChildren();
-            getCenterpieceElement().replaceChildren();
-            getPropertiesElement().replaceChildren();
-            displayDefaultView(projectList);
-        })
+    const initialiseHomeNavigation = () => {
+        getHomePassiveNavigationElement().addEventListener('click', resetDashboard)
     }
 
-    const _displayProjects = (projects) => {
-        projects.forEach((project) => {
-            getActiveNavigationElement().appendChild(_buildProjectSign(project));
-            getCenterpieceElement().appendChild(_buildProjectContent(project));
-        })
+    const resetDashboard = () => {
+        getPassiveNavigationElement().replaceChildren();
+        getPassiveNavigationElement().appendChild(getHomePassiveNavigationElement());
+        getActiveNavigationElement().replaceChildren();
+        getCenterpieceElement().replaceChildren();
+        getPropertiesElement().replaceChildren();
+        displayDefaultView(projectList);
+
     }
 
     const _buildProjectContent = (project) => {
@@ -320,8 +313,18 @@ const Dashboard = (projectList) => {
 
     return {
         displayDefaultView,
-        displayView,
+        initialiseHomeNavigation,
     }
+}
+
+const ProjectSigns = () => {
+
+    return {}
+}
+
+const ProjectProperties = () => {
+
+    return {}
 }
 
 const htmlMixin = (() => {
@@ -374,7 +377,6 @@ const htmlMixin = (() => {
 })();
 
 const main = (() => {
-
     const Task = TaskCreator()
     const taskCollection = []
     jsonTasks.forEach((item) => {
@@ -395,9 +397,9 @@ const main = (() => {
         console.log(project.getTasks())
     })
 
-    const dashboard =  Dashboard(projectCollection)
-    dashboard.displayDefaultView()
-    dashboard.displayView();
+    const navigation =  Navigation(projectCollection)
+    navigation.displayDefaultView(projectCollection)
+    navigation.initialiseHomeNavigation()
 
     return { }
 })();
