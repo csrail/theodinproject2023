@@ -165,7 +165,7 @@ const TaskContent = (task = {}) => {
     return { displayView }
 }
 
-const TaskSign = (task = {}, ) => {
+const TaskSign = (project = {}, task = {}, ) => {
     const {
         getActiveNavigationElement,
         getPassiveNavigationElement,
@@ -176,7 +176,8 @@ const TaskSign = (task = {}, ) => {
         let taskSign = document.createElement('div');
 
         const buildTaskSign = (sign) => {
-            sign.classList.add('task-sign')
+            sign.id = ('task-sign-' + task.getTaskId().toString());
+            sign.classList.add('task-sign');
         }
         const buildTaskSignLabel = (sign) => {
             sign.textContent = 'Task ' + task.getTaskId().toString() + ': ' + task.getTitle();
@@ -187,7 +188,7 @@ const TaskSign = (task = {}, ) => {
 
         const displayTask = () => {
             getPassiveNavigationElement().appendChild(getTaskPassiveNavigationElement())
-            const taskView = ApplicationViewer(TaskContent(task), TaskProperties(task));
+            const taskView = ApplicationViewer(TaskContent(task), TaskProperties(project, task));
             taskView.displayViews();
         }
 
@@ -202,9 +203,11 @@ const TaskSign = (task = {}, ) => {
     return { displayView }
 }
 
-const TaskProperties = (taskObject = {}) => {
+const TaskProperties = (projectObject = {}, taskObject = {}) => {
     const {
         getPropertiesElement,
+        getCenterpieceElement,
+        getTaskPassiveNavigationElement,
     } = htmlMixin
 
     const getTitleInput = () => { return document.querySelector('#task-title') };
@@ -220,9 +223,10 @@ const TaskProperties = (taskObject = {}) => {
     }
 
     const buildSaveButton = () => { return _buildPropertyButton('Save', _saveButtonListener) }
-    const buildDeleteButton = () => { return _buildPropertyButton('Delete', _deleteTask) }
+    const buildDeleteButton = () => { return _buildPropertyButton('Delete', _deleteButtonListener) }
 
     const _saveButtonListener = () => { return _saveTask(taskObject) }
+    const _deleteButtonListener = () => { return _deleteTask(projectObject, taskObject) }
 
     const _saveTask = (task) => {
         task.setTitle(getTitleInput().value);
@@ -231,12 +235,11 @@ const TaskProperties = (taskObject = {}) => {
         task.setIsCompleted(getIsCompleted().checked);
     }
 
-    const _deleteTask = (task) => {
+    const _deleteTask = (project, task) => {
         console.log('delete');
-        // look up Project
-        // find itself within tasks Collection
-        // splice itself out
-        // delegate DOM to emptyView
+        project.deleteProjectTask(task);
+        project.getTasks().forEach(task => console.log(task.getTitle()))
+        _emptyView(project, task);
     }
     const displayView = () => {
         getPropertiesElement().replaceChildren();
@@ -244,8 +247,14 @@ const TaskProperties = (taskObject = {}) => {
         getPropertiesElement().appendChild(buildDeleteButton());
     }
 
-    const emptyView = () => {
+    const _emptyView = (project, task) => {
         getPropertiesElement().replaceChildren();
+        getCenterpieceElement().replaceChildren();
+        const identifier = "#task-sign-" + task.getTaskId().toString()
+        document.querySelector(identifier).remove();
+        if (project.getTasks().length === 0) {
+            getTaskPassiveNavigationElement().remove()
+        }
     }
 
     return { displayView }
@@ -321,7 +330,7 @@ const Navigation = (projectList) => {
         getActiveNavigationElement().replaceChildren();
         project.getTasks()
             .forEach((task) => {
-                const taskViewer = ApplicationViewer(TaskSign(task))
+                const taskViewer = ApplicationViewer(TaskSign(project, task))
                 taskViewer.displayViews();
             })
 
