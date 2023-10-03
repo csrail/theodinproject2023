@@ -327,6 +327,41 @@ const ProjectProperties = () => {
     return {}
 }
 
+const ProjectManager = (taskCollection) => {
+    const Project = ProjectCreator()
+    const projects = []
+
+    const initialiseProjects = (() => {
+        if (projects.length === 0 ) {
+            const project1 = Project({id: 1, title: 'Mathematics', description: 'Study mathematics from high school up to first year university level.'}, taskCollection);
+            const project2 = Project({id: 2, title: 'Gardening', description: 'Pull out weeds.'});
+            projects.push(project1);
+            projects.push(project2);
+        }
+
+        return { projects }
+    })();
+
+    const getProjects = () => { return projects }
+
+    return { getProjects }
+}
+
+const TaskManager = (taskCollection) => {
+    const Task = TaskCreator()
+    const tasks= []
+    jsonTasks.forEach((item) => {
+        const task = Task(item);
+        tasks.push(task);
+        const taskViewer = TaskViewer(TaskSign(task))
+        taskViewer.displayTaskViews();
+    })
+
+    const getTasks = () => { return tasks }
+
+    return { getTasks }
+}
+
 const htmlMixin = (() => {
     const homePassiveNavigationElement = document.querySelector('#home');
     const passiveNavigationElement = document.querySelector('#passive-navigation');
@@ -377,28 +412,11 @@ const htmlMixin = (() => {
 })();
 
 const main = (() => {
-    const Task = TaskCreator()
-    const taskCollection = []
-    jsonTasks.forEach((item) => {
-        const task = Task(item);
-        taskCollection.push(task);
-        const taskViewer = TaskViewer(TaskSign(task))
-        taskViewer.displayTaskViews();
-    })
+    const taskManager = TaskManager(jsonTasks);
+    const projectManager = ProjectManager(taskManager.getTasks())
 
-    const Project = ProjectCreator()
-    const projectCollection = []
-    const project1 = Project({title: 'Mathematics', description: 'Study mathematics from high school up to first year university level.'}, taskCollection);
-    const project2 = Project({title: 'Gardening', description: 'Pull out weeds.'});
-    projectCollection.push(project1);
-    projectCollection.push(project2);
-    projectCollection.forEach((project) => {
-        console.log(project.getProjectTitle())
-        console.log(project.getTasks())
-    })
-
-    const navigation =  Navigation(projectCollection)
-    navigation.displayDefaultView(projectCollection)
+    const navigation =  Navigation(projectManager.getProjects())
+    navigation.displayDefaultView(projectManager.getProjects())
     navigation.initialiseHomeNavigation()
 
     return { }
