@@ -91,14 +91,14 @@ const TaskCreator = () => {
     }
 }
 
-const TaskViewer = (...taskViews) => {
-    const displayTaskViews = () => {
+const ApplicationViewer = (...taskViews) => {
+    const displayViews = () => {
         taskViews.forEach((view) => {
             view.displayView();
         })
     }
 
-    return { displayTaskViews }
+    return { displayViews }
 }
 
 const TaskContent = (task = {}) => {
@@ -187,8 +187,8 @@ const TaskSign = (task = {}, ) => {
 
         const displayTask = () => {
             getPassiveNavigationElement().appendChild(getTaskPassiveNavigationElement())
-            const taskView = TaskViewer(TaskContent(task), TaskProperties(task));
-            taskView.displayTaskViews();
+            const taskView = ApplicationViewer(TaskContent(task), TaskProperties(task));
+            taskView.displayViews();
         }
 
         buildTaskSign(taskSign);
@@ -233,10 +233,9 @@ const TaskProperties = (taskObject = {}) => {
 
     const _deleteTask = (task) => {
         console.log('delete');
-        // a collection keeps Tasks in memory
-        // reference a collection
-        // find object in collection
-        // delete object altogether
+        // look up Project
+        // find itself within tasks Collection
+        // splice itself out
         // delegate DOM to emptyView
     }
     const displayView = () => {
@@ -322,8 +321,8 @@ const Navigation = (projectList) => {
         getActiveNavigationElement().replaceChildren();
         project.getTasks()
             .forEach((task) => {
-                const taskViewer = TaskViewer(TaskSign(task))
-                taskViewer.displayTaskViews();
+                const taskViewer = ApplicationViewer(TaskSign(task))
+                taskViewer.displayViews();
             })
 
     }
@@ -386,14 +385,14 @@ const TaskManager = (taskCollection) => {
         return {}
     })(taskCollection);
 
-    const displayTasks = (() => {
-        tasks.forEach((task) => {
-            TaskViewer(TaskSign(task))
-                .displayTaskViews();
-        })
-
-        return {}
-    })();
+    // const displayTasks = (() => {
+    //     tasks.forEach((task) => {
+    //         TaskViewer(TaskSign(task))
+    //             .displayTaskViews();
+    //     })
+    //
+    //     return {}
+    // })();
 
     const getTasks = () => { return tasks }
 
