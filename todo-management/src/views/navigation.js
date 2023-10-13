@@ -7,15 +7,13 @@ const Navigation = (projectList) => {
     const {
         getPassiveNavigationElement,
         getHomePassiveNavigationElement,
-        getProjectPassiveNavigationElement,
-        getTaskPassiveNavigationElement,
         getActiveNavigationElement,
         getCenterpieceElement,
         getPropertiesElement,
         getNewProjectButtonElement,
     } = htmlMixin
 
-    const displayDefaultView = () => {
+    const initialiseDefaultView = () => {
         getActiveNavigationElement().replaceChildren();
         _displayDefaultProjects(projectList);
         getActiveNavigationElement().appendChild(getNewProjectButtonElement());
@@ -23,57 +21,25 @@ const Navigation = (projectList) => {
 
     const _displayDefaultProjects = (projects) => {
         projects.forEach((project) => {
-            // getActiveNavigationElement().appendChild(_buildProjectSign(project));
             ApplicationViewer(ProjectSign(project)).displayViews();
         })
     }
 
     const initialiseHomeNavigation = () => {
-        getHomePassiveNavigationElement().addEventListener('click', resetDashboard)
+        getHomePassiveNavigationElement().addEventListener('click', _resetDashboard)
     }
 
-    const resetDashboard = () => {
+    const _resetDashboard = () => {
         getPassiveNavigationElement().replaceChildren();
         getPassiveNavigationElement().appendChild(getHomePassiveNavigationElement());
         getActiveNavigationElement().replaceChildren();
         getCenterpieceElement().replaceChildren();
         getPropertiesElement().replaceChildren();
-        displayDefaultView(projectList);
-    }
-
-    const _buildProjectContent = (project) => {
-        const content = document.createElement('div');
-        content.textContent = project.getProjectDescription()
-        return content
-    }
-
-    // const _buildProjectSign = (project) => {
-    //     const sign = document.createElement('div');
-    //     sign.textContent = project.getProjectTitle()
-    //     sign.addEventListener('click', () => {
-    //         _updatePassiveNavigation(project);
-    //         _updateActiveNavigation(project);
-    //         _displayProjectContent(project);
-    //     })
-    //
-    //     return sign
-    // }
-
-    const _displayProjectContent = (project) => {
-        getCenterpieceElement().replaceChildren(_buildProjectContent(project));
-    }
-
-    const _updatePassiveNavigation = (project) => {
-        getPassiveNavigationElement().appendChild(getProjectPassiveNavigationElement());
-        getProjectPassiveNavigationElement().addEventListener('click', () => {
-            getTaskPassiveNavigationElement().remove();
-            getCenterpieceElement().replaceChildren(_buildProjectContent(project));
-            getPropertiesElement().replaceChildren();
-        })
+        initialiseDefaultView(projectList);
     }
 
     return {
-        displayDefaultView,
+        initialiseDefaultView,
         initialiseHomeNavigation,
     }
 }
