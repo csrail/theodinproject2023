@@ -1,13 +1,3 @@
-// who: self
-// what: creating a small project management app that mirrors secret project, this todos app outlines the todos required to start a new TOP project, meta...
-// when: in the morning, expected project management date on Friday evening
-// where: at my workstation, orderly
-// why: to handle local storage and deploy object-oriented principles: SOLID and practical object-oriented design
-// how:
-
-//needs a loader:
-//import './style.css'
-
 "use strict"
 
 import jsonTasks from './tasks.json'
@@ -39,6 +29,8 @@ const ProjectCreator = () => {
             getTasks,
             collectProjectTask,
             deleteProjectTask,
+            get projectId() { return projectId },
+            get projectTitle() { return projectTitle},
         }
     }
 }
@@ -79,6 +71,8 @@ const TaskCreator = () => {
             getTaskId,
             getProjectForeignKey,
             getTitle,
+            get taskId() { return _taskId },
+            get title() { return _title },
             getDescription,
             getFormattedCreateDate,
             getDueDate,
@@ -269,11 +263,13 @@ const Navigation = (projectList) => {
         getActiveNavigationElement,
         getCenterpieceElement,
         getPropertiesElement,
+        getNewProjectButtonElement,
     } = htmlMixin
 
     const displayDefaultView = () => {
         getActiveNavigationElement().replaceChildren();
         _displayDefaultProjects(projectList);
+        getActiveNavigationElement().appendChild(getNewProjectButtonElement());
     }
 
     const _displayDefaultProjects = (projects) => {
@@ -293,7 +289,6 @@ const Navigation = (projectList) => {
         getCenterpieceElement().replaceChildren();
         getPropertiesElement().replaceChildren();
         displayDefaultView(projectList);
-
     }
 
     const _buildProjectContent = (project) => {
@@ -377,14 +372,24 @@ const ProjectManager = (projectCollection, taskCollection) => {
         return {}
     })(projects, tasks);
 
+    const includeTaskInProject = (task) => {
+        const project = projects.find((project) => { return project.getProjectId() === task.getProjectForeignKey() })
+        project.collectProjectTask(task);
+    }
+
     const getProjects = () => { return projects }
 
-    return { getProjects }
+    return {
+        getProjects,
+        includeTaskInProject,
+    }
 }
 
 const TaskManager = (taskCollection) => {
     const Task = TaskCreator()
     const tasks= []
+
+    const getTasks = () => { return tasks }
 
     const initialiseTasks = ((collection) => {
         collection.forEach((item) => {
@@ -394,18 +399,14 @@ const TaskManager = (taskCollection) => {
         return {}
     })(taskCollection);
 
-    // const displayTasks = (() => {
-    //     tasks.forEach((task) => {
-    //         TaskViewer(TaskSign(task))
-    //             .displayTaskViews();
-    //     })
-    //
-    //     return {}
-    // })();
+    const createTask = (object) => {
+        tasks.push(Task(object))
+    }
 
-    const getTasks = () => { return tasks }
-
-    return { getTasks }
+    return {
+        getTasks,
+        createTask
+    }
 }
 
 const htmlMixin = (() => {
@@ -417,6 +418,7 @@ const htmlMixin = (() => {
 
     let projectPassiveNavigationElement
     let taskPassiveNavigationElement
+    let newProjectButtonElement
 
     const _buildProjectButtonElement = () => {
         const button = document.createElement('button');
@@ -432,12 +434,23 @@ const htmlMixin = (() => {
         return taskPassiveNavigationElement = button
     }
 
+    const _buildNewProjectButtonElement = () => {
+        const button = document.createElement('button');
+        button.id = 'new-project';
+        button.textContent = 'New Project';
+        return newProjectButtonElement = button
+    }
+
     const getProjectPassiveNavigationElement = () => {
         return projectPassiveNavigationElement === void(0) ? _buildProjectButtonElement() : projectPassiveNavigationElement
     }
 
     const getTaskPassiveNavigationElement = () => {
         return taskPassiveNavigationElement === void(0) ? _buildTaskButtonElement() : taskPassiveNavigationElement
+    }
+
+    const getNewProjectButtonElement = () => {
+        return newProjectButtonElement === void(0) ? _buildNewProjectButtonElement() : newProjectButtonElement
     }
 
     const getPassiveNavigationElement = () => { return passiveNavigationElement }
@@ -454,15 +467,24 @@ const htmlMixin = (() => {
         getHomePassiveNavigationElement,
         getProjectPassiveNavigationElement,
         getTaskPassiveNavigationElement,
+        getNewProjectButtonElement,
     }
 })();
 
 const main = (() => {
     const taskManager = TaskManager(jsonTasks);
-    const projectManager = ProjectManager(jsonProjects, taskManager.getTasks())
+    const projectManager = ProjectManager(jsonProjects, taskManager.getTasks());
+    taskManager.createTask({
+        id: 3,
+        projectId: 1,
+        title: "Precalculus and Trigonometry",
+        description: "Beyond Algebra II, this course prepares you to understand the relationship between triangles and objects that exist in different timespaces",
+    });
 
+    const task1 = taskManager.getTasks().find((task) => { return task.getTaskId() === 3 })
+    projectManager.includeTaskInProject(task1);
     const navigation =  Navigation(projectManager.getProjects())
-    navigation.displayDefaultView(projectManager.getProjects())
+    navigation.displayDefaultView()
     navigation.initialiseHomeNavigation()
 
     return { }
