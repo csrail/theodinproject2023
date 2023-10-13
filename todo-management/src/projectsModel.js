@@ -1,4 +1,4 @@
-export const ProjectManager = (projectCollection, taskCollection) => {
+const ProjectManager = (projectCollection, taskCollection) => {
     const Project = ProjectCreator()
     const projects = []
     let tasks = taskCollection
@@ -68,3 +68,5 @@ const ProjectCreator = () => {
         }
     }
 }
+
+export { ProjectManager }

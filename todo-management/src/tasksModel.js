@@ -1,4 +1,4 @@
-export const TaskManager = (taskCollection) => {
+const TaskManager = (taskCollection) => {
     const Task = TaskCreator()
     const tasks= []
 
@@ -71,3 +71,5 @@ const TaskCreator = () => {
         }
     }
 }
+
+export { TaskManager }

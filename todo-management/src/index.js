@@ -3,8 +3,8 @@
 import jsonTasks from './tasks.json';
 import jsonProjects from './projects.json';
 import { htmlMixin } from "./htmlMixin";
-import { ProjectManager } from "./projects";
-import { TaskManager } from "./tasks";
+import { ProjectManager } from "./projectsModel";
+import { TaskManager } from "./tasksModel";
 
 const ApplicationViewer = (...Views) => {
     const displayViews = () => {
@@ -20,6 +20,11 @@ const TaskContent = (task = {}) => {
     const {
         getCenterpieceElement,
     } = htmlMixin;
+
+    const displayView = () => {
+        getCenterpieceElement().replaceChildren();
+        getCenterpieceElement().appendChild(_buildTaskContent());
+    }
 
     const container = document.createElement('div');
     const header = document.createElement('div');
@@ -70,11 +75,6 @@ const TaskContent = (task = {}) => {
         container.appendChild(body);
 
         return container
-    }
-
-    const displayView = () => {
-        getCenterpieceElement().replaceChildren();
-        getCenterpieceElement().appendChild(_buildTaskContent());
     }
 
     return { displayView }

@@ -1,4 +1,4 @@
- export const htmlMixin = (() => {
+const htmlMixin = (() => {
     const homePassiveNavigationElement = document.querySelector('#home');
     const passiveNavigationElement = document.querySelector('#passive-navigation');
     const activeNavigationElement = document.querySelector('#active-navigation');
@@ -59,3 +59,5 @@
         getNewProjectButtonElement,
     }
 })();
+
+export { htmlMixin }
