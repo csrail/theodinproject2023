@@ -19,8 +19,8 @@ const TaskProperties = (projectObject = {}, taskObject = {}) => {
         return button;
     }
 
-    const buildSaveButton = () => { return _buildPropertyButton('Save', _saveButtonListener) }
-    const buildDeleteButton = () => { return _buildPropertyButton('Delete', _deleteButtonListener) }
+    const buildSaveButton = () => { return _buildPropertyButton('Save Task', _saveButtonListener) }
+    const buildDeleteButton = () => { return _buildPropertyButton('Delete Task', _deleteButtonListener) }
 
     const _saveButtonListener = () => { return _saveTask(taskObject) }
     const _deleteButtonListener = () => { return _deleteTask(projectObject, taskObject) }
