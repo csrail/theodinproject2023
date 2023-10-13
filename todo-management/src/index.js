@@ -3,8 +3,8 @@
 import jsonTasks from './tasks.json';
 import jsonProjects from './projects.json';
 import { htmlMixin } from "./htmlMixin";
-import { ProjectManager } from "./projectsModel";
-import { TaskManager } from "./tasksModel";
+import { ProjectManager } from "./projectModel";
+import { TaskManager } from "./taskModel";
 
 const ApplicationViewer = (...Views) => {
     const displayViews = () => {
