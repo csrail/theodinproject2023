@@ -1,6 +1,7 @@
 import { htmlMixin } from "../htmlMixin";
 import { ApplicationViewer } from "./viewEngine";
 import { TaskSign } from "./taskViews/taskSign";
+import { ProjectSign } from "./projectViews/projectSign";
 
 const Navigation = (projectList) => {
     const {
@@ -22,7 +23,8 @@ const Navigation = (projectList) => {
 
     const _displayDefaultProjects = (projects) => {
         projects.forEach((project) => {
-            getActiveNavigationElement().appendChild(_buildProjectSign(project));
+            // getActiveNavigationElement().appendChild(_buildProjectSign(project));
+            ApplicationViewer(ProjectSign(project)).displayViews();
         })
     }
 
@@ -45,17 +47,17 @@ const Navigation = (projectList) => {
         return content
     }
 
-    const _buildProjectSign = (project) => {
-        const sign = document.createElement('div');
-        sign.textContent = project.getProjectTitle()
-        sign.addEventListener('click', () => {
-            _updatePassiveNavigation(project);
-            _updateActiveNavigation(project);
-            _displayProjectContent(project);
-        })
-
-        return sign
-    }
+    // const _buildProjectSign = (project) => {
+    //     const sign = document.createElement('div');
+    //     sign.textContent = project.getProjectTitle()
+    //     sign.addEventListener('click', () => {
+    //         _updatePassiveNavigation(project);
+    //         _updateActiveNavigation(project);
+    //         _displayProjectContent(project);
+    //     })
+    //
+    //     return sign
+    // }
 
     const _displayProjectContent = (project) => {
         getCenterpieceElement().replaceChildren(_buildProjectContent(project));
@@ -68,15 +70,6 @@ const Navigation = (projectList) => {
             getCenterpieceElement().replaceChildren(_buildProjectContent(project));
             getPropertiesElement().replaceChildren();
         })
-    }
-    const _updateActiveNavigation = (project) => {
-        getActiveNavigationElement().replaceChildren();
-        project.getTasks()
-            .forEach((task) => {
-                const taskViewer = ApplicationViewer(TaskSign(project, task))
-                taskViewer.displayViews();
-            })
-
     }
 
     return {
