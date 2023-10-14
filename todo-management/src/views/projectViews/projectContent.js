@@ -5,15 +5,36 @@ const ProjectContent = (project) => {
         getCenterpieceElement,
     } = htmlMixin
 
+    const container = document.createElement('div');
+    const header = document.createElement('div');
+    const body = document.createElement('div');
+    const idLabel = document.createElement('label');
+    const titleInput = document.createElement('input');
+    const descriptionLabel = document.createElement('label');
+    const descriptionInput = document.createElement('input');
+
     const displayView = () => {
-        _showProjectContent(project)
+        _buildProjectContent(project);
+        _showProjectContent();
     }
 
-    const _showProjectContent = (project) => {
-        const content = document.createElement('div');
-        content.textContent = project.getProjectDescription()
+    const _buildProjectContent = (project) => {
+        idLabel.textContent = "Project " + project.getProjectId().toString();
+        titleInput.value = project.getProjectTitle();
+        descriptionLabel.textContent = "Description";
+        descriptionInput.value = project.getProjectDescription();
+    }
 
-        return getCenterpieceElement().replaceChildren(content)
+    const _showProjectContent = () => {
+        header.appendChild(idLabel);
+        header.appendChild(titleInput);
+        body.appendChild(descriptionLabel);
+        body.appendChild(descriptionInput);
+
+        container.appendChild(header);
+        container.appendChild(body);
+
+        return getCenterpieceElement().replaceChildren(container);
     }
 
     return {

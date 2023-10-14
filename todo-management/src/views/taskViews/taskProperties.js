@@ -33,9 +33,9 @@ const TaskProperties = (projectObject = {}, taskObject = {}) => {
     }
 
     const _deleteTask = (project, task) => {
-        console.log('delete');
+        // console.log('delete');
         project.deleteProjectTask(task);
-        project.getTasks().forEach(task => console.log(task.getTitle()))
+        // project.getTasks().forEach(task => console.log(task.getTitle()))
         _emptyView(project, task);
     }
     const displayView = () => {

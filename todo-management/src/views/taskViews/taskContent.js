@@ -13,7 +13,7 @@ const TaskContent = (task = {}) => {
     const container = document.createElement('div');
     const header = document.createElement('div');
     const body = document.createElement('div');
-    const id = document.createElement('label');
+    const idLabel = document.createElement('label');
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
@@ -28,7 +28,7 @@ const TaskContent = (task = {}) => {
     isCompletedInput.id = 'task-is-completed';
 
     const _buildTaskContent = () => {
-        id.textContent = 'Task ' + task.getTaskId().toString() + ':';
+        idLabel.textContent = 'Task ' + task.getTaskId().toString() + ':';
 
         titleInput.value  = task.getTitle();
 
@@ -43,7 +43,7 @@ const TaskContent = (task = {}) => {
         isCompletedInput.setAttribute('type', 'checkbox');
         isCompletedInput.checked = task.getIsCompleted();
 
-        header.appendChild(id);
+        header.appendChild(idLabel);
         header.appendChild(titleInput);
 
         body.appendChild(descriptionLabel);
