@@ -6,16 +6,6 @@ import { ProjectManager } from "./projectModel";
 import { TaskManager } from "./taskModel";
 import { Navigation } from "./views/navigation";
 
-const ProjectSigns = () => {
-
-    return {}
-}
-
-const ProjectProperties = () => {
-
-    return {}
-}
-
 const main = (() => {
     const taskManager = TaskManager(jsonTasks);
     const projectManager = ProjectManager(jsonProjects, taskManager.getTasks());
