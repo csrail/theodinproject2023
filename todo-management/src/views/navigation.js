@@ -3,7 +3,7 @@ import { ApplicationViewer } from "./viewEngine";
 import { TaskSign } from "./taskViews/taskSign";
 import { ProjectSign } from "./projectViews/projectSign";
 
-const Navigation = (projectList) => {
+const Navigation = (projectManager) => {
     const {
         getPassiveNavigationElement,
         getHomePassiveNavigationElement,
@@ -13,15 +13,15 @@ const Navigation = (projectList) => {
         getNewProjectButtonElement,
     } = htmlMixin
 
-    const initialiseDefaultView = () => {
+    const initialiseDefaultView = (projectManager) => {
         getActiveNavigationElement().replaceChildren();
-        _displayDefaultProjects(projectList);
+        _displayDefaultProjects(projectManager);
         getActiveNavigationElement().appendChild(getNewProjectButtonElement());
     }
 
-    const _displayDefaultProjects = (projects) => {
-        projects.forEach((project) => {
-            ApplicationViewer(ProjectSign(project)).displayViews();
+    const _displayDefaultProjects = (projectManager) => {
+        projectManager.getProjects().forEach((project) => {
+            ApplicationViewer(ProjectSign(projectManager, project)).displayViews();
         })
     }
 
@@ -35,7 +35,7 @@ const Navigation = (projectList) => {
         getActiveNavigationElement().replaceChildren();
         getCenterpieceElement().replaceChildren();
         getPropertiesElement().replaceChildren();
-        initialiseDefaultView(projectList);
+        initialiseDefaultView(projectManager);
     }
 
     return {

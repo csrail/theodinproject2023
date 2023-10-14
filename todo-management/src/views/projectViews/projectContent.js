@@ -8,7 +8,7 @@ const ProjectContent = (project) => {
     const container = document.createElement('div');
     const header = document.createElement('div');
     const body = document.createElement('div');
-    const idLabel = document.createElement('label');
+    const titleLabel = document.createElement('label');
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
@@ -19,14 +19,17 @@ const ProjectContent = (project) => {
     }
 
     const _buildProjectContent = (project) => {
-        idLabel.textContent = "Project " + project.getProjectId().toString();
+        titleInput.id = 'project-title';
+        descriptionInput.id = 'project-description';
+
+        titleLabel.textContent = "Project " + project.getProjectId().toString();
         titleInput.value = project.getProjectTitle();
         descriptionLabel.textContent = "Description";
         descriptionInput.value = project.getProjectDescription();
     }
 
     const _showProjectContent = () => {
-        header.appendChild(idLabel);
+        header.appendChild(titleLabel);
         header.appendChild(titleInput);
         body.appendChild(descriptionLabel);
         body.appendChild(descriptionInput);
@@ -37,9 +40,7 @@ const ProjectContent = (project) => {
         return getCenterpieceElement().replaceChildren(container);
     }
 
-    return {
-        displayView
-    }
+    return { displayView }
 }
 
 export { ProjectContent }

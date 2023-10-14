@@ -18,8 +18,8 @@ const main = (() => {
 
     const task1 = taskManager.getTasks().find((task) => { return task.getTaskId() === 3 })
     projectManager.includeTaskInProject(task1);
-    const navigation =  Navigation(projectManager.getProjects())
-    navigation.initialiseDefaultView();
+    const navigation =  Navigation(projectManager)
+    navigation.initialiseDefaultView(projectManager);
     navigation.initialiseHomeNavigation();
 
     return { }

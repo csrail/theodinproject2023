@@ -48,6 +48,13 @@ const htmlMixin = (() => {
     const getCenterpieceElement = () => { return centerpieceElement }
     const getPropertiesElement = () => { return propertiesElement }
 
+    const buildPropertyButton = (text, listener) => {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.addEventListener('click', listener);
+        return button;
+    }
+
     return {
         getPassiveNavigationElement,
         getActiveNavigationElement,
@@ -57,6 +64,7 @@ const htmlMixin = (() => {
         getProjectPassiveNavigationElement,
         getTaskPassiveNavigationElement,
         getNewProjectButtonElement,
+        buildPropertyButton,
     }
 })();
 

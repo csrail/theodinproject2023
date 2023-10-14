@@ -1,9 +1,10 @@
 import { htmlMixin } from "../../htmlMixin";
 import { ApplicationViewer } from "../viewEngine";
 import { ProjectContent } from "./projectContent";
+import { ProjectProperties } from "./projectProperties";
 import { TaskSign } from "../taskViews/taskSign";
 
-const ProjectSign = (project) => {
+const ProjectSign = (projectManager, project) => {
     const {
         getActiveNavigationElement,
         getPassiveNavigationElement,
@@ -12,16 +13,16 @@ const ProjectSign = (project) => {
     } = htmlMixin
 
     const displayView = () => {
-        return _buildProjectSign(project)
+        return _buildProjectSign(projectManager, project)
     }
 
-    const _buildProjectSign = (project) => {
+    const _buildProjectSign = (projectManager, project) => {
         const sign = document.createElement('div');
         sign.textContent = project.getProjectTitle()
         sign.addEventListener('click', () => {
             _showProjectTaskSigns(project);
             _showProjectPassiveNavigation(project);
-            ApplicationViewer(ProjectContent(project)).displayViews();
+            ApplicationViewer(ProjectContent(project), ProjectProperties(projectManager, project)).displayViews();
         })
 
         return getActiveNavigationElement().appendChild(sign)
@@ -45,9 +46,7 @@ const ProjectSign = (project) => {
         return getPassiveNavigationElement().appendChild(getProjectPassiveNavigationElement());
     }
 
-    return {
-        displayView
-    }
+    return { displayView }
 }
 
 export { ProjectSign }
