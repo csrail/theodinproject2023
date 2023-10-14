@@ -20,12 +20,12 @@ main {
     grid-template-columns: 2fr 8fr 3fr;
     grid-template-rows: repeat(10, 100px);
     grid-template-areas:
-        "active-navigation centerpiece properties";
+        "active-panel centerpiece properties";
 }
 
-#active-navigation {
+#active-panel {
     background-color: #ffff99;
-    grid-area: active-navigation;
+    grid-area: active-panel;
 }
 
 #centerpiece {
