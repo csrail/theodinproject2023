@@ -4,6 +4,7 @@ const htmlMixin = (() => {
     const activeNavigationElement = document.querySelector('#active-navigation');
     const centerpieceElement = document.querySelector('#centerpiece');
     const propertiesElement = document.querySelector('#properties');
+    const resourcePanelElement = document.getElementById('resource-panel');
 
     let projectPassiveNavigationElement
     let taskPassiveNavigationElement
@@ -55,6 +56,8 @@ const htmlMixin = (() => {
         return button;
     }
 
+    const getResourcePanel = () => { return resourcePanelElement }
+
     return {
         getPassiveNavigationElement,
         getActiveNavigationElement,
@@ -65,6 +68,7 @@ const htmlMixin = (() => {
         getTaskPassiveNavigationElement,
         getNewProjectButtonElement,
         buildPropertyButton,
+        getResourcePanel,
     }
 })();
 

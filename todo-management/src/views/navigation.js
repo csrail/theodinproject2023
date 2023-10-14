@@ -11,12 +11,13 @@ const Navigation = (projectManager) => {
         getCenterpieceElement,
         getPropertiesElement,
         getNewProjectButtonElement,
+        getResourcePanel,
     } = htmlMixin
 
     const initialiseDefaultView = (projectManager) => {
         getActiveNavigationElement().replaceChildren();
         _displayDefaultProjects(projectManager);
-        getActiveNavigationElement().appendChild(getNewProjectButtonElement());
+        getResourcePanel().appendChild(getNewProjectButtonElement());
     }
 
     const _displayDefaultProjects = (projectManager) => {
