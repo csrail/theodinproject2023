@@ -5,6 +5,7 @@ import jsonProjects from './jsonFiles/projects.json';
 import { ProjectManager } from "./projectModel";
 import { TaskManager } from "./taskModel";
 import { Navigation } from "./views/navigation";
+import { Resource } from "./resourceModel"
 
 const main = (() => {
     const taskManager = TaskManager(jsonTasks);
@@ -21,6 +22,11 @@ const main = (() => {
     const navigation =  Navigation(projectManager)
     navigation.initialiseDefaultView(projectManager);
     navigation.initialiseHomeNavigation();
+
+    const resource = Resource(projectManager)
+    const project = resource.newProject({ id: 4, title: "Practical Object-Oriented Design in Ruby", description: "The best book describing object-oriented programming principles and nuances."});
+    resource.saveProject(project);
+    debugger
 
     return { }
 })();

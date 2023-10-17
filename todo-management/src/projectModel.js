@@ -28,6 +28,10 @@ const ProjectManager = (projectCollection, taskCollection) => {
         project.collectProjectTask(task);
     }
 
+    const collectProject = (project) => {
+        projects.push(project);
+    }
+
     const deleteProject = (project) => {
         const index = projects.indexOf(project);
         return projects.splice(index, 1);
@@ -37,6 +41,7 @@ const ProjectManager = (projectCollection, taskCollection) => {
 
     return {
         getProjects,
+        collectProject,
         deleteProject,
         includeTaskInProject,
     }
@@ -76,9 +81,13 @@ const ProjectCreator = () => {
             collectProjectTask,
             deleteProjectTask,
             get projectId() { return projectId },
-            get projectTitle() { return projectTitle},
+            get projectTitle() { return projectTitle },
+            get projectDescription() { return projectDescription }
         }
     }
 }
 
-export { ProjectManager }
+export {
+    ProjectManager,
+    ProjectCreator,
+}
