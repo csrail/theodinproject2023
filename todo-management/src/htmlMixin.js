@@ -49,14 +49,14 @@ const htmlMixin = (() => {
     const getCenterpieceElement = () => { return centerpieceElement }
     const getPropertiesElement = () => { return propertiesElement }
 
-    const buildPropertyButton = (text, listener) => {
+    const buildButtonElement = (text, listener) => {
         const button = document.createElement('button');
         button.textContent = text;
         button.addEventListener('click', listener);
         return button;
     }
 
-    const getResourcePanel = () => { return resourcePanelElement }
+    const getResourcePanelElement = () => { return resourcePanelElement }
 
     return {
         getPassiveNavigationElement,
@@ -66,9 +66,9 @@ const htmlMixin = (() => {
         getHomePassiveNavigationElement,
         getProjectPassiveNavigationElement,
         getTaskPassiveNavigationElement,
+        getResourcePanelElement,
+        buildButtonElement,
         getNewProjectButtonElement,
-        buildPropertyButton,
-        getResourcePanel,
     }
 })();
 
