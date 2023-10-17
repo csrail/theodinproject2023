@@ -3,7 +3,7 @@ import {htmlMixin} from "../../htmlMixin";
 const ProjectProperties = (projectManager, project) => {
     const {
         getPropertiesElement,
-        buildPropertyButton
+        buildButtonElement,
     } = htmlMixin
 
     const _getTitleInput = () => { return document.getElementById('project-title') }
@@ -24,7 +24,7 @@ const ProjectProperties = (projectManager, project) => {
 
         const _saveProjectListener = () => { return _saveProject(project) }
 
-        return buildPropertyButton('Save Project', _saveProjectListener)
+        return buildButtonElement('Save Project', _saveProjectListener)
     }
 
     const _buildProjectDeleteButton = (projectManager, project) => {
@@ -33,7 +33,7 @@ const ProjectProperties = (projectManager, project) => {
             projectManager.deleteProject(project);
         }
 
-        return buildPropertyButton('Delete Project', _deleteProjectListener)
+        return buildButtonElement('Delete Project', _deleteProjectListener)
     }
 
     return { displayView }

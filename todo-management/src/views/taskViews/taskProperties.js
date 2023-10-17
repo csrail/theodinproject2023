@@ -5,7 +5,7 @@ const TaskProperties = (projectObject = {}, taskObject = {}) => {
         getPropertiesElement,
         getCenterpieceElement,
         getTaskPassiveNavigationElement,
-        buildPropertyButton,
+        buildButtonElement,
     } = htmlMixin
 
     const getTitleInput = () => { return document.querySelector('#task-title') };
@@ -13,8 +13,8 @@ const TaskProperties = (projectObject = {}, taskObject = {}) => {
     const getDueDateInput = () => { return document.querySelector('#task-due-date') };
     const getIsCompleted = () => { return document.querySelector('#task-is-completed') };
 
-    const buildSaveButton = () => { return buildPropertyButton('Save Task', _saveButtonListener) }
-    const buildDeleteButton = () => { return buildPropertyButton('Delete Task', _deleteButtonListener) }
+    const buildSaveButton = () => { return buildButtonElement('Save Task', _saveButtonListener) }
+    const buildDeleteButton = () => { return buildButtonElement('Delete Task', _deleteButtonListener) }
 
     const _saveButtonListener = () => { return _saveTask(taskObject) }
     const _deleteButtonListener = () => { return _deleteTask(projectObject, taskObject) }
