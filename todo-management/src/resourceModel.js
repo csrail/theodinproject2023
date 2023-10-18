@@ -6,10 +6,11 @@ import { ProjectCreator } from './projectModel.js'
 
 const Resource = (projectManager) => {
     const Project = ProjectCreator();
+    let project
 
-    const newProject = (project = {}) => { return Project(project) }
+    const newProject = () => { return project = Project() }
 
-    const saveProject = (project) => { projectManager.collectProject(project) }
+    const saveProject = () => { projectManager.collectProject(project) }
 
     return {
         newProject,

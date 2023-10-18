@@ -9,6 +9,7 @@ const htmlMixin = (() => {
     let projectPassiveNavigationElement
     let taskPassiveNavigationElement
     let newProjectButtonElement
+    let newTaskButtonElement
 
     const _buildProjectButtonElement = () => {
         const button = document.createElement('button');
@@ -26,9 +27,16 @@ const htmlMixin = (() => {
 
     const _buildNewProjectButtonElement = () => {
         const button = document.createElement('button');
-        button.id = 'new-project';
+        button.id = 'new-project-button';
         button.textContent = 'New Project';
         return newProjectButtonElement = button
+    }
+
+    const _buildNewTaskButtonElement = () => {
+        const button = document.createElement('button');
+        button.id = 'new-task-button';
+        button.textContent = 'New Task';
+        return newTaskButtonElement = button
     }
 
     const getProjectPassiveNavigationElement = () => {
@@ -40,7 +48,11 @@ const htmlMixin = (() => {
     }
 
     const getNewProjectButtonElement = () => {
-        return newProjectButtonElement === void(0) ? _buildNewProjectButtonElement() : newProjectButtonElement
+        return newProjectButtonElement === void(0) ? _buildNewProjectButtonElement() : document.getElementById('new-project-button')
+    }
+
+    const getNewTaskButtonElement = () => {
+        return newTaskButtonElement === void(0) ? _buildNewTaskButtonElement() : document.getElementById('new-task-button')
     }
 
     const getPassiveNavigationElement = () => { return passiveNavigationElement }
@@ -69,6 +81,7 @@ const htmlMixin = (() => {
         getResourcePanelElement,
         buildButtonElement,
         getNewProjectButtonElement,
+        getNewTaskButtonElement,
     }
 })();
 

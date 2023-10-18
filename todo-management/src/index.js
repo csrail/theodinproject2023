@@ -6,6 +6,9 @@ import { ProjectManager } from "./projectModel";
 import { TaskManager } from "./taskModel";
 import { Navigation } from "./views/navigation";
 import { Resource } from "./resourceModel"
+import { ResourceProperties } from "./views/resourceViews/resourceProperties";
+import {ApplicationViewer} from "./views/viewEngine";
+import {ResourceSign} from "./views/resourceViews/resourceSign";
 
 const main = (() => {
     const taskManager = TaskManager(jsonTasks);
@@ -24,9 +27,11 @@ const main = (() => {
     navigation.initialiseHomeNavigation();
 
     const resource = Resource(projectManager)
-    const project = resource.newProject({ id: 4, title: "Practical Object-Oriented Design in Ruby", description: "The best book describing object-oriented programming principles and nuances."});
-    resource.saveProject(project);
-    debugger
+    // const project = resource.newProject({ id: 4, title: "Practical Object-Oriented Design in Ruby", description: "The best book describing object-oriented programming principles and nuances."});
+    // resource.saveProject(project);
+
+    // ResourceProperties(resource).displayView();
+    ApplicationViewer(ResourceSign(projectManager)).displayViews();
 
     return { }
 })();

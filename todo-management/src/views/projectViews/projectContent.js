@@ -22,10 +22,25 @@ const ProjectContent = (project) => {
         titleInput.id = 'project-title';
         descriptionInput.id = 'project-description';
 
-        titleLabel.textContent = "Project " + project.getProjectId().toString();
-        titleInput.value = project.getProjectTitle();
+        try {
+            titleLabel.textContent = "Project " + project.getProjectId().toString()
+        } catch (TypeError) {
+            titleLabel.textContent = "New Project"
+        }
+
+        try {
+            titleInput.value = project.getProjectTitle();
+        } catch (TypeError) {
+            titleInput.value
+        }
+
         descriptionLabel.textContent = "Description";
-        descriptionInput.value = project.getProjectDescription();
+
+        try {
+            descriptionInput.value = project.getProjectDescription();
+        } catch (TypeError) {
+            descriptionInput.value
+        }
     }
 
     const _showProjectContent = () => {

@@ -28,20 +28,44 @@ const TaskContent = (task = {}) => {
     isCompletedInput.id = 'task-is-completed';
 
     const _buildTaskContent = () => {
-        idLabel.textContent = 'Task ' + task.getTaskId().toString() + ':';
 
-        titleInput.value  = task.getTitle();
+        try {
+            idLabel.textContent = 'Task ' + task.getTaskId().toString() + ':';
+        } catch (TypeError) {
+            idLabel.textContent = 'New Task'
+        }
+
+        try {
+            titleInput.value  = task.getTitle();
+        } catch (TypeError) {
+            titleInput.value
+        }
 
         descriptionLabel.textContent = 'Description:';
-        descriptionInput.value = task.getDescription();
+
+        try {
+            descriptionInput.value = task.getDescription();
+        } catch (TypeError) {
+            descriptionInput.value
+        }
 
         dueDateLabel.textContent = 'Due Date:';
         dueDateInput.setAttribute('type', 'date');
-        dueDateInput.value = task.getDueDate();
+
+        try {
+            dueDateInput.value = task.getDueDate();
+        } catch (TypeError) {
+            dueDateInput.value
+        }
 
         isCompletedLabel.textContent = 'Completed?';
         isCompletedInput.setAttribute('type', 'checkbox');
-        isCompletedInput.checked = task.getIsCompleted();
+
+        try {
+            isCompletedInput.checked = task.getIsCompleted();
+        } catch (TypeError) {
+            isCompletedInput.checked = false
+        }
 
         header.appendChild(idLabel);
         header.appendChild(titleInput);

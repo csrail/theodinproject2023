@@ -50,7 +50,7 @@ const ProjectManager = (projectCollection, taskCollection) => {
 
 const ProjectCreator = () => {
     return (project = {})=> {
-        const projectId = project['id'];
+        let projectId = project['id'];
         let projectTitle = project['title'];
         let projectDescription = project['description'];
         const taskCollection = [];
@@ -71,6 +71,10 @@ const ProjectCreator = () => {
             return taskCollection.splice(index, 1);
         }
 
+        const generateProjectId = () => {
+            projectId = 4;
+        }
+
         return {
             getProjectId,
             getProjectTitle,
@@ -82,7 +86,8 @@ const ProjectCreator = () => {
             deleteProjectTask,
             get projectId() { return projectId },
             get projectTitle() { return projectTitle },
-            get projectDescription() { return projectDescription }
+            get projectDescription() { return projectDescription },
+            generateProjectId,
         }
     }
 }
