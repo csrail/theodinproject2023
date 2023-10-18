@@ -29,13 +29,13 @@ const ProjectProperties = (projectManager, project) => {
             project.setProjectTitle(_getTitleInput().value);
             project.setProjectDescription(_getDescriptionInput().value);
             if (project.getProjectId() === void(0)) {
-                project.generateProjectId();
+                project.setProjectId(projectManager.generateProjectId());
                 projectManager.collectProject(project);
-                // ApplicationViewer(
-                //     TaskSign(projectManager, project),
-                //     ProjectContent(project),
-                //     ProjectProperties(projectManager, project))
-                //     .displayViews()
+                ApplicationViewer(
+                    // TaskSign(projectManager, project),
+                    ProjectContent(project),
+                    ProjectProperties(projectManager, project))
+                    .displayViews()
             }
         }
 

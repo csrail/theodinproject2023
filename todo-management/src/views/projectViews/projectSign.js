@@ -32,7 +32,7 @@ const ProjectSign = (projectManager, project) => {
         getActiveNavigationElement().replaceChildren();
         project.getTasks()
             .forEach((task) => {
-                const taskViewer = ApplicationViewer(TaskSign(project, task))
+                const taskViewer = ApplicationViewer(TaskSign(projectManager, project, task))
                 taskViewer.displayViews();
         })
    }

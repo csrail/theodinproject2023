@@ -1,6 +1,8 @@
 import { htmlMixin } from "../../htmlMixin";
 
-const TaskProperties = (projectObject = {}, taskObject = {}) => {
+const TaskProperties = (projectManager = {},
+                        projectObject = {},
+                        taskObject = {}) => {
     const {
         getPropertiesElement,
         getCenterpieceElement,
@@ -24,6 +26,10 @@ const TaskProperties = (projectObject = {}, taskObject = {}) => {
         task.setDescription(getDescriptionInput().value);
         task.setDueDate(getDueDateInput().value);
         task.setIsCompleted(getIsCompleted().checked);
+        if (task.getProjectForeignKey() === void 0) {
+            task.setProjectForeignKey(1)
+            projectManager.getProjects()[0].collectProjectTask(task);
+        }
     }
 
     const _deleteTask = (project, task) => {

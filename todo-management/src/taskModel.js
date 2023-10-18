@@ -31,7 +31,7 @@ const TaskCreator = () => {
 
         const _createDate = new Date();
         const _taskId = task['id'];
-        const _projectForeignKey = task['projectId']
+        let _projectForeignKey = task['projectId']
         let _title = task['title'];
         let _description = task['description'];
         let _dueDate = task['dueDate'];
@@ -41,6 +41,7 @@ const TaskCreator = () => {
 
         const getTaskId = () => { return _taskId }
         const getProjectForeignKey = () => { return _projectForeignKey }
+        const setProjectForeignKey = (key) => { return _projectForeignKey = key }
         const getTitle = () => { return _title }
         const getDescription = () => { return _description }
         const getFormattedCreateDate = () => { return _formatDate(_getCreateDate())}
@@ -57,6 +58,7 @@ const TaskCreator = () => {
         return {
             getTaskId,
             getProjectForeignKey,
+            setProjectForeignKey,
             getTitle,
             get taskId() { return _taskId },
             get title() { return _title },
@@ -72,4 +74,7 @@ const TaskCreator = () => {
     }
 }
 
-export { TaskManager }
+export {
+    TaskManager,
+    TaskCreator,
+}

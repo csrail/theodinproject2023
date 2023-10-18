@@ -2,6 +2,11 @@ const ProjectManager = (projectCollection, taskCollection) => {
     const Project = ProjectCreator()
     const projects = []
     let tasks = taskCollection
+    let projectId = 3
+
+    const generateProjectId = () => {
+        return projectId++
+    }
 
     const _initialiseProjects = ((baseProjects) => {
         baseProjects.forEach((project) => {
@@ -44,6 +49,7 @@ const ProjectManager = (projectCollection, taskCollection) => {
         collectProject,
         deleteProject,
         includeTaskInProject,
+        generateProjectId,
     }
 }
 
@@ -71,8 +77,8 @@ const ProjectCreator = () => {
             return taskCollection.splice(index, 1);
         }
 
-        const generateProjectId = () => {
-            projectId = 4;
+        const setProjectId = (id) => {
+            projectId = id;
         }
 
         return {
@@ -87,7 +93,7 @@ const ProjectCreator = () => {
             get projectId() { return projectId },
             get projectTitle() { return projectTitle },
             get projectDescription() { return projectDescription },
-            generateProjectId,
+            setProjectId,
         }
     }
 }

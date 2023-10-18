@@ -1,6 +1,7 @@
 import { htmlMixin } from "../../htmlMixin";
+import {ProjectManager} from "../../projectModel";
 
-const TaskContent = (task = {}) => {
+const TaskContent = (projectManager = {}, task = {}) => {
     const {
         getCenterpieceElement,
     } = htmlMixin;
@@ -21,6 +22,7 @@ const TaskContent = (task = {}) => {
     const dueDateInput = document.createElement('input');
     const isCompletedLabel = document.createElement('label');
     const isCompletedInput = document.createElement('input');
+    const projectListing = document.createElement('select');
 
     titleInput.id = 'task-title';
     descriptionInput.id ='task-description';
@@ -29,24 +31,24 @@ const TaskContent = (task = {}) => {
 
     const _buildTaskContent = () => {
 
-        try {
+        if (task.getTaskId() === void 0) {
+            idLabel.textContent = "New Task"
+        } else {
             idLabel.textContent = 'Task ' + task.getTaskId().toString() + ':';
-        } catch (TypeError) {
-            idLabel.textContent = 'New Task'
         }
 
-        try {
+        if (task.getTitle() === void(0)) {
+            titleInput.value = ""
+        } else {
             titleInput.value  = task.getTitle();
-        } catch (TypeError) {
-            titleInput.value
         }
 
         descriptionLabel.textContent = 'Description:';
 
-        try {
+        if (task.getDescription() === void(0)) {
+            descriptionInput.value = ""
+        } else {
             descriptionInput.value = task.getDescription();
-        } catch (TypeError) {
-            descriptionInput.value
         }
 
         dueDateLabel.textContent = 'Due Date:';
@@ -67,6 +69,16 @@ const TaskContent = (task = {}) => {
             isCompletedInput.checked = false
         }
 
+
+        projectManager.getProjects()
+            .forEach((project) => {
+                const option = document.createElement('option')
+                option.value = project.getProjectId();
+                option.textContent = project.getProjectTitle();
+                projectListing.appendChild(option)
+            })
+
+
         header.appendChild(idLabel);
         header.appendChild(titleInput);
 
@@ -78,6 +90,8 @@ const TaskContent = (task = {}) => {
 
         body.appendChild(isCompletedLabel);
         body.appendChild(isCompletedInput);
+
+        body.appendChild(projectListing);
 
         container.appendChild(header);
         container.appendChild(body);

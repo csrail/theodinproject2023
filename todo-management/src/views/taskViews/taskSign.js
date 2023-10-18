@@ -3,7 +3,9 @@ import { ApplicationViewer } from "../viewEngine";
 import { TaskContent } from "./taskContent";
 import { TaskProperties } from "./taskProperties";
 
-const TaskSign = (project = {}, task = {}, ) => {
+const TaskSign = (projectManager = {},
+                  project = {},
+                  task = {}, ) => {
     const {
         getActiveNavigationElement,
         getPassiveNavigationElement,
@@ -26,7 +28,7 @@ const TaskSign = (project = {}, task = {}, ) => {
 
         const displayTask = () => {
             getPassiveNavigationElement().appendChild(getTaskPassiveNavigationElement())
-            const taskView = ApplicationViewer(TaskContent(task), TaskProperties(project, task));
+            const taskView = ApplicationViewer(TaskContent(projectManager, task), TaskProperties(project, task));
             taskView.displayViews();
         }
 
