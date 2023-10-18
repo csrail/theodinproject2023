@@ -28,7 +28,7 @@ const TaskSign = (projectManager = {},
 
         const displayTask = () => {
             getPassiveNavigationElement().appendChild(getTaskPassiveNavigationElement())
-            const taskView = ApplicationViewer(TaskContent(projectManager, task), TaskProperties(project, task));
+            const taskView = ApplicationViewer(TaskContent(projectManager, task), TaskProperties(projectManager, project, task));
             taskView.displayViews();
         }
 

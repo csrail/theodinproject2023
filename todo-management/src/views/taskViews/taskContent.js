@@ -23,7 +23,11 @@ const TaskContent = (projectManager = {}, task = {}) => {
     const isCompletedLabel = document.createElement('label');
     const isCompletedInput = document.createElement('input');
     const projectListing = document.createElement('select');
-    const assignedProject = document.createElement('option');
+    const assignedProjectOption = document.createElement('option');
+
+    const getProject = () => {
+        return projectManager.getProjects().find((project) => project.getProjectId() === task.getProjectForeignKey())
+    }
 
     titleInput.id = 'task-title';
     descriptionInput.id ='task-description';
@@ -80,6 +84,37 @@ const TaskContent = (projectManager = {}, task = {}) => {
         }
     }
 
+    const _buildAssignedProjectOption = () => {
+        assignedProjectOption.value = ""
+        if (getProject() === void 0) {
+            assignedProjectOption.textContent = ""
+        } else {
+            assignedProjectOption.textContent = getProject().getProjectTitle();
+        }
+        return assignedProjectOption
+    }
+
+    const _buildSelection = () => {
+        projectListing.appendChild(_buildAssignedProjectOption());
+
+        projectManager.getProjects()
+            .forEach((project) => {
+                if (getProject() === void 0) {
+                    const option = document.createElement('option')
+                    option.value = project.getProjectId();
+                    option.textContent = project.getProjectTitle();
+                    projectListing.appendChild(option)
+                } else {
+                    if (project.getProjectId() === getProject().getProjectId()) return
+                    const option = document.createElement('option')
+                    option.value = project.getProjectId();
+                    option.textContent = project.getProjectTitle();
+                    projectListing.appendChild(option)
+                }
+
+            })
+    }
+
     const _buildFields = () => {
         _buildTaskIdLabel();
         _buildTaskTitleValue();
@@ -87,20 +122,10 @@ const TaskContent = (projectManager = {}, task = {}) => {
         _buildDescriptionValue();
         _buildDueDateFields();
         _buildIsCompletedFields();
+        _buildSelection();
     }
 
-    const _buildTaskContent = () => {
-        _buildFields();
-
-        projectManager.getProjects()
-            .forEach((project) => {
-                const option = document.createElement('option')
-                option.value = project.getProjectId();
-                option.textContent = project.getProjectTitle();
-                projectListing.appendChild(option)
-            })
-
-
+    const _buildPresentation = () => {
         header.appendChild(idLabel);
         header.appendChild(titleInput);
 
@@ -119,6 +144,13 @@ const TaskContent = (projectManager = {}, task = {}) => {
         container.appendChild(body);
 
         return container
+    }
+
+    const _buildTaskContent = () => {
+        _buildFields();
+
+
+        return _buildPresentation();
     }
 
     return { displayView }
