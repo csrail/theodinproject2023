@@ -23,34 +23,42 @@ const TaskContent = (projectManager = {}, task = {}) => {
     const isCompletedLabel = document.createElement('label');
     const isCompletedInput = document.createElement('input');
     const projectListing = document.createElement('select');
+    const assignedProject = document.createElement('option');
 
     titleInput.id = 'task-title';
     descriptionInput.id ='task-description';
     dueDateInput.id = 'task-due-date';
     isCompletedInput.id = 'task-is-completed';
 
-    const _buildTaskContent = () => {
-
+    const _buildTaskIdLabel = () => {
         if (task.getTaskId() === void 0) {
-            idLabel.textContent = "New Task"
+            return idLabel.textContent = "New Task"
         } else {
-            idLabel.textContent = 'Task ' + task.getTaskId().toString() + ':';
+            return idLabel.textContent = 'Task ' + task.getTaskId().toString() + ':';
         }
+    }
 
+    const _buildTaskTitleValue = () => {
         if (task.getTitle() === void(0)) {
-            titleInput.value = ""
+            return titleInput.value = ""
         } else {
-            titleInput.value  = task.getTitle();
+            return titleInput.value  = task.getTitle();
         }
+    }
 
-        descriptionLabel.textContent = 'Description:';
+    const _buildTaskDescriptionLabel = () => {
+        return descriptionLabel.textContent = 'Description:';
+    }
 
+    const _buildDescriptionValue = () => {
         if (task.getDescription() === void(0)) {
-            descriptionInput.value = ""
+            return descriptionInput.value = ""
         } else {
-            descriptionInput.value = task.getDescription();
+            return descriptionInput.value = task.getDescription();
         }
+    }
 
+    const _buildDueDateFields = () => {
         dueDateLabel.textContent = 'Due Date:';
         dueDateInput.setAttribute('type', 'date');
 
@@ -59,7 +67,9 @@ const TaskContent = (projectManager = {}, task = {}) => {
         } catch (TypeError) {
             dueDateInput.value
         }
+    }
 
+    const _buildIsCompletedFields = () => {
         isCompletedLabel.textContent = 'Completed?';
         isCompletedInput.setAttribute('type', 'checkbox');
 
@@ -68,7 +78,19 @@ const TaskContent = (projectManager = {}, task = {}) => {
         } catch (TypeError) {
             isCompletedInput.checked = false
         }
+    }
 
+    const _buildFields = () => {
+        _buildTaskIdLabel();
+        _buildTaskTitleValue();
+        _buildTaskDescriptionLabel();
+        _buildDescriptionValue();
+        _buildDueDateFields();
+        _buildIsCompletedFields();
+    }
+
+    const _buildTaskContent = () => {
+        _buildFields();
 
         projectManager.getProjects()
             .forEach((project) => {
