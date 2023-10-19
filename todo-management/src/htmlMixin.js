@@ -70,6 +70,8 @@ const htmlMixin = (() => {
 
     const getResourcePanelElement = () => { return resourcePanelElement }
 
+    const getProjectSelectElement = () => { return document.getElementById('project-select')}
+
     return {
         getPassiveNavigationElement,
         getActiveNavigationElement,
@@ -82,6 +84,7 @@ const htmlMixin = (() => {
         buildButtonElement,
         getNewProjectButtonElement,
         getNewTaskButtonElement,
+        getProjectSelectElement,
     }
 })();
 

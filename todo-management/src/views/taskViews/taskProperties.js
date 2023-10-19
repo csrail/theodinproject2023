@@ -9,6 +9,7 @@ const TaskProperties = (projectManager = {},
         getCenterpieceElement,
         getTaskPassiveNavigationElement,
         buildButtonElement,
+        getProjectSelectElement,
     } = htmlMixin
 
     const getTitleInput = () => { return document.querySelector('#task-title') };
@@ -28,9 +29,17 @@ const TaskProperties = (projectManager = {},
         task.setDescription(getDescriptionInput().value);
         task.setDueDate(getDueDateInput().value);
         task.setIsCompleted(getIsCompleted().checked);
+        const id = +getProjectSelectElement().selectedOptions[0].value
         if (task.getProjectForeignKey() === void 0) {
-            task.setProjectForeignKey(1) // project.getProjectId
-            projectManager.getProjects()[0].collectProjectTask(task); // find project based on id,invoke collectProjectTask
+            task.setProjectForeignKey(id)
+            projectManager.getProject(id)
+                .collectProjectTask(task);
+        } else if (task.getProjectForeignKey() === id) {
+
+        } else {
+            task.setProjectForeignKey(id);
+            projectObject.deleteProjectTask(task);
+            projectManager.getProject(id).collectProjectTask(task);
         }
     }
 

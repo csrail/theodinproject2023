@@ -33,6 +33,7 @@ const TaskContent = (projectManager = {}, task = {}) => {
     descriptionInput.id ='task-description';
     dueDateInput.id = 'task-due-date';
     isCompletedInput.id = 'task-is-completed';
+    projectListing.id = 'project-select';
 
     const _buildTaskIdLabel = () => {
         if (task.getTaskId() === void 0) {

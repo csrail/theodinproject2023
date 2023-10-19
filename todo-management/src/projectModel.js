@@ -8,6 +8,10 @@ const ProjectManager = (projectCollection, taskCollection) => {
         return projectId++
     }
 
+    const getProject = (id) => {
+       return projects.find((project) => project.getProjectId() === id)
+    }
+
     const _initialiseProjects = ((baseProjects) => {
         baseProjects.forEach((project) => {
             projects.push(Project(project));
@@ -50,6 +54,7 @@ const ProjectManager = (projectCollection, taskCollection) => {
         deleteProject,
         includeTaskInProject,
         generateProjectId,
+        getProject,
     }
 }
 
