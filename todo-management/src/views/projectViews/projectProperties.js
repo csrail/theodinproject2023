@@ -37,6 +37,7 @@ const ProjectProperties = (projectManager, project) => {
                     ProjectProperties(projectManager, project))
                     .displayViews()
             }
+            // localStorage.setItem('jsonProjects', JSON.stringify(projectManager.getProjects()))
         }
 
         const _saveProjectListener = () => { return _saveProject(project) }

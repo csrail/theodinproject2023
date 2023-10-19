@@ -39,6 +39,7 @@ const ProjectManager = (projectCollection, taskCollection) => {
 
     const collectProject = (project) => {
         projects.push(project);
+        // localStorage.setItem('jsonProjects', JSON.stringify(projects));
     }
 
     const deleteProject = (project) => {

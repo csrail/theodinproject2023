@@ -17,6 +17,10 @@ const TaskManager = (taskCollection) => {
         return {}
     })(taskCollection);
 
+    const collectTask = (task) => {
+        tasks.push(task);
+    }
+
     const createTask = (object) => {
         tasks.push(Task(object))
     }
@@ -25,6 +29,7 @@ const TaskManager = (taskCollection) => {
         getTasks,
         createTask,
         generateTaskId,
+        collectTask,
     }
 }
 
