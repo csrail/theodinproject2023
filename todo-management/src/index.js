@@ -1,7 +1,6 @@
 "use strict"
 
-import jsonTasks from './jsonFiles/tasks.json';
-import jsonProjects from './jsonFiles/projects.json';
+import { loadLocalStorage } from "./jsonFiles/jsonHandler";
 import { ProjectManager } from "./projectModel";
 import { TaskManager } from "./taskModel";
 import { Navigation } from "./views/navigation";
@@ -11,8 +10,19 @@ import {ApplicationViewer} from "./views/viewEngine";
 import {ResourceSign} from "./views/resourceViews/resourceSign";
 
 const main = (() => {
-    const taskManager = TaskManager(jsonTasks);
-    const projectManager = ProjectManager(jsonProjects, taskManager.getTasks());
+    loadLocalStorage();
+
+    const parsedLocalTasks = JSON.parse(localStorage.getItem('jsonTasks'));
+    const parsedLocalProjects = JSON.parse(localStorage.getItem('jsonProjects'));
+
+    const taskManager = TaskManager(
+        parsedLocalTasks
+    );
+
+    const projectManager = ProjectManager(
+        parsedLocalProjects,
+        taskManager.getTasks()
+    );
     taskManager.createTask({
         id: 3,
         projectId: 1,
