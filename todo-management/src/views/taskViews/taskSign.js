@@ -5,6 +5,7 @@ import { TaskProperties } from "./taskProperties";
 
 const TaskSign = (projectManager = {},
                   project = {},
+                  taskManager = {},
                   task = {}, ) => {
     const {
         getActiveNavigationElement,
@@ -28,7 +29,7 @@ const TaskSign = (projectManager = {},
 
         const displayTask = () => {
             getPassiveNavigationElement().appendChild(getTaskPassiveNavigationElement())
-            const taskView = ApplicationViewer(TaskContent(projectManager, task), TaskProperties(projectManager, project, task));
+            const taskView = ApplicationViewer(TaskContent(projectManager, task), TaskProperties(projectManager, project, taskManager, task));
             taskView.displayViews();
         }
 

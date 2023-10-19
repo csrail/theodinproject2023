@@ -4,7 +4,7 @@ import { ProjectContent } from "./projectContent";
 import { ProjectProperties } from "./projectProperties";
 import { TaskSign } from "../taskViews/taskSign";
 
-const ProjectSign = (projectManager, project) => {
+const ProjectSign = (projectManager, project, taskManager) => {
     const {
         getActiveNavigationElement,
         getPassiveNavigationElement,
@@ -32,7 +32,7 @@ const ProjectSign = (projectManager, project) => {
         getActiveNavigationElement().replaceChildren();
         project.getTasks()
             .forEach((task) => {
-                const taskViewer = ApplicationViewer(TaskSign(projectManager, project, task))
+                const taskViewer = ApplicationViewer(TaskSign(projectManager, project, taskManager, task))
                 taskViewer.displayViews();
         })
    }

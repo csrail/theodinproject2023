@@ -22,7 +22,7 @@ const main = (() => {
 
     const task1 = taskManager.getTasks().find((task) => { return task.getTaskId() === 3 })
     projectManager.includeTaskInProject(task1);
-    const navigation =  Navigation(projectManager)
+    const navigation =  Navigation(projectManager, taskManager)
     navigation.initialiseDefaultView(projectManager);
     navigation.initialiseHomeNavigation();
 
@@ -31,7 +31,7 @@ const main = (() => {
     // resource.saveProject(project);
 
     // ResourceProperties(resource).displayView();
-    ApplicationViewer(ResourceSign(projectManager)).displayViews();
+    ApplicationViewer(ResourceSign(projectManager, taskManager)).displayViews();
 
     return { }
 })();

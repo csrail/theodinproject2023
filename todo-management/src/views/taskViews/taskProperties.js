@@ -2,6 +2,7 @@ import { htmlMixin } from "../../htmlMixin";
 
 const TaskProperties = (projectManager = {},
                         projectObject = {},
+                        taskManager = {},
                         taskObject = {}) => {
     const {
         getPropertiesElement,
@@ -22,13 +23,14 @@ const TaskProperties = (projectManager = {},
     const _deleteButtonListener = () => { return _deleteTask(projectObject, taskObject) }
 
     const _saveTask = (task) => {
+        task.getTaskId() === void 0 ? task.setTaskId(taskManager.generateTaskId()) : task.getTaskId()
         task.setTitle(getTitleInput().value);
         task.setDescription(getDescriptionInput().value);
         task.setDueDate(getDueDateInput().value);
         task.setIsCompleted(getIsCompleted().checked);
         if (task.getProjectForeignKey() === void 0) {
-            task.setProjectForeignKey(1)
-            projectManager.getProjects()[0].collectProjectTask(task);
+            task.setProjectForeignKey(1) // project.getProjectId
+            projectManager.getProjects()[0].collectProjectTask(task); // find project based on id,invoke collectProjectTask
         }
     }
 

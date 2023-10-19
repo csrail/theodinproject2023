@@ -3,7 +3,7 @@ import { ApplicationViewer } from "./viewEngine";
 import { TaskSign } from "./taskViews/taskSign";
 import { ProjectSign } from "./projectViews/projectSign";
 
-const Navigation = (projectManager) => {
+const Navigation = (projectManager, taskManager) => {
     const {
         getPassiveNavigationElement,
         getHomePassiveNavigationElement,
@@ -24,7 +24,7 @@ const Navigation = (projectManager) => {
 
     const _displayDefaultProjects = (projectManager) => {
         projectManager.getProjects().forEach((project) => {
-            ApplicationViewer(ProjectSign(projectManager, project)).displayViews();
+            ApplicationViewer(ProjectSign(projectManager, project, taskManager)).displayViews();
         })
     }
 

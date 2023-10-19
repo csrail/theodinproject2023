@@ -8,7 +8,7 @@ import {TaskProperties} from "../taskViews/taskProperties";
 import { ProjectCreator } from "../../projectModel";
 import { TaskCreator } from "../../taskModel";
 
-const ResourceSign = (projectManager) => {
+const ResourceSign = (projectManager, taskManager) => {
     const Project = ProjectCreator();
     const Task = TaskCreator();
 
@@ -26,7 +26,7 @@ const ResourceSign = (projectManager) => {
 
         getNewTaskButtonElement().addEventListener('click', () => {
             getCenterpieceElement().replaceChildren();
-            ApplicationViewer(TaskContent(projectManager, Task()), TaskProperties(projectManager, {}, Task())).displayViews();
+            ApplicationViewer(TaskContent(projectManager, Task()), TaskProperties(projectManager, {}, taskManager, Task())).displayViews();
         })
     }
 
