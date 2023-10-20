@@ -35,8 +35,7 @@ const TaskProperties = (projectManager = {},
             task.setProjectForeignKey(id)
             projectManager.getProject(id)
                 .collectProjectTask(task);
-        } else if (task.getProjectForeignKey() === id) {
-
+        } else if (id === 0) {
         } else {
             task.setProjectForeignKey(id);
             projectObject.deleteProjectTask(task);
