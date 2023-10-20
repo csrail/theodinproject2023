@@ -4,8 +4,6 @@ import { loadLocalStorage } from "./jsonFiles/jsonHandler";
 import { ProjectManager } from "./projectModel";
 import { TaskManager } from "./taskModel";
 import { Navigation } from "./views/navigation";
-import { Resource } from "./resourceModel"
-import { ResourceProperties } from "./views/resourceViews/resourceProperties";
 import {ApplicationViewer} from "./views/viewEngine";
 import {ResourceSign} from "./views/resourceViews/resourceSign";
 
@@ -28,7 +26,7 @@ const main = (() => {
     //     id: 3,
     //     projectId: 1,
     //     title: "Precalculus and Trigonometry",
-    //     description: "Beyond Algebra II, this course prepares you to understand the relationship between triangles and objects that exist in different timespaces",
+    //     description: "Beyond Algebra II, this course prepares you to understand the relationship between triangles and objects that exist in different time-space",
     // });
     //
     // // const task1 = taskManager.getTasks().find((task) => { return task.getTaskId() === 3 })

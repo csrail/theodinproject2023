@@ -1,6 +1,5 @@
 import { htmlMixin } from "../htmlMixin";
 import { ApplicationViewer } from "./viewEngine";
-import { TaskSign } from "./taskViews/taskSign";
 import { ProjectSign } from "./projectViews/projectSign";
 
 const Navigation = (projectManager, taskManager) => {

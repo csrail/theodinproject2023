@@ -1,5 +1,4 @@
 import { htmlMixin } from "../../htmlMixin";
-import { Resource } from "../../resourceModel";
 import { ProjectContent } from "../projectViews/projectContent";
 import { ApplicationViewer } from "../viewEngine";
 import { TaskContent } from "../taskViews/taskContent";

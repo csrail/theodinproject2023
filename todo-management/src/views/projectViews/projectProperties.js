@@ -1,6 +1,5 @@
 import {htmlMixin} from "../../htmlMixin";
 import {ApplicationViewer} from "../viewEngine";
-import { TaskSign } from "../taskViews/taskSign";
 import { ProjectContent } from "./projectContent";
 
 const ProjectProperties = (projectManager, project) => {

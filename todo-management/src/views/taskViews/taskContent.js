@@ -1,5 +1,4 @@
 import { htmlMixin } from "../../htmlMixin";
-import {ProjectManager} from "../../projectModel";
 
 const TaskContent = (projectManager = {}, task = {}) => {
     const {
