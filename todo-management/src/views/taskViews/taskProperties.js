@@ -24,7 +24,8 @@ const TaskProperties = (projectManager = {},
     const _deleteButtonListener = () => { return _deleteTask(projectObject, taskObject) }
 
     const _saveTask = (task) => {
-        task.getTaskId() === void 0 ? task.setTaskId(taskManager.generateTaskId()) : task.getTaskId()
+        const isNew = task.getTaskId() === void 0
+        if (isNew) { task.setTaskId(taskManager.generateTaskId())}
         task.setTitle(getTitleInput().value);
         task.setDescription(getDescriptionInput().value);
         task.setDueDate(getDueDateInput().value);
@@ -41,6 +42,8 @@ const TaskProperties = (projectManager = {},
             projectObject.deleteProjectTask(task);
             projectManager.getProject(id).collectProjectTask(task);
         }
+        if (isNew) { taskManager.collectTask(task)}
+        localStorage.setItem('jsonTasks', JSON.stringify(taskManager.getTasks()))
     }
 
     const _deleteTask = (project, task) => {

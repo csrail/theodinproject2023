@@ -62,9 +62,9 @@ const ProjectManager = (projectCollection, taskCollection) => {
 
 const ProjectCreator = () => {
     return (project = {})=> {
-        let projectId = project['id'];
-        let projectTitle = project['title'];
-        let projectDescription = project['description'];
+        let projectId = project['projectId'];
+        let projectTitle = project['projectTitle'];
+        let projectDescription = project['projectDescription'];
         const taskCollection = [];
 
         const getProjectId = () => { return projectId }

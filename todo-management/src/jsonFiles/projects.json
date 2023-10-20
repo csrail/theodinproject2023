@@ -1,12 +1,12 @@
 [
   {
-    "id": 1,
-    "title": "Mathematics",
-    "description": "Study mathematics from high school up to first year university level."
+    "projectId": 1,
+    "projectTitle": "Mathematics",
+    "projectDescription": "Study mathematics from high school up to first year university level."
   },
   {
-    "id": 2,
-    "title": "Gardening",
-    "description": "Pull out weeds."
+    "projectId": 2,
+    "projectTitle": "Gardening",
+    "projectDescription": "Pull out weeds."
   }
 ]
