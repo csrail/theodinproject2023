@@ -9,45 +9,49 @@ const ProjectManager = (projectCollection, taskCollection) => {
     }
 
     const getProject = (id) => {
-       return projects.find((project) => project.getProjectId() === id)
+        return projects.find((project) => project.getProjectId() === id)
     }
 
     const _initialiseProjects = ((baseProjects) => {
         baseProjects.forEach((project) => {
-            projects.push(Project(project));
+            projects.push(Project(project))
         })
 
         return {}
-    })(projectCollection);
+    })(projectCollection)
 
     const _initialiseProjectTasks = ((baseProjects, baseTasks) => {
         baseProjects.forEach((project) => {
             baseTasks.forEach((task) => {
                 if (task.getProjectForeignKey() === project.getProjectId()) {
-                    project.collectProjectTask(task);
+                    project.collectProjectTask(task)
                 }
             })
         })
 
         return {}
-    })(projects, tasks);
+    })(projects, tasks)
 
     const includeTaskInProject = (task) => {
-        const project = projects.find((project) => { return project.getProjectId() === task.getProjectForeignKey() })
-        project.collectProjectTask(task);
+        const project = projects.find((project) => {
+            return project.getProjectId() === task.getProjectForeignKey()
+        })
+        project.collectProjectTask(task)
     }
 
     const collectProject = (project) => {
-        projects.push(project);
+        projects.push(project)
         // localStorage.setItem('jsonProjects', JSON.stringify(projects));
     }
 
     const deleteProject = (project) => {
-        const index = projects.indexOf(project);
-        return projects.splice(index, 1);
+        const index = projects.indexOf(project)
+        return projects.splice(index, 1)
     }
 
-    const getProjects = () => { return projects }
+    const getProjects = () => {
+        return projects
+    }
 
     return {
         getProjects,
@@ -59,32 +63,45 @@ const ProjectManager = (projectCollection, taskCollection) => {
     }
 }
 
-
 const ProjectCreator = () => {
-    return (project = {})=> {
-        let projectId = project['projectId'];
-        let projectTitle = project['projectTitle'];
-        let projectDescription = project['projectDescription'];
-        const taskCollection = [];
+    return (project = {}) => {
+        let projectId = project['projectId']
+        let projectTitle = project['projectTitle']
+        let projectDescription = project['projectDescription']
+        const taskCollection = []
 
-        const getProjectId = () => { return projectId }
-        const getProjectTitle = () => { return projectTitle }
-        const getProjectDescription = () => { return projectDescription }
-        const getTasks = () => { return taskCollection }
+        const getProjectId = () => {
+            return projectId
+        }
+        const getProjectTitle = () => {
+            return projectTitle
+        }
+        const getProjectDescription = () => {
+            return projectDescription
+        }
+        const getTasks = () => {
+            return taskCollection
+        }
 
-        const setProjectTitle = (title) => { return projectTitle = title}
+        const setProjectTitle = (title) => {
+            return (projectTitle = title)
+        }
 
-        const setProjectDescription = (description) => { return projectDescription = description }
+        const setProjectDescription = (description) => {
+            return (projectDescription = description)
+        }
 
-        const collectProjectTask = (task) => { return taskCollection.push(task) }
+        const collectProjectTask = (task) => {
+            return taskCollection.push(task)
+        }
 
         const deleteProjectTask = (task) => {
             const index = taskCollection.indexOf(task)
-            return taskCollection.splice(index, 1);
+            return taskCollection.splice(index, 1)
         }
 
         const setProjectId = (id) => {
-            projectId = id;
+            projectId = id
         }
 
         return {
@@ -96,15 +113,18 @@ const ProjectCreator = () => {
             setProjectDescription,
             collectProjectTask,
             deleteProjectTask,
-            get projectId() { return projectId },
-            get projectTitle() { return projectTitle },
-            get projectDescription() { return projectDescription },
+            get projectId() {
+                return projectId
+            },
+            get projectTitle() {
+                return projectTitle
+            },
+            get projectDescription() {
+                return projectDescription
+            },
             setProjectId,
         }
     }
 }
 
-export {
-    ProjectManager,
-    ProjectCreator,
-}
+export { ProjectManager, ProjectCreator }
