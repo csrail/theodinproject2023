@@ -21,12 +21,13 @@ nav {
 
 .user-menu-content {
     background-color: #0086b3;
-    padding: 0.4em 0.7em 0.4em 0.7em;
     width: 100px;
+    border: red 1px solid;
 }
 
 .user-menu-content a {
     display: flex;
+    padding: 0.4em 0.7em 0.4em 0.7em;
 }
 
 .hidden {
