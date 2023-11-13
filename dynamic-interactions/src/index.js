@@ -1,3 +1,4 @@
+import "./minimum.css";
 import "./style.css";
 import imageGlobe from "./images/globe.jpg";
 
@@ -9,15 +10,13 @@ mainElement.appendChild(globeImage);
 
 const navElement = document.querySelector("nav");
 navElement.classList.add("red");
-navElement.addEventListener("click", () => {
-    console.log("test");
-    document.querySelectorAll("nav li").forEach((element) => {
-        element.classList.add("visible");
-    });
+
+navElement.querySelector(".user-menu-button").addEventListener("click", () => {
+    document.querySelector("nav ul").classList.toggle("visible");
 });
 
-// window.addEventListener("click", () => {
-//     document.querySelectorAll(".visible").forEach((element) => {
-//         element.classList.remove("visible");
-//     });
-// });
+window.addEventListener("click", (event) => {
+    if (!event.target.classList.contains("user-menu-button")) {
+        document.querySelector("nav ul").classList.remove("visible");
+    }
+});

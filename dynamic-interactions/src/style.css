@@ -1,5 +1,32 @@
 .red {
-    color: red;
+    color: #27272a;
+}
+
+header {
+    display: block;
+    height: 50px;
+    width: 100vw;
+    background-color: red;
+}
+
+nav {
+    background-color: #009999;
+    position: fixed;
+    width: 120px;
+}
+
+.user-menu-button {
+    padding: 0.6em 1em 0.6em 1em;
+}
+
+.user-menu-content {
+    background-color: #0086b3;
+    padding: 0.4em 0.7em 0.4em 0.7em;
+    width: 100px;
+}
+
+.user-menu-content a {
+    display: flex;
 }
 
 .hidden {
