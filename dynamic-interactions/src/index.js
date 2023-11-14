@@ -13,7 +13,6 @@ const main = (() => {
     mainElement.appendChild(globeImage);
 
     const navElement = document.querySelector("nav");
-    navElement.classList.add("red");
 
     navElement
         .querySelector(".user-menu-button")
@@ -30,7 +29,7 @@ const main = (() => {
     const menuDropdown = new Dropdown("Prompt", dataMenuItems);
     const dropdownView = new DropdownView(menuDropdown);
 
-    console.log(dropdownView.displayView());
+    dropdownView.displayView();
 
     return {};
 })();
