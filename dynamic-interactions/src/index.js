@@ -1,9 +1,9 @@
 import "./stylesheets/minimum.css";
 import "./stylesheets/style.css";
 import imageGlobe from "./images/globe.jpg";
-import Dropdown from "./javascript/dropdown";
+import Dropdown from "./javascript/dropdownModel";
 import DropdownView from "./javascript/dropdownView";
-import dataMenuItems from "./javascript/data";
+import dataMenuItems from "./data/data";
 
 const main = (() => {
     const globeImage = new Image(500, 500);
@@ -26,7 +26,7 @@ const main = (() => {
         }
     });
 
-    const menuDropdown = new Dropdown("Prompt", dataMenuItems);
+    const menuDropdown = new Dropdown(dataMenuItems);
     const dropdownView = new DropdownView(menuDropdown);
 
     dropdownView.displayView();
