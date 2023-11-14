@@ -1,4 +1,14 @@
+import helperFunctions from "./helperFunctions";
+
 const htmlMixin = (() => {
+    const { addClassesToElement } = helperFunctions;
+
+    function createNavElement(...classes) {
+        const element = document.createElement("nav");
+        addClassesToElement(element, classes);
+
+        return element;
+    }
     const createButtonElement = (text) => {
         const element = document.createElement("button");
         element.textContent = text;
@@ -8,18 +18,14 @@ const htmlMixin = (() => {
 
     const createUnorderedListElement = (...classes) => {
         const element = document.createElement("ul");
-        classes.forEach((cls) => {
-            element.classList.add(cls);
-        });
+        addClassesToElement(element, classes);
 
         return element;
     };
 
     const createListElement = (...classes) => {
         const element = document.createElement("li");
-        classes.forEach((cls) => {
-            element.classList.add(cls);
-        });
+        addClassesToElement(element, classes);
 
         return element;
     };
@@ -47,7 +53,7 @@ const htmlMixin = (() => {
 
     const createListingComponent = (obj) => {
         const component = createUnorderedListElement(
-            "user-menu-content",
+            "dropdown-content",
             // "hidden",
         );
 
