@@ -1,14 +1,18 @@
 export default class Dropdown {
-    constructor(dropdownTitle, dropdownListing) {
-        this.dropdownTitle = dropdownTitle;
-        this.listing = dropdownListing;
+    #dropdownTitle;
+
+    #dropdownListing;
+
+    constructor(title, listing) {
+        this.#dropdownTitle = title;
+        this.#dropdownListing = listing;
     }
 
-    getDropdownTitle() {
-        return this.dropdownTitle;
+    get dropdownTitle() {
+        return this.#dropdownTitle;
     }
 
-    getDropdownListing() {
-        return Object.entries(this.listing);
+    get dropdownListing() {
+        return this.#dropdownListing;
     }
 }

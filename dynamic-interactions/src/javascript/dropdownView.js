@@ -15,15 +15,18 @@ export default class DropdownView {
         const component = document.createDocumentFragment();
 
         component.appendChild(this.buildDropdownTitle());
+        component.appendChild(this.buildDropdownListing());
 
         return component;
     }
 
     buildDropdownTitle() {
-        return htmlMixin.createButtonElement(
-            this.dropdownObject.getDropdownTitle(),
-        );
+        return htmlMixin.createButtonElement(this.dropdownObject.dropdownTitle);
     }
 
-    buildDropdownListing() {}
+    buildDropdownListing() {
+        return htmlMixin.createListingComponent(
+            this.dropdownObject.dropdownListing,
+        );
+    }
 }
