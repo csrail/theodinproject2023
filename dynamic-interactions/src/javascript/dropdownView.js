@@ -1,8 +1,10 @@
 import htmlMixin from "./htmlMixin";
 
 export default class DropdownView {
+    #dropdownObject;
+
     constructor(dropdownObject) {
-        this.dropdownObject = dropdownObject;
+        this.#dropdownObject = dropdownObject;
     }
 
     displayView() {
@@ -21,12 +23,20 @@ export default class DropdownView {
     }
 
     buildDropdownTitle() {
-        return htmlMixin.createButtonElement(this.dropdownObject.dropdownTitle);
+        const component = htmlMixin.createButtonElement(
+            this.#dropdownObject.dropdownTitle,
+        );
+
+        component.addEventListener("click", (e) => {
+            e.target.classList.toggle("visible");
+        });
+
+        return component;
     }
 
     buildDropdownListing() {
         return htmlMixin.createListingComponent(
-            this.dropdownObject.dropdownListing,
+            this.#dropdownObject.dropdownListing,
         );
     }
 }

@@ -1,11 +1,11 @@
 export default class Dropdown {
     #dropdownTitle;
 
-    #dropdownListing;
+    #dropdownProperties;
 
-    constructor(title, listing) {
+    constructor(title, properties) {
         this.#dropdownTitle = title;
-        this.#dropdownListing = listing;
+        this.#dropdownProperties = properties;
     }
 
     get dropdownTitle() {
@@ -13,6 +13,6 @@ export default class Dropdown {
     }
 
     get dropdownListing() {
-        return this.#dropdownListing;
+        return this.#dropdownProperties.listing;
     }
 }
