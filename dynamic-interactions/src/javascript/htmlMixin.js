@@ -23,7 +23,7 @@ const htmlMixin = (() => {
         return element;
     };
 
-    const createListElement = (...classes) => {
+    const createListElement = (classes) => {
         const element = document.createElement("li");
         addClassesToElement(element, classes);
 
