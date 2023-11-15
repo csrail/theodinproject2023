@@ -6,12 +6,12 @@ import DropdownView from "./javascript/dropdownView";
 import dataMenuItems from "./data/data";
 
 const main = (() => {
-    const globeImage = new Image(500, 500);
-    globeImage.src = imageGlobe;
-
-    const mainElement = document.querySelector("main");
-    mainElement.appendChild(globeImage);
-
+    // const globeImage = new Image(500, 500);
+    // globeImage.src = imageGlobe;
+    //
+    // const mainElement = document.querySelector("main");
+    // mainElement.appendChild(globeImage);
+    //
     const navElement = document.querySelector("nav");
 
     navElement
