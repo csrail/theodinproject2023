@@ -12,4 +12,8 @@ export default class Dropdown {
     get dropdownListing() {
         return this.#dropdownProperties.listing;
     }
+
+    get ulClasses() {
+        return this.#dropdownProperties.ulClass;
+    }
 }

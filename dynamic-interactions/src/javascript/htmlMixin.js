@@ -16,7 +16,7 @@ const htmlMixin = (() => {
         return element;
     };
 
-    const createUnorderedListElement = (...classes) => {
+    const createUnorderedListElement = (classes) => {
         const element = document.createElement("ul");
         addClassesToElement(element, classes);
 
@@ -51,18 +51,18 @@ const htmlMixin = (() => {
         return component;
     };
 
-    const createListingComponent = (obj) => {
-        const component = createUnorderedListElement(
-            "dropdown-content",
-            // "hidden",
-        );
+    const createListingComponent = (listing, classes) => {
+        const component = createUnorderedListElement(classes);
+        // "dropdown-content",
+        // "hidden",
 
-        component.appendChild(createAnchorListCollection(obj));
+        component.appendChild(createAnchorListCollection(listing));
 
         return component;
     };
 
     return {
+        createNavElement,
         createButtonElement,
         createListingComponent,
     };

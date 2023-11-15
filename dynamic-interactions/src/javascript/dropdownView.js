@@ -14,18 +14,25 @@ export default class DropdownView {
     }
 
     buildDropdownComponent() {
-        const component = document.createDocumentFragment();
+        const component = htmlMixin.createNavElement();
 
-        component.appendChild(this.buildDropdownTitle());
-        component.appendChild(this.buildDropdownListing());
+        component.appendChild(
+            DropdownView.#buildDropdownTitle(
+                this.#dropdownObject.dropdownTitle,
+            ),
+        );
+        component.appendChild(
+            DropdownView.#buildDropdownListing(
+                this.#dropdownObject.dropdownListing,
+                this.#dropdownObject.ulClasses,
+            ),
+        );
 
         return component;
     }
 
-    buildDropdownTitle() {
-        const component = htmlMixin.createButtonElement(
-            this.#dropdownObject.dropdownTitle,
-        );
+    static #buildDropdownTitle(title) {
+        const component = htmlMixin.createButtonElement(title);
 
         component.addEventListener("click", (e) => {
             e.target.classList.toggle("visible");
@@ -34,9 +41,7 @@ export default class DropdownView {
         return component;
     }
 
-    buildDropdownListing() {
-        return htmlMixin.createListingComponent(
-            this.#dropdownObject.dropdownListing,
-        );
+    static #buildDropdownListing(listing, ulClasses) {
+        return htmlMixin.createListingComponent(listing, ulClasses);
     }
 }
