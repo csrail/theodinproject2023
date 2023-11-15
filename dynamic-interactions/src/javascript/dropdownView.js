@@ -16,6 +16,10 @@ export default class DropdownView {
     buildDropdownComponent() {
         const component = htmlMixin.createNavElement();
 
+        component.addEventListener("click", () => {
+            component.querySelector("ul").classList.toggle("visible");
+        });
+
         component.appendChild(
             DropdownView.#buildDropdownTitle(
                 this.#dropdownObject.dropdownTitle,
