@@ -42,7 +42,7 @@ const htmlMixin = (() => {
 
         Object.entries(obj).forEach((item) => {
             const anchorElement = createAnchorElement(item[0], item[1]);
-            const listElement = createListElement();
+            const listElement = createListElement([]);
 
             listElement.appendChild(anchorElement);
             component.appendChild(listElement);
