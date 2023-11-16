@@ -16,15 +16,12 @@ export default class DropdownView {
     buildDropdownComponent() {
         const component = htmlMixin.createNavElement();
 
-        component.addEventListener("click", () => {
-            component.querySelector("ul").classList.toggle("visible");
-        });
-
         component.appendChild(
-            DropdownView.#buildDropdownTitle(
+            DropdownView.#buildDropdownButton(
                 this.#dropdownObject.dropdownTitle,
             ),
         );
+
         component.appendChild(
             DropdownView.#buildDropdownListing(
                 this.#dropdownObject.dropdownListing,
@@ -35,14 +32,17 @@ export default class DropdownView {
         return component;
     }
 
-    static #buildDropdownTitle(title) {
+    static #buildDropdownButton(title) {
         const component = htmlMixin.createButtonElement(title);
 
-        component.addEventListener("click", (e) => {
-            e.target.classList.toggle("visible");
-        });
+        component.addEventListener("click", this.#toggleVisibilityListener);
+        // within static scope, this refers to the class
 
         return component;
+    }
+
+    static #toggleVisibilityListener(e) {
+        e.target.nextElementSibling.classList.toggle("visible");
     }
 
     static #buildDropdownListing(listing, ulClasses) {
