@@ -12,6 +12,7 @@ const main = (() => {
     // const mainElement = document.querySelector("main");
     // mainElement.appendChild(globeImage);
     //
+    const headerElement = document.querySelector("header");
     const navElement = document.querySelector("nav");
 
     navElement
@@ -29,7 +30,7 @@ const main = (() => {
     const menuDropdown = new Dropdown(dataMenuItems);
     const dropdownView = new DropdownView(menuDropdown);
 
-    dropdownView.displayView();
+    headerElement.appendChild(dropdownView.displayView());
 
     return {};
 })();

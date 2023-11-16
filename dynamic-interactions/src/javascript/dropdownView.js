@@ -8,9 +8,7 @@ export default class DropdownView {
     }
 
     displayView() {
-        return document
-            .querySelector("body")
-            .appendChild(this.buildDropdownComponent());
+        return this.buildDropdownComponent();
     }
 
     buildDropdownComponent() {
