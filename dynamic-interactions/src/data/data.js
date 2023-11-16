@@ -1,5 +1,6 @@
 const dataMenuItems = {
     title: "Prompt",
+    buttonClass: ["dropdown-button"],
     ulClass: ["dropdown-content", "hidden"],
     liClass: "",
     listing: {

@@ -19,6 +19,7 @@ export default class DropdownView {
         component.appendChild(
             DropdownView.#buildDropdownButton(
                 this.#dropdownObject.dropdownTitle,
+                this.#dropdownObject.buttonClasses,
             ),
         );
 
@@ -32,10 +33,11 @@ export default class DropdownView {
         return component;
     }
 
-    static #buildDropdownButton(title) {
-        const component = htmlMixin.createButtonElement(title);
+    static #buildDropdownButton(title, classes) {
+        const component = htmlMixin.createButtonElement(title, classes);
 
         component.addEventListener("click", this.#toggleVisibilityListener);
+        component.addEventListener("click", this.#hideDropdown);
         // within static scope, this refers to the class
 
         return component;
@@ -43,6 +45,14 @@ export default class DropdownView {
 
     static #toggleVisibilityListener(e) {
         e.target.nextElementSibling.classList.toggle("visible");
+    }
+
+    static #hideDropdown(e) {
+        window.addEventListener("click", (event) => {
+            if (!event.target.classList.contains("dropdown-button")) {
+                e.target.nextElementSibling.classList.remove("visible");
+            }
+        });
     }
 
     static #buildDropdownListing(listing, ulClasses) {

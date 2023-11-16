@@ -9,9 +9,10 @@ const htmlMixin = (() => {
 
         return element;
     }
-    const createButtonElement = (text) => {
+    const createButtonElement = (text, classes) => {
         const element = document.createElement("button");
         element.textContent = text;
+        addClassesToElement(element, classes);
 
         return element;
     };
