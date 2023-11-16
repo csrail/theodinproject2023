@@ -38,7 +38,11 @@ export default class DropdownView {
 
         component.addEventListener("click", this.#toggleVisibilityListener);
         component.addEventListener("click", this.#hideDropdown);
-        // within static scope, this refers to the class
+        // within static scope, 'this' refers to the class,
+        // prefer calling 'this' than the class DropdownView since
+        // the latter approach could be a reference to a different class being injected
+        // note: 'this' is only able to access class level declarations not
+        // instance level declarations, i.e. this.#dropdownObject isn't accessible.
 
         return component;
     }
