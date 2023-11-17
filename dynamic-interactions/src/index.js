@@ -1,28 +1,16 @@
 import "./stylesheets/minimum.css";
 import "./stylesheets/style.css";
-import Dropdown from "./javascript/dropdownModel";
-import DropdownView from "./javascript/dropdownView";
-import dataMenuItems from "./data/data";
+import { dataMenuItems1, dataMenuItems2 } from "./data/data";
 import DropdownController from "./javascript/dropdownController";
 
 (() => {
     const headerElement = document.querySelector("header");
-    const navElement = document.querySelector("nav");
 
-    navElement
-        .querySelector(".menu-dropdown-button")
-        .addEventListener("click", () => {
-            document.querySelector("nav ul").classList.toggle("visible");
-        });
+    const dropdownController1 = new DropdownController(dataMenuItems1);
+    headerElement.appendChild(dropdownController1.displayView());
 
-    window.addEventListener("click", (event) => {
-        if (!event.target.classList.contains("menu-dropdown-button")) {
-            document.querySelector("nav ul").classList.remove("visible");
-        }
-    });
-
-    const dropdownController = new DropdownController(dataMenuItems);
-    headerElement.appendChild(dropdownController.displayView());
+    const dropdownController2 = new DropdownController(dataMenuItems2);
+    headerElement.appendChild(dropdownController2.displayView());
 
     return {};
 })();
