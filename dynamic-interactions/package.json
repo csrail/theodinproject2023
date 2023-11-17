@@ -5,8 +5,8 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack build --config ./webpack.development.config.js",
-    "build:stats": "webpack build --config ./webpack.development.config.js --stats verbose",
+    "build": "webpack build --config ./webpack.production.config.js",
+    "build:stats": "webpack build --config ./webpack.production.config.js --stats verbose",
     "serve": "webpack serve --config ./webpack.development.config.js",
     "serve:open": "webpack serve --config ./webpack.development.config.js --open",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,11 +18,14 @@
     "eslint": "^8.53.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.0.0",
-    "html-webpack-plugin": "^5.5.3",
     "prettier": "3.0.3",
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "html-webpack-plugin": "^5.5.3",
+    "webpack-merge": "^5.10.0"
   }
 }

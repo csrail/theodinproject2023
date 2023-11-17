@@ -1,43 +1,15 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { merge } = require("webpack-merge");
+const common = require("./webpack.common.config");
 
-module.exports = {
+module.exports = merge(common, {
     mode: "development",
-    entry: "./src/index.js",
     devtool: "eval-source-map",
-    output: {
-        filename: "bundle.js",
-        path: path.resolve(__dirname, "dist"),
-    },
-    module: {
-        rules: [
-            {
-                test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
-            },
-            {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: "asset/resource",
-            },
-        ],
-    },
     devServer: {
         static: {
-            directory: path.join(__dirname, "src"),
+            directory: "./src",
             watch: true,
         },
         liveReload: true,
         compress: true,
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: "src/index.html",
-            filename: "index.html",
-            inject: "head",
-            scriptLoading: "defer",
-        }),
-    ],
-    // optimization: {
-    //   runtimeChunk: "single",
-    // },
-};
+});
