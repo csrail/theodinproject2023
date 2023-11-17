@@ -3,6 +3,7 @@ import "./stylesheets/style.css";
 import Dropdown from "./javascript/dropdownModel";
 import DropdownView from "./javascript/dropdownView";
 import dataMenuItems from "./data/data";
+import DropdownController from "./javascript/dropdownController";
 
 (() => {
     const headerElement = document.querySelector("header");
@@ -20,10 +21,8 @@ import dataMenuItems from "./data/data";
         }
     });
 
-    const menuDropdown = new Dropdown(dataMenuItems);
-    const dropdownView = new DropdownView(menuDropdown);
-
-    headerElement.appendChild(dropdownView.displayView());
+    const dropdownController = new DropdownController(dataMenuItems);
+    headerElement.appendChild(dropdownController.displayView());
 
     return {};
 })();
