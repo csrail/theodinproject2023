@@ -1,17 +1,10 @@
 import "./stylesheets/minimum.css";
 import "./stylesheets/style.css";
-import imageGlobe from "./images/globe.jpg";
 import Dropdown from "./javascript/dropdownModel";
 import DropdownView from "./javascript/dropdownView";
 import dataMenuItems from "./data/data";
 
 (() => {
-    // const globeImage = new Image(500, 500);
-    // globeImage.src = imageGlobe;
-    //
-    // const mainElement = document.querySelector("main");
-    // mainElement.appendChild(globeImage);
-    //
     const headerElement = document.querySelector("header");
     const navElement = document.querySelector("nav");
 
