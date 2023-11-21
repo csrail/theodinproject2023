@@ -41,11 +41,22 @@ export default class DropdownView {
         // the latter approach could be a reference to a different class being injected
         // note: 'this' is only able to access class level declarations not
         // instance level declarations, i.e. this.#dropdownObject isn't accessible.
-        window.addEventListener("click", (event) => {
-            if (!(event.target === component)) {
-                component.nextElementSibling.classList.remove("visible");
-            }
-        });
+
+        // 1st Working iteration
+        // window.addEventListener("click", (event) => {
+        //     if (!(event.target === component)) {
+        //         component.nextElementSibling.classList.remove("visible");
+        //     }
+        // });
+
+        // 2nd Working iteration, but `this` seems to throw errors
+        // window.addEventListener(
+        //     "click",
+        //     DropdownView.#hideDropdown.bind(component),
+        // );
+
+        // 3rd Working iteration, preferred 2nd...
+        DropdownView.#hideDropdown2(component);
 
         return component;
     }
@@ -54,10 +65,16 @@ export default class DropdownView {
         e.target.nextElementSibling.classList.toggle("visible");
     }
 
-    static #hideDropdown(e) {
+    static #hideDropdown(event) {
+        if (!(event.target === this)) {
+            this.nextElementSibling.classList.remove("visible");
+        }
+    }
+
+    static #hideDropdown2(component) {
         window.addEventListener("click", (event) => {
-            if (!event.target.classList.contains("dropdown-button")) {
-                e.target.nextElementSibling.classList.remove("visible");
+            if (!(event.target === component)) {
+                component.nextElementSibling.classList.remove("visible");
             }
         });
     }
